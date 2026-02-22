@@ -347,21 +347,20 @@
             right: 30px;
             width: 45px;
             height: 45px;
-            background: white;
-            color: var(--primary-blue);
-            border: 1px solid var(--primary-blue);
+            background: transparent;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.5);
             z-index: 100;
             border-radius: 50%;
             cursor: pointer;
             display: flex;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             transition: all 0.3s;
         }
 
         .music-player-mini:hover {
-            background: var(--primary-blue);
+            background: rgba(255, 255, 255, 0.2);
             color: white;
             transform: scale(1.1);
         }
