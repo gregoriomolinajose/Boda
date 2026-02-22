@@ -60,6 +60,15 @@
             color: var(--text-dark);
             line-height: 1.6;
             font-weight: 300;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        input,
+        textarea,
+        select {
+            -webkit-user-select: auto;
+            user-select: auto;
         }
 
         /* Utilidad tipográfica para fuente script */
@@ -585,6 +594,54 @@
                 max-width: 800px;
             }
         }
+
+        /* ==========================================================================
+           8. ANIMACIONES Y MEJORAS UX
+           ========================================================================== */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .floating-rsvp {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--primary-blue);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 900;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .floating-rsvp:hover,
+        .floating-rsvp:focus {
+            transform: translateY(-5px);
+            background-color: #7b97a9;
+            color: white;
+            outline: none;
+        }
+
+        .floating-rsvp i {
+            font-size: 1.2rem;
+        }
+
+        .hidden-field {
+            display: none !important;
+        }
     </style>
 </head>
 
@@ -611,23 +668,24 @@
             </div>
 
             <!-- Botón de Control de Audio Global -->
-            <button class="music-player-mini" id="music-toggle" aria-label="Pausar o reproducir música de fondo">
+            <button class="music-player-mini" id="music-toggle" aria-label="Pausar o reproducir música de fondo"
+                aria-pressed="false">
                 <i class="fas fa-play" id="play-icon" aria-hidden="true"></i>
             </button>
         </header>
 
         <!-- === SECCIÓN 2: Detalles de la Boda y Countdown === -->
         <main class="content-card snap-section" aria-label="Detalles de la celebración">
-            <p class="section-title">Estás invitado a</p>
-            <h2 class="section-subtitle elegant-script" style="margin-top: 15px;">Nuestra Boda</h2>
+            <p class="section-title animate-on-scroll">Estás invitado a</p>
+            <h2 class="section-subtitle elegant-script animate-on-scroll" style="margin-top: 15px;">Nuestra Boda</h2>
 
-            <p class="message" style="margin-bottom: 20px;">
+            <p class="message animate-on-scroll" style="margin-bottom: 20px;">
                 Nos encantaría que seas parte de este momento tan especial para nosotros. Un brindis íntimo para
                 celebrar nuestra unión civil.
             </p>
 
             <!-- Datos de evento: Dónde y Cuándo -->
-            <section class="details-container" aria-label="Lugar y fecha">
+            <section class="details-container animate-on-scroll" aria-label="Lugar y fecha">
                 <div class="detail-box">
                     <h3>Dónde</h3>
                     <p>Barolo 8C Chapalita<br>Zapopan, Jalisco</p>
@@ -639,7 +697,7 @@
             </section>
 
             <!-- Acciones de soporte (Botones) -->
-            <nav class="action-cards" aria-label="Enlaces útiles">
+            <nav class="action-cards animate-on-scroll" aria-label="Enlaces útiles">
                 <a href="https://www.google.com/maps/search/?api=1&query=Barolo+8C+Chapalita" target="_blank"
                     rel="noopener noreferrer" class="action-card" aria-label="Abrir ubicación en Google Maps">
                     <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
@@ -652,7 +710,7 @@
             </nav>
 
             <!-- Contador Regresivo -->
-            <section class="countdown" id="countdown" aria-label="Tiempo restante para la boda">
+            <section class="countdown animate-on-scroll" id="countdown" aria-label="Tiempo restante para la boda">
                 <div class="countdown-item">
                     <span id="days">00</span><span>Días</span>
                 </div>
@@ -672,10 +730,10 @@
         </main>
 
         <!-- === SECCIÓN 3: Formulario de Confirmación (RSVP) === -->
-        <section class="rsvp-section snap-section" aria-label="Confirmación de asistencia">
-            <div class="rsvp-container">
+        <section class="rsvp-section snap-section " id="wedding-rsvp-section" aria-label="Confirmación de asistencia">
+            <div class="rsvp-container animate-on-scroll">
                 <h2 class="section-subtitle elegant-script">Confirmar Asistencia</h2>
-                <p style="margin-bottom: 25px; color: var(--text-light);">
+                <p class="animate-on-scroll" style="margin-bottom: 25px; color: var(--text-light);">
                     Por favor, confirma tu asistencia <br>
                     ¡Esperamos que estés!
                 </p>
@@ -711,6 +769,11 @@
 
         <!-- Indicador de Scroll para experiencia en dispositivos móviles -->
         <div id="scroll-toast" class="scroll-indicator" aria-hidden="true" role="status">Desliza para ver más</div>
+
+        <!-- Botón Flotante RSVP -->
+        <a href="#wedding-rsvp-section" class="floating-rsvp fade-in-up" aria-label="Ir a confirmar asistencia">
+            <i class="fas fa-envelope" aria-hidden="true"></i> Confirmar
+        </a>
     </div>
 
     <!-- ==========================================================================
@@ -789,9 +852,13 @@
                 if (isPaused) {
                     domElements.audioInput.play().catch(e => console.warn('Bloqueo de Auto-play detectado.', e));
                     domElements.playIcon.classList.replace('fa-play', 'fa-pause');
+                    // Add aria state update
+                    domElements.musicToggleBtn.setAttribute('aria-pressed', 'true');
                 } else {
                     domElements.audioInput.pause();
                     domElements.playIcon.classList.replace('fa-pause', 'fa-play');
+                    // Add aria state update
+                    domElements.musicToggleBtn.setAttribute('aria-pressed', 'false');
                 }
                 isPlaying = !isPaused;
             };
@@ -835,32 +902,100 @@
                 });
 
                 // Enviar RSVP al WhatsApp
+                const submitBtn = domElements.formRsvp.querySelector('button[type="submit"]');
+
                 domElements.formRsvp.addEventListener('submit', (e) => {
                     e.preventDefault();
+
+                    // Prevenir doble clic y dar feedback
+                    submitBtn.disabled = true;
+                    submitBtn.textContent = 'Procesando...';
+
                     const name = document.getElementById('name').value.trim();
                     const kids = document.getElementById('kids').value;
                     const asistenciaStatus = document.getElementById('attendance').value;
 
                     let statusMsg = asistenciaStatus === 'yes' ? 'Confirmo mi asistencia' : 'Lamentablemente no podré asistir';
-                    const msg = `¡Hola! ${statusMsg} a la boda de Dora y Gregorio. \n\nInvitado: ${name}\nAcompañantes/Niños: ${kids}`;
+                    // El mensaje cambia según si asiste o no (sin acompañantes/niños si dice 'no')
+                    let msg = `¡Hola! ${statusMsg} a la boda de Dora y Gregorio. \n\nInvitado: ${name}`;
+                    if (asistenciaStatus === 'yes') {
+                        msg += `\nAcompañantes/Niños: ${kids}`;
+                    }
 
-                    window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank', 'noopener,noreferrer');
+                    const numeroTelefono = "523312345678"; // <--- Ajustar número de WhatsApp destino
+
+                    // setTimeout simula proceso asíncrono y permite feedback en UI
+                    setTimeout(() => {
+                        window.open(`https://wa.me/${numeroTelefono}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener,noreferrer');
+
+                        // Resetear formulario para cuando el usuario vuelva
+                        domElements.formRsvp.reset();
+                        document.getElementById('kids').classList.remove('hidden-field');
+                        document.getElementById('kids').disabled = false;
+
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Confirmar';
+                    }, 800);
                 });
             };
 
             /**
-             * Lógica UX para la aparición sutil del Toast (Indicador de Swipe) en Dispositivos Móviles
+             * Lógica UX Adicional: Gestor de Pestañas, Condicional de RSVP y Animaciones de Scroll
              */
-            const initInteractiveFeedback = () => {
-                document.addEventListener('touchstart', () => {
-                    // Muestra el toast cuando el usuario interactúa por primera vez de forma touch
-                    domElements.toastScroll.classList.add('visible');
+            const initEnhancements = () => {
+                // 1. Pausar música automáticamente cuando la pestaña está inactiva
+                document.addEventListener("visibilitychange", () => {
+                    if (document.hidden && isPlaying) {
+                        domElements.audioInput.pause();
+                        domElements.playIcon.classList.replace('fa-pause', 'fa-play');
+                        domElements.musicToggleBtn.setAttribute('aria-pressed', 'false');
+                    } else if (!document.hidden && isPlaying) {
+                        domElements.audioInput.play().catch(e => console.warn('Auto-play blocked.', e));
+                        domElements.playIcon.classList.replace('fa-play', 'fa-pause');
+                        domElements.musicToggleBtn.setAttribute('aria-pressed', 'true');
+                    }
+                });
 
+                // 2. Lógica Condicional: Ocultar campo de 'niños' si declina asistencia
+                const attendanceSelect = document.getElementById('attendance');
+                const kidsInput = document.getElementById('kids');
+                attendanceSelect.addEventListener('change', (e) => {
+                    if (e.target.value === 'no') {
+                        kidsInput.classList.add('hidden-field');
+                        kidsInput.disabled = true;
+                    } else {
+                        kidsInput.classList.remove('hidden-field');
+                        kidsInput.disabled = false;
+                    }
+                });
+
+                // 3. Indicador de arrastre en dispositivos móviles
+                document.addEventListener('touchstart', () => {
+                    domElements.toastScroll.classList.add('visible');
                     clearTimeout(scrollToastTimeout);
                     scrollToastTimeout = setTimeout(() => {
                         domElements.toastScroll.classList.remove('visible');
-                    }, 2500); // Se oculta tras 2.5s
+                    }, 2500);
                 }, { passive: true });
+
+                // 4. Animaciones al hacer Scroll (Intersection Observer)
+                if ('IntersectionObserver' in window) {
+                    const observerOptions = {
+                        root: null,
+                        threshold: 0.1,
+                        rootMargin: "0px"
+                    };
+                    const observer = new IntersectionObserver((entries, observerObj) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add('visible');
+                                observerObj.unobserve(entry.target); // Animar solo una vez
+                            }
+                        });
+                    }, observerOptions);
+
+                    document.querySelectorAll('.animate-on-scroll').forEach(el => observer.observe(el));
+                }
             };
 
             // === Arranque de la Aplicación ===
@@ -868,7 +1003,7 @@
                 initCountdown();
                 initSplashScreen();
                 initUserActions();
-                initInteractiveFeedback();
+                initEnhancements();
             };
 
             bootstrap();
