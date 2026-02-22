@@ -141,9 +141,12 @@
             right: 30px;
             width: 45px;
             height: 45px;
-            background: transparent;
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.85);
+            /* Fondo oscuro semitransparente constante */
+            color: var(--primary-blue);
+            border: 2px solid var(--primary-blue);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            /* Sombra para que resalte en fondos blancos */
             z-index: 100;
             border-radius: 50%;
             cursor: pointer;
@@ -155,8 +158,9 @@
 
         .music-player-mini:hover,
         .music-player-mini:focus {
-            background: rgba(255, 255, 255, 0.2);
+            background: var(--primary-blue);
             color: white;
+            border-color: white;
             transform: scale(1.1);
             outline: none;
         }
@@ -927,26 +931,27 @@
                 };
 
                 const handleAppForeground = () => {
-                    if (isPlaying && !document.hidden) {
+                    // Only resume if it was explicitly playing before backgrounding
+                    if (isPlaying && document.visibilityState === 'visible') {
                         domElements.audioInput.play().catch(e => console.warn('Auto-play blocked.', e));
                         domElements.playIcon.classList.replace('fa-play', 'fa-pause');
                         domElements.musicToggleBtn.setAttribute('aria-pressed', 'true');
                     }
                 };
 
-                // Visibility API (Modern Desktop & Mobile)
+                // Visibility API (Modern Desktop & Mobile) - Uso estricto de visibilityState
                 document.addEventListener("visibilitychange", () => {
-                    if (document.hidden) {
+                    if (document.visibilityState === 'hidden') {
                         handleAppBackground();
-                    } else {
+                    } else if (document.visibilityState === 'visible') {
                         handleAppForeground();
                     }
-                });
+                }, false);
 
-                // Soporte extra para navegadores móviles (iOS Safari / Android Chrome)
-                window.addEventListener("pagehide", handleAppBackground);
-                window.addEventListener("blur", handleAppBackground);
-                window.addEventListener("focus", handleAppForeground);
+                // Soporte extra para iOS Safari / Android Chrome
+                window.addEventListener("pagehide", handleAppBackground, false);
+                window.addEventListener("blur", handleAppBackground, false);
+                window.addEventListener("focus", handleAppForeground, false);
 
                 // 2. Lógica Condicional: Ocultar campo de 'niños' si declina asistencia
                 const attendanceSelect = document.getElementById('attendance');
