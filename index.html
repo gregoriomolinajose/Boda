@@ -116,8 +116,8 @@
             left: 0;
             width: 100%;
             height: 100%;
-            /* Difuminado oscuro abajo para que resalte el texto */
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 40%);
+            /* Difuminado oscuro más intenso abajo para que resalte el texto */
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.3) 30%, rgba(0, 0, 0, 0) 60%);
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
@@ -126,7 +126,8 @@
         }
 
         .hero-names {
-            font-size: 4.5rem;
+            font-size: 2.7rem;
+            /* Reducido 40% desde 4.5rem */
             color: white;
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
             margin-bottom: 5px;
@@ -310,7 +311,7 @@
             outline: none;
         }
 
-        /* --- Floating Menu --- */
+        /* --- Floating Menu (AI Bot) --- */
         .floating-menu {
             position: fixed;
             bottom: 30px;
@@ -326,18 +327,38 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
             z-index: 100;
             cursor: pointer;
+            transition: all 0.3s;
         }
 
-        /* --- Music Player Minimized --- */
+        .floating-menu:hover {
+            transform: scale(1.1);
+        }
+
+        /* --- Music Player Floating --- */
         .music-player-mini {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            z-index: 20;
-            background: rgba(255, 255, 255, 0.8);
-            padding: 8px;
+            position: fixed;
+            bottom: 95px;
+            /* Encima del chatbot flotante */
+            right: 30px;
+            width: 45px;
+            height: 45px;
+            background: white;
+            color: var(--primary-blue);
+            border: 1px solid var(--primary-blue);
+            z-index: 100;
             border-radius: 50%;
             cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+
+        .music-player-mini:hover {
+            background: var(--primary-blue);
+            color: white;
+            transform: scale(1.1);
         }
     </style>
 </head>
@@ -367,8 +388,7 @@
         <!-- Content -->
         <main class="content-card">
             <p class="section-title">Estás invitado a</p>
-            <h2 class="section-subtitle elegant-serif" style="font-size: 2.2rem; letter-spacing: 2px;">nuestro brindis
-            </h2>
+            <h2 class="section-subtitle elegant-script" style="font-size: 3.5rem;">nuestra boda</h2>
 
             <p class="message">
                 Nos encantaría que seas parte de este momento tan especial para nosotros. Un brindis íntimo para
@@ -429,7 +449,7 @@
             <h2 class="section-subtitle elegant-script" style="font-size: 3.5rem;">Confirmar Asistencia</h2>
             <p style="margin-bottom: 25px; color: var(--text-light);">
                 Por favor,confirma tu asistencia <br>
-                ! Esperamos que estes allí!
+                ! Esperamos que estes!
             </p>
             <form id="wedding-rsvp">
                 <input type="text" id="name" placeholder="Nombre completo" class="form-input" required>
@@ -495,7 +515,8 @@
         // Calendar
         document.getElementById('add-to-calendar').addEventListener('click', (e) => {
             e.preventDefault();
-            const url = `https://www.google.com/calendar/render?action=TEMPLATE&text=Boda+Dora+&+Gregorio&dates=20260313T193000/20260314T020000&location=Barolo+8C+Chapalita&details=Brindis+Civil`;
+            // Uso de %26 para mantener el formato URL sin romper detalles del evento
+            const url = `https://www.google.com/calendar/render?action=TEMPLATE&text=Boda+Dora+%26+Gregorio&dates=20260313T193000/20260314T020000&location=Barolo+8C+Chapalita&details=Lugar:+Barolo+8C+Chapalita`;
             window.open(url, '_blank');
         });
 
