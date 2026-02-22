@@ -338,8 +338,8 @@
         /* --- Music Player Floating --- */
         .music-player-mini {
             position: fixed;
-            bottom: 30px;
-            /* Esquina inferior derecha */
+            top: 25px;
+            /* Esquina superior derecha */
             right: 30px;
             width: 45px;
             height: 45px;
@@ -391,7 +391,7 @@
             <p class="section-title">Estás invitado a</p>
             <h2 class="section-subtitle elegant-script" style="font-size: 3.5rem; margin-top: 15px;">Nuestra Boda</h2>
 
-            <p class="message" style="margin-bottom: 20px;">
+            <p class="message" style="margin-bottom: 20px; color: #444; font-weight: 400;">
                 Nos encantaría que seas parte de este momento tan especial para nosotros. Un brindis íntimo para
                 celebrar nuestra unión civil.
             </p>
@@ -399,15 +399,15 @@
             <!-- Details -->
             <div style="display: flex; justify-content: space-around; width: 100%; margin-bottom: 20px;">
                 <div class="detail-box" style="margin-bottom: 0;">
-                    <h3>Cuándo</h3>
-                    <p>13 de Marzo, 2026</p>
-                    <p>7:30 p.m.</p>
-                </div>
-
-                <div class="detail-box" style="margin-bottom: 0;">
                     <h3>Dónde</h3>
                     <p>Barolo 8C Chapalita</p>
                     <p>Zapopan, Jalisco</p>
+                </div>
+
+                <div class="detail-box" style="margin-bottom: 0;">
+                    <h3>Cuándo</h3>
+                    <p>13 de Marzo, 2026</p>
+                    <p>7:30 p.m.</p>
                 </div>
             </div>
 
@@ -491,6 +491,7 @@
 
         // Music & Splash
         const audio = document.getElementById('wedding-song');
+        audio.volume = 0.2; // Volumen al 20%
         const playIcon = document.getElementById('play-icon');
         const enterBtn = document.getElementById('enter-site');
         const musicToggle = document.getElementById('music-toggle');
@@ -517,8 +518,8 @@
         // Calendar
         document.getElementById('add-to-calendar').addEventListener('click', (e) => {
             e.preventDefault();
-            // Fin del evento a las 12:00 a.m. (representado como 00:00:00 del día siguiente)
-            const url = `https://www.google.com/calendar/render?action=TEMPLATE&text=Boda+Dora+%26+Gregorio&dates=20260313T193000/20260314T000000&location=Barolo+8C+Chapalita&details=Lugar:+Barolo+8C+Chapalita`;
+            // Fin del evento a las 12:00 a.m. (representado como 00:00:00 del día siguiente). Icono de anillos URL Encoder = %F0%9F%92%8D
+            const url = `https://www.google.com/calendar/render?action=TEMPLATE&text=%F0%9F%92%8D+Boda+Dora+%26+Gregorio&dates=20260313T193000/20260314T000000&location=Barolo+8C+Chapalita&details=Lugar:+Barolo+8C+Chapalita`;
             window.open(url, '_blank');
         });
 
