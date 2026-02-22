@@ -281,11 +281,12 @@
         <h1 class="hero-names">Dora & Gregorio</h1>
         <p class="hero-date">13.03.2026</p>
 
-        <!-- Music Player Integration -->
-        <div class="music-player">
+        <!-- Music Player Integration (YouTube Music) -->
+        <a href="https://music.youtube.com/watch?v=7VpPUQ6cto4" target="_blank" class="music-player"
+            style="text-decoration: none; cursor: pointer;">
             <i class="fas fa-play" id="play-icon"></i>
-            <span>YouTube Music</span>
-        </div>
+            <span>Reproducir Música</span>
+        </a>
     </section>
 
     <!-- Main Section -->
@@ -408,12 +409,9 @@
         // AI Mock
         document.getElementById('ai-toggle').addEventListener('click', () => alert('Consultando el Wedding Planner IA...'));
 
-        // Music Play Toggle
+        // Music Play Toggle (Redirección a YouTube Music)
         const playBtn = document.getElementById('play-icon');
-        playBtn.addEventListener('click', () => {
-            playBtn.classList.toggle('fa-play');
-            playBtn.classList.toggle('fa-pause');
-        });
+        // El enlace ahora está en el contenedor <a> para asegurar la apertura en móviles
     </script>
 </body>
 
