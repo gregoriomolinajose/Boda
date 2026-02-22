@@ -122,7 +122,8 @@
             flex-direction: column;
             justify-content: flex-end;
             align-items: center;
-            padding-bottom: 50px;
+            padding-bottom: 120px;
+            /* Aumentado para subir el texto un 30% aprox */
         }
 
         .hero-names {
@@ -311,34 +312,12 @@
             outline: none;
         }
 
-        /* --- Floating Menu (AI Bot) --- */
-        .floating-menu {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            background: var(--primary-blue);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            z-index: 100;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .floating-menu:hover {
-            transform: scale(1.1);
-        }
 
         /* --- Music Player Floating --- */
         .music-player-mini {
             position: fixed;
-            bottom: 95px;
-            /* Encima del chatbot flotante */
+            bottom: 30px;
+            /* Esquina inferior derecha */
             right: 30px;
             width: 45px;
             height: 45px;
@@ -388,7 +367,7 @@
         <!-- Content -->
         <main class="content-card">
             <p class="section-title">Estás invitado a</p>
-            <h2 class="section-subtitle elegant-script" style="font-size: 3.5rem;">nuestra boda</h2>
+            <h2 class="section-subtitle elegant-script" style="font-size: 3.5rem;">Nuestra Boda</h2>
 
             <p class="message">
                 Nos encantaría que seas parte de este momento tan especial para nosotros. Un brindis íntimo para
@@ -467,11 +446,6 @@
         <audio id="wedding-song" loop preload="auto">
             <source src="audio_boda.m4a" type="audio/mp4">
         </audio>
-
-        <!-- AI Bot -->
-        <div class="floating-menu" id="ai-chat">
-            <i class="fas fa-ellipsis-h"></i>
-        </div>
     </div>
 
     <script>
