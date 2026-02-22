@@ -590,36 +590,6 @@
             transform: translateY(0);
         }
 
-        .floating-rsvp {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background-color: var(--primary-blue);
-            color: white;
-            padding: 15px 25px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: 600;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            z-index: 900;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: transform 0.3s ease, background-color 0.3s ease;
-        }
-
-        .floating-rsvp:hover,
-        .floating-rsvp:focus {
-            transform: translateY(-5px);
-            background-color: #7b97a9;
-            color: white;
-            outline: none;
-        }
-
-        .floating-rsvp i {
-            font-size: 1.2rem;
-        }
-
         .hidden-field {
             display: none !important;
         }
@@ -747,13 +717,6 @@
             <source src="audio_boda.m4a" type="audio/mp4">
             Tu navegador no soporta elementos de audio.
         </audio>
-
-
-
-        <!-- Botón Flotante RSVP -->
-        <a href="#wedding-rsvp-section" class="floating-rsvp fade-in-up" aria-label="Ir a confirmar asistencia">
-            <i class="fas fa-envelope" aria-hidden="true"></i> Confirmar
-        </a>
     </div>
 
     <!-- ==========================================================================
