@@ -134,29 +134,6 @@
             outline: none;
         }
 
-        /* -- Indicador de Scroll Interactivo (Toast) -- */
-        .scroll-indicator {
-            position: fixed;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.6);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            pointer-events: none;
-            /* Evita bloquear interacciones subyacentes */
-            z-index: 1000;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            letter-spacing: 1px;
-        }
-
-        .scroll-indicator.visible {
-            opacity: 1;
-        }
-
         /* -- Reproductor de Música Flotante -- */
         .music-player-mini {
             position: fixed;
@@ -767,8 +744,7 @@
             Tu navegador no soporta elementos de audio.
         </audio>
 
-        <!-- Indicador de Scroll para experiencia en dispositivos móviles -->
-        <div id="scroll-toast" class="scroll-indicator" aria-hidden="true" role="status">Desliza para ver más</div>
+
 
         <!-- Botón Flotante RSVP -->
         <a href="#wedding-rsvp-section" class="floating-rsvp fade-in-up" aria-label="Ir a confirmar asistencia">
@@ -797,7 +773,6 @@
                 btnCalendario: document.getElementById('add-to-calendar'),
                 formRsvp: document.getElementById('wedding-rsvp'),
                 btnScrollHero: document.getElementById('scroll-to-next'),
-                toastScroll: document.getElementById('scroll-toast'),
                 mainContentSection: document.querySelector('main.content-card')
             };
 
@@ -808,7 +783,6 @@
             };
 
             let isPlaying = false;
-            let scrollToastTimeout;
 
             /**
              * Inicializa el módulo del contador regresivo
@@ -968,15 +942,6 @@
                         kidsInput.disabled = false;
                     }
                 });
-
-                // 3. Indicador de arrastre en dispositivos móviles
-                document.addEventListener('touchstart', () => {
-                    domElements.toastScroll.classList.add('visible');
-                    clearTimeout(scrollToastTimeout);
-                    scrollToastTimeout = setTimeout(() => {
-                        domElements.toastScroll.classList.remove('visible');
-                    }, 2500);
-                }, { passive: true });
 
                 // 4. Animaciones al hacer Scroll (Intersection Observer)
                 if ('IntersectionObserver' in window) {
