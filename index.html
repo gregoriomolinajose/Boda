@@ -282,11 +282,15 @@
         <p class="hero-date">13.03.2026</p>
 
         <!-- Music Player Integration (YouTube Music) -->
-        <a href="https://music.youtube.com/watch?v=7VpPUQ6cto4" target="_blank" class="music-player"
-            style="text-decoration: none; cursor: pointer;">
+        <div id="music-trigger" class="music-player" style="text-decoration: none; cursor: pointer;">
             <i class="fas fa-play" id="play-icon"></i>
             <span>Reproducir Música</span>
-        </a>
+        </div>
+        <!-- Audio oculto (requiere link directo a mp3 para mejores resultados en móviles) -->
+        <audio id="wedding-song" loop>
+            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+            Tu navegador no soporta el audio.
+        </audio>
     </section>
 
     <!-- Main Section -->
@@ -409,9 +413,32 @@
         // AI Mock
         document.getElementById('ai-toggle').addEventListener('click', () => alert('Consultando el Wedding Planner IA...'));
 
-        // Music Play Toggle (Redirección a YouTube Music)
+        // Music Play Logic
+        const audio = document.getElementById('wedding-song');
         const playBtn = document.getElementById('play-icon');
-        // El enlace ahora está en el contenedor <a> para asegurar la apertura en móviles
+        const musicTrigger = document.getElementById('music-trigger');
+        let isPlaying = false;
+
+        const toggleMusic = () => {
+            if (isPlaying) {
+                audio.pause();
+                playBtn.classList.replace('fa-pause', 'fa-play');
+            } else {
+                audio.play().catch(e => console.log("Auto-play bloqueado por navegador"));
+                playBtn.classList.replace('fa-play', 'fa-pause');
+            }
+            isPlaying = !isPlaying;
+        };
+
+        // Iniciar al primer toque en cualquier lugar de la página (para mobile auto-play)
+        document.body.addEventListener('click', () => {
+            if (!isPlaying) toggleMusic();
+        }, { once: true });
+
+        musicTrigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleMusic();
+        });
     </script>
 </body>
 
