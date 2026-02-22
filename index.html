@@ -25,11 +25,18 @@
             box-sizing: border-box;
         }
 
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            /* Evitar scroll en body, lo manejara page-container */
+        }
+
         body {
             font-family: 'Montserrat', sans-serif;
             background-color: var(--bg-page);
             color: var(--text-dark);
-            overflow-x: hidden;
             line-height: 1.6;
             font-weight: 300;
         }
@@ -90,16 +97,31 @@
             max-width: 500px;
             margin: 0 auto;
             background: var(--bg-card);
-            min-height: 100vh;
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
             box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
             position: relative;
+            scrollbar-width: none;
+            /* Firefox */
+        }
+
+        .page-container::-webkit-scrollbar {
+            display: none;
+            /* Chrome/Safari */
+        }
+
+        .snap-section {
+            height: 100vh;
+            width: 100%;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
         }
 
         /* --- Hero Section --- */
         .hero {
             position: relative;
-            height: 70vh;
-            width: 100%;
             overflow: hidden;
         }
 
@@ -116,14 +138,14 @@
             left: 0;
             width: 100%;
             height: 100%;
-            /* Difuminado oscuro más intenso abajo para que resalte el texto */
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, rgba(0, 0, 0, 0.3) 30%, rgba(0, 0, 0, 0) 60%);
+            /* Difuminado oscuro más alto para que tape imagen un 50% */
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.6) 50%, rgba(0, 0, 0, 0) 80%);
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
             align-items: center;
-            padding-bottom: 120px;
-            /* Aumentado para subir el texto un 30% aprox */
+            padding-bottom: 110px;
+            /* Bajado un 5% aprox desde 120px */
         }
 
         .hero-names {
@@ -178,10 +200,10 @@
             padding: 40px 30px;
             text-align: center;
             background: white;
-            border-radius: 30px 30px 0 0;
-            margin-top: -30px;
-            position: relative;
-            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .section-title {
@@ -352,7 +374,7 @@
 
     <div class="page-container">
         <!-- Hero -->
-        <header class="hero">
+        <header class="hero snap-section">
             <div class="hero-img"></div>
             <div class="hero-overlay">
                 <h1 class="hero-names elegant-script">Dora & Gregorio</h1>
@@ -365,17 +387,44 @@
         </header>
 
         <!-- Content -->
-        <main class="content-card">
+        <main class="content-card snap-section">
             <p class="section-title">Estás invitado a</p>
-            <h2 class="section-subtitle elegant-script" style="font-size: 3.5rem;">Nuestra Boda</h2>
+            <h2 class="section-subtitle elegant-script" style="font-size: 3.5rem; margin-top: 15px;">Nuestra Boda</h2>
 
-            <p class="message">
+            <p class="message" style="margin-bottom: 20px;">
                 Nos encantaría que seas parte de este momento tan especial para nosotros. Un brindis íntimo para
                 celebrar nuestra unión civil.
             </p>
 
+            <!-- Details -->
+            <div style="display: flex; justify-content: space-around; width: 100%; margin-bottom: 20px;">
+                <div class="detail-box" style="margin-bottom: 0;">
+                    <h3>Cuándo</h3>
+                    <p>13 de Marzo, 2026</p>
+                    <p>7:30 p.m.</p>
+                </div>
+
+                <div class="detail-box" style="margin-bottom: 0;">
+                    <h3>Dónde</h3>
+                    <p>Barolo 8C Chapalita</p>
+                    <p>Zapopan, Jalisco</p>
+                </div>
+            </div>
+
+            <div class="action-cards" style="width: 100%; margin-top: 0; margin-bottom: 30px;">
+                <a href="https://www.google.com/maps/search/?api=1&query=Barolo+8C+Chapalita" target="_blank"
+                    class="action-card">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Ver Mapa</span>
+                </a>
+                <a id="add-to-calendar" href="#" class="action-card">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Agendar</span>
+                </a>
+            </div>
+
             <!-- Countdown -->
-            <div class="countdown" id="countdown">
+            <div class="countdown" id="countdown" style="width: 100%; margin-bottom: 0;">
                 <div class="countdown-item">
                     <span id="days">00</span>
                     <span>Días</span>
@@ -396,50 +445,29 @@
                     <span>Segundos</span>
                 </div>
             </div>
-
-            <!-- Details -->
-            <div class="detail-box">
-                <h3>Cuándo</h3>
-                <p>13 de Marzo, 2026</p>
-                <p>7:30 p.m.</p>
-            </div>
-
-            <div class="detail-box">
-                <h3>Dónde</h3>
-                <p>Barolo 8C Chapalita</p>
-                <p>Zapopan, Jalisco</p>
-            </div>
-
-            <div class="action-cards">
-                <a href="https://www.google.com/maps/search/?api=1&query=Barolo+8C+Chapalita" target="_blank"
-                    class="action-card">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <span>Ver Mapa</span>
-                </a>
-                <a id="add-to-calendar" href="#" class="action-card">
-                    <i class="fas fa-calendar-alt"></i>
-                    <span>Agendar</span>
-                </a>
-            </div>
         </main>
 
         <!-- RSVP -->
-        <section class="rsvp-section">
-            <h2 class="section-subtitle elegant-script" style="font-size: 3.5rem;">Confirmar Asistencia</h2>
-            <p style="margin-bottom: 25px; color: var(--text-light);">
-                Por favor,confirma tu asistencia <br>
-                ! Esperamos que estes!
-            </p>
-            <form id="wedding-rsvp">
-                <input type="text" id="name" placeholder="Nombre completo" class="form-input" required>
-                <select id="attendance" class="form-input" required>
-                    <option value="yes">Asistiré con gusto</option>
-                    <option value="no">No podré asistir</option>
-                </select>
-                <input type="number" id="kids" placeholder="¿Cuántos niños?" class="form-input" value="0">
-                <textarea id="allergies" placeholder="Alergias o dieta especial" class="form-input" rows="2"></textarea>
-                <button type="submit" class="enter-btn" style="width: 100%; border-radius: 10px;">Confirmar</button>
-            </form>
+        <section class="rsvp-section snap-section"
+            style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%;">
+            <div style="width: 100%; max-width: 400px; text-align: center;">
+                <h2 class="section-subtitle elegant-script" style="font-size: 3.5rem;">Confirmar Asistencia</h2>
+                <p style="margin-bottom: 25px; color: var(--text-light);">
+                    Por favor,confirma tu asistencia <br>
+                    ! Esperamos que estes!
+                </p>
+                <form id="wedding-rsvp">
+                    <input type="text" id="name" placeholder="Nombre completo" class="form-input" required>
+                    <select id="attendance" class="form-input" required>
+                        <option value="yes">Asistiré con gusto</option>
+                        <option value="no">No podré asistir</option>
+                    </select>
+                    <input type="number" id="kids" placeholder="¿Cuántos niños?" class="form-input" value="0">
+                    <textarea id="allergies" placeholder="Alergias o dieta especial" class="form-input"
+                        rows="2"></textarea>
+                    <button type="submit" class="enter-btn" style="width: 100%; border-radius: 10px;">Confirmar</button>
+                </form>
+            </div>
         </section>
 
         <!-- Audio -->
@@ -489,8 +517,8 @@
         // Calendar
         document.getElementById('add-to-calendar').addEventListener('click', (e) => {
             e.preventDefault();
-            // Uso de %26 para mantener el formato URL sin romper detalles del evento
-            const url = `https://www.google.com/calendar/render?action=TEMPLATE&text=Boda+Dora+%26+Gregorio&dates=20260313T193000/20260314T020000&location=Barolo+8C+Chapalita&details=Lugar:+Barolo+8C+Chapalita`;
+            // Fin del evento a las 12:00 a.m. (representado como 00:00:00 del día siguiente)
+            const url = `https://www.google.com/calendar/render?action=TEMPLATE&text=Boda+Dora+%26+Gregorio&dates=20260313T193000/20260314T000000&location=Barolo+8C+Chapalita&details=Lugar:+Barolo+8C+Chapalita`;
             window.open(url, '_blank');
         });
 
