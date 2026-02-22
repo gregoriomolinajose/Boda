@@ -104,8 +104,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            /* Placeholder para la foto real */
-            background: url('/Users/dar90423988m/.gemini/antigravity/brain/01bb32e6-80f2-4c25-83f3-7d1474f3bc6c/wedding_couple_photo_placeholder_1771727063262.png') center/cover no-repeat;
+            background: url('/Users/dar90423988m/.gemini/antigravity/brain/01bb32e6-80f2-4c25-83f3-7d1474f3bc6c/media__1771727750866.jpg') center/cover no-repeat;
         }
 
         .hero-overlay {
@@ -219,41 +218,45 @@
             font-size: 0.95rem;
         }
 
-        /* --- Buttons --- */
-        .btn-group {
-            display: flex;
-            flex-direction: column;
+        /* --- Action Cards --- */
+        .action-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 15px;
             margin-top: 30px;
         }
 
-        .btn {
-            padding: 15px;
-            border-radius: 50px;
+        .action-card {
+            background: #fdfdfd;
+            border: 1px solid #f0f0f0;
+            padding: 20px 10px;
+            border-radius: 15px;
             text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-size: 0.8rem;
-            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
             transition: all 0.3s;
             cursor: pointer;
-            border: none;
         }
 
-        .btn-primary {
-            background: var(--primary-blue);
-            color: white;
-        }
-
-        .btn-outline {
-            background: transparent;
-            border: 1px solid var(--primary-blue);
+        .action-card i {
+            font-size: 1.2rem;
             color: var(--primary-blue);
         }
 
-        .btn:hover {
-            opacity: 0.9;
-            transform: translateY(-2px);
+        .action-card span {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .action-card:hover {
+            border-color: var(--primary-blue);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
         }
 
         /* --- RSVP Form --- */
@@ -371,10 +374,16 @@
                 <p>Zapopan, Jalisco</p>
             </div>
 
-            <div class="btn-group">
+            <div class="action-cards">
                 <a href="https://www.google.com/maps/search/?api=1&query=Barolo+8C+Chapalita" target="_blank"
-                    class="btn btn-primary">Ver Mapa</a>
-                <a id="add-to-calendar" href="#" class="btn btn-outline">Agendar Evento</a>
+                    class="action-card">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>Ver Mapa</span>
+                </a>
+                <a id="add-to-calendar" href="#" class="action-card">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span>Agendar</span>
+                </a>
             </div>
         </main>
 
@@ -390,7 +399,7 @@
                 </select>
                 <input type="number" id="kids" placeholder="¿Cuántos niños?" class="form-input" value="0">
                 <textarea id="allergies" placeholder="Alergias o dieta especial" class="form-input" rows="2"></textarea>
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Confirmar</button>
+                <button type="submit" class="enter-btn" style="width: 100%; border-radius: 10px;">Confirmar</button>
             </form>
         </section>
 
