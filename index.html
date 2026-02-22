@@ -4,21 +4,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Invitación Oficial a la Boda de Dora & Gregorio">
     <title>Boda Dora & Gregorio</title>
+
+    <!-- Google Fonts: Great Vibes (Script) & Montserrat (Sans Serif) -->
     <link
         href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@200;300;400;600&display=swap"
         rel="stylesheet">
+
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
     <style>
+        /* ==========================================================================
+           1. VARIABLES CSS (Design Tokens)
+           ========================================================================== */
         :root {
+            /* Colores Principales */
             --primary-blue: #93afc2;
+            /* Azul grisáceo elegante */
             --text-dark: #4a4a4a;
+            /* Texto principal */
             --text-light: #7a7a7a;
+            /* Texto secundario */
             --bg-page: #f9f9f9;
+            /* Fondo general de la página */
             --bg-card: #ffffff;
-            --accent-script: #4a4a4a;
+            /* Fondo de las tarjetas */
+
+            /* Tipografías */
+            --font-primary: 'Montserrat', sans-serif;
+            --font-script: 'Great Vibes', cursive;
         }
 
+        /* ==========================================================================
+           2. RESET & BASE
+           ========================================================================== */
         * {
             margin: 0;
             padding: 0;
@@ -30,24 +51,135 @@
             height: 100%;
             margin: 0;
             overflow: hidden;
-            /* Evitar scroll en body, lo manejara page-container */
+            /* El scroll está delegado al contenedor de snap para la navegación por secciones */
         }
 
         body {
-            font-family: 'Montserrat', sans-serif;
+            font-family: var(--font-primary);
             background-color: var(--bg-page);
             color: var(--text-dark);
             line-height: 1.6;
             font-weight: 300;
         }
 
+        /* Utilidad tipográfica para fuente script */
         .elegant-script {
-            font-family: 'Great Vibes', cursive;
+            font-family: var(--font-script);
             text-transform: none;
             font-weight: 400;
         }
 
-        /* --- Splash Screen --- */
+        /* ==========================================================================
+           3. ESTRUCTURA DE NAVEGACIÓN (Scroll Snapping)
+           ========================================================================== */
+        .page-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
+            /* Sombra difusa para enmarcar la app en pantallas grandes */
+            position: relative;
+            scrollbar-width: none;
+            /* Firefox: oculta la barra de scroll para estética app-nativa */
+        }
+
+        .page-container::-webkit-scrollbar {
+            display: none;
+            /* Chrome/Safari: oculta la barra de scroll */
+        }
+
+        /* Define el comportamiento de anclaje de cada "pantalla" */
+        .snap-section {
+            height: 100vh;
+            width: 100%;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+        }
+
+        /* ==========================================================================
+           4. COMPONENTES GLOBALES
+           ========================================================================== */
+
+        /* -- Botones Base -- */
+        .action-btn {
+            padding: 12px 45px;
+            border: 1px solid var(--primary-blue);
+            color: var(--primary-blue);
+            background: transparent;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover,
+        .action-btn:focus {
+            background: var(--primary-blue);
+            color: white;
+            outline: none;
+        }
+
+        /* -- Indicador de Scroll Interactivo (Toast) -- */
+        .scroll-indicator {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.6);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            pointer-events: none;
+            /* Evita bloquear interacciones subyacentes */
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            letter-spacing: 1px;
+        }
+
+        .scroll-indicator.visible {
+            opacity: 1;
+        }
+
+        /* -- Reproductor de Música Flotante -- */
+        .music-player-mini {
+            position: fixed;
+            top: 25px;
+            right: 30px;
+            width: 45px;
+            height: 45px;
+            background: transparent;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            z-index: 100;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .music-player-mini:hover,
+        .music-player-mini:focus {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            transform: scale(1.1);
+            outline: none;
+        }
+
+        /* ==========================================================================
+           5. SECCIONES (Páginas de la UI)
+           ========================================================================== */
+
+        /* --- 5.1 Pantalla de Carga (Splash) --- */
         #splash {
             position: fixed;
             top: 0;
@@ -59,67 +191,24 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 1000;
+            z-index: 2000;
+            /* Siempre encima de todo hasta que se cierre */
             transition: opacity 1s ease-out;
         }
 
-        #splash h2 {
-            font-size: 2.5rem;
+        #splash h1 {
+            font-size: 3.5rem;
             margin-bottom: 2rem;
             color: var(--primary-blue);
-        }
-
-        .enter-btn {
-            padding: 12px 45px;
-            border: 1px solid var(--primary-blue);
-            color: var(--primary-blue);
-            background: transparent;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            border-radius: 50px;
-            transition: all 0.3s;
-        }
-
-        .enter-btn:hover {
-            background: var(--primary-blue);
-            color: white;
         }
 
         body.show-content #splash {
             opacity: 0;
             pointer-events: none;
+            /* Asegura que no sea clickeable una vez invisible */
         }
 
-        /* --- Main Content Layout --- */
-        .page-container {
-            max-width: 500px;
-            margin: 0 auto;
-            background: var(--bg-card);
-            height: 100vh;
-            overflow-y: scroll;
-            scroll-snap-type: y mandatory;
-            scroll-behavior: smooth;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
-            position: relative;
-            scrollbar-width: none;
-            /* Firefox */
-        }
-
-        .page-container::-webkit-scrollbar {
-            display: none;
-            /* Chrome/Safari */
-        }
-
-        .snap-section {
-            height: 100vh;
-            width: 100%;
-            scroll-snap-align: start;
-            scroll-snap-stop: always;
-        }
-
-        /* --- Hero Section --- */
+        /* --- 5.2 Sección Principal (Hero) --- */
         .hero {
             position: relative;
             overflow: hidden;
@@ -138,19 +227,17 @@
             left: 0;
             width: 100%;
             height: 100%;
-            /* Difuminado oscuro más alto para que tape imagen un 50% */
+            /* Gradiente de sombra de abajo hacia arriba para legibilidad del texto */
             background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.6) 50%, rgba(0, 0, 0, 0) 80%);
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
             align-items: center;
             padding-bottom: 110px;
-            /* Bajado un 5% aprox desde 120px */
         }
 
         .hero-names {
             font-size: 2.7rem;
-            /* Reducido 40% desde 4.5rem */
             color: white;
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
             margin-bottom: 5px;
@@ -171,6 +258,7 @@
 
         .scroll-down {
             cursor: pointer;
+            padding: 10px;
         }
 
         .scroll-down i {
@@ -199,7 +287,7 @@
             }
         }
 
-        /* --- Content Card --- */
+        /* --- 5.3 Tarjeta de Contenido General (Invitación) --- */
         .content-card {
             padding: 40px 30px;
             text-align: center;
@@ -215,27 +303,95 @@
             text-transform: uppercase;
             letter-spacing: 3px;
             color: var(--text-light);
-            margin-bottom: 15px;
         }
 
         .section-subtitle {
-            font-size: 2.8rem;
+            font-size: 3.5rem;
             color: var(--text-dark);
-            margin-bottom: 25px;
         }
 
         .message {
             font-size: 1rem;
-            color: var(--text-light);
-            margin-bottom: 40px;
             line-height: 1.8;
+            color: #444;
+            /* Oscurecido ligeramente para mejor contraste */
+            font-weight: 400;
         }
 
-        /* --- Countdown --- */
+        /* -- Detalles: Lugares y Fecha -- */
+        .details-container {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .detail-box {
+            text-align: center;
+        }
+
+        .detail-box h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--primary-blue);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .detail-box p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        /* -- Tarjetas de Acción (Mapa, Calendario) -- */
+        .action-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+        .action-card {
+            background: #fdfdfd;
+            border: 1px solid #f0f0f0;
+            padding: 20px 10px;
+            border-radius: 15px;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .action-card i {
+            font-size: 1.2rem;
+            color: var(--primary-blue);
+        }
+
+        .action-card span {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .action-card:hover,
+        .action-card:focus {
+            border-color: var(--primary-blue);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            outline: none;
+        }
+
+        /* -- Contador Regresivo -- */
         .countdown {
             display: flex;
             justify-content: space-around;
-            margin-bottom: 40px;
+            width: 100%;
             border-top: 1px solid #f0f0f0;
             border-bottom: 1px solid #f0f0f0;
             padding: 25px 0;
@@ -262,70 +418,22 @@
             padding-top: 5px;
         }
 
-        /* --- Details Section --- */
-        .detail-box {
-            margin-bottom: 40px;
-            text-align: center;
-        }
-
-        .detail-box h3 {
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-            color: var(--primary-blue);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .detail-box p {
-            color: var(--text-light);
-            font-size: 0.95rem;
-        }
-
-        /* --- Action Cards --- */
-        .action-cards {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 30px;
-        }
-
-        .action-card {
-            background: #fdfdfd;
-            border: 1px solid #f0f0f0;
-            padding: 20px 10px;
-            border-radius: 15px;
-            text-decoration: none;
+        /* --- 5.4 Formulario RSVP --- */
+        .rsvp-section {
             display: flex;
             flex-direction: column;
+            justify-content: center;
             align-items: center;
-            gap: 10px;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .action-card i {
-            font-size: 1.2rem;
-            color: var(--primary-blue);
-        }
-
-        .action-card span {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-weight: 600;
-            color: var(--text-dark);
-        }
-
-        .action-card:hover {
-            border-color: var(--primary-blue);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        /* --- RSVP Form --- */
-        .rsvp-section {
-            padding: 40px 30px;
+            width: 100%;
             background: var(--bg-page);
+            padding: 0 30px;
+            /* Evita que choque en pantallas muy pequeñas */
+        }
+
+        .rsvp-container {
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
         }
 
         .form-input {
@@ -336,249 +444,312 @@
             border-radius: 10px;
             font-family: inherit;
             outline: none;
+            transition: border-color 0.3s ease;
         }
 
-
-        /* --- Music Player Floating --- */
-        .music-player-mini {
-            position: fixed;
-            top: 25px;
-            /* Esquina superior derecha */
-            right: 30px;
-            width: 45px;
-            height: 45px;
-            background: transparent;
-            color: white;
-            border: 1px solid rgba(255, 255, 255, 0.5);
-            z-index: 100;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: all 0.3s;
+        .form-input:focus {
+            border-color: var(--primary-blue);
         }
 
-        .music-player-mini:hover {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            transform: scale(1.1);
-        }
-
-        /* --- Scroll Indicator --- */
-        .scroll-indicator {
-            position: fixed;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.6);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            pointer-events: none;
-            z-index: 1000;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            letter-spacing: 1px;
-        }
-
-        .scroll-indicator.visible {
-            opacity: 1;
+        /* Accesibilidad - Visually Hidden */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
         }
     </style>
 </head>
 
 <body>
-
-    <!-- Splash Screen -->
-    <div id="splash">
-        <h2 class="elegant-script" style="font-size: 3.5rem;">Dora & Gregorio</h2>
-        <button class="enter-btn" id="enter-site">Abrir</button>
+    <!-- Capa de Bienvenida -->
+    <div id="splash" aria-hidden="false">
+        <h1 class="elegant-script">Dora & Gregorio</h1>
+        <button class="action-btn" id="enter-site" aria-label="Abrir invitación y reproducir música">Abrir</button>
     </div>
 
-    <div class="page-container">
-        <!-- Hero -->
-        <header class="hero snap-section">
-            <div class="hero-img"></div>
+    <!-- Contenedor Principal (Layout y scroll snapping) -->
+    <div class="page-container" id="main-container">
+
+        <!-- === SECCIÓN 1: Hero (Imagen de fondo y nombres) === -->
+        <header class="hero snap-section" aria-label="Introducción a la boda">
+            <div class="hero-img" aria-hidden="true" role="img" aria-label="Foto de la pareja"></div>
             <div class="hero-overlay">
-                <h1 class="hero-names elegant-script">Dora & Gregorio</h1>
+                <h2 class="hero-names elegant-script">Dora & Gregorio</h2>
                 <p class="hero-tagline">¡NOS CASAMOS!</p>
-                <div class="scroll-down" id="scroll-to-next"><i class="fas fa-chevron-down"></i></div>
+                <button class="scroll-down" id="scroll-to-next" aria-label="Bajar a la siguiente sección"
+                    style="background: none; border: none;">
+                    <i class="fas fa-chevron-down" aria-hidden="true"></i>
+                </button>
             </div>
-            <div class="music-player-mini" id="music-toggle">
-                <i class="fas fa-play" id="play-icon"></i>
-            </div>
+
+            <!-- Botón de Control de Audio Global -->
+            <button class="music-player-mini" id="music-toggle" aria-label="Pausar o reproducir música de fondo">
+                <i class="fas fa-play" id="play-icon" aria-hidden="true"></i>
+            </button>
         </header>
 
-        <!-- Content -->
-        <main class="content-card snap-section">
+        <!-- === SECCIÓN 2: Detalles de la Boda y Countdown === -->
+        <main class="content-card snap-section" aria-label="Detalles de la celebración">
             <p class="section-title">Estás invitado a</p>
-            <h2 class="section-subtitle elegant-script" style="font-size: 3.5rem; margin-top: 15px;">Nuestra Boda</h2>
+            <h2 class="section-subtitle elegant-script" style="margin-top: 15px;">Nuestra Boda</h2>
 
-            <p class="message" style="margin-bottom: 20px; color: #444; font-weight: 400;">
+            <p class="message" style="margin-bottom: 20px;">
                 Nos encantaría que seas parte de este momento tan especial para nosotros. Un brindis íntimo para
                 celebrar nuestra unión civil.
             </p>
 
-            <!-- Details -->
-            <div style="display: flex; justify-content: space-around; width: 100%; margin-bottom: 20px;">
-                <div class="detail-box" style="margin-bottom: 0;">
+            <!-- Datos de evento: Dónde y Cuándo -->
+            <section class="details-container" aria-label="Lugar y fecha">
+                <div class="detail-box">
                     <h3>Dónde</h3>
-                    <p>Barolo 8C Chapalita</p>
-                    <p>Zapopan, Jalisco</p>
+                    <p>Barolo 8C Chapalita<br>Zapopan, Jalisco</p>
                 </div>
-
-                <div class="detail-box" style="margin-bottom: 0;">
+                <div class="detail-box">
                     <h3>Cuándo</h3>
-                    <p>13 de Marzo, 2026</p>
-                    <p>7:30 p.m.</p>
+                    <p>13 de Marzo, 2026<br>7:30 p.m.</p>
                 </div>
-            </div>
+            </section>
 
-            <div class="action-cards" style="width: 100%; margin-top: 0; margin-bottom: 30px;">
+            <!-- Acciones de soporte (Botones) -->
+            <nav class="action-cards" aria-label="Enlaces útiles">
                 <a href="https://www.google.com/maps/search/?api=1&query=Barolo+8C+Chapalita" target="_blank"
-                    class="action-card">
-                    <i class="fas fa-map-marker-alt"></i>
+                    rel="noopener noreferrer" class="action-card" aria-label="Abrir ubicación en Google Maps">
+                    <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
                     <span>Ver Mapa</span>
                 </a>
-                <a id="add-to-calendar" href="#" class="action-card">
-                    <i class="fas fa-calendar-alt"></i>
+                <a id="add-to-calendar" href="#" class="action-card" aria-label="Añadir el evento a Google Calendar">
+                    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
                     <span>Agendar</span>
                 </a>
-            </div>
+            </nav>
 
-            <!-- Countdown -->
-            <div class="countdown" id="countdown" style="width: 100%; margin-bottom: 0;">
+            <!-- Contador Regresivo -->
+            <section class="countdown" id="countdown" aria-label="Tiempo restante para la boda">
                 <div class="countdown-item">
-                    <span id="days">00</span>
-                    <span>Días</span>
+                    <span id="days">00</span><span>Días</span>
                 </div>
-                <div class="countdown-divider">:</div>
+                <div class="countdown-divider" aria-hidden="true">:</div>
                 <div class="countdown-item">
-                    <span id="hours">00</span>
-                    <span>Horas</span>
+                    <span id="hours">00</span><span>Horas</span>
                 </div>
-                <div class="countdown-divider">:</div>
+                <div class="countdown-divider" aria-hidden="true">:</div>
                 <div class="countdown-item">
-                    <span id="minutes">00</span>
-                    <span>Minutos</span>
+                    <span id="minutes">00</span><span>Min</span>
                 </div>
-                <div class="countdown-divider">:</div>
+                <div class="countdown-divider" aria-hidden="true">:</div>
                 <div class="countdown-item">
-                    <span id="seconds" style="color: var(--primary-blue);">00</span>
-                    <span>Segundos</span>
+                    <span id="seconds" style="color: var(--primary-blue);">00</span><span>Seg</span>
                 </div>
-            </div>
+            </section>
         </main>
 
-        <!-- RSVP -->
-        <section class="rsvp-section snap-section"
-            style="display: flex; flex-direction: column; justify-content: center; align-items: center; width: 100%;">
-            <div style="width: 100%; max-width: 400px; text-align: center;">
-                <h2 class="section-subtitle elegant-script" style="font-size: 3.5rem;">Confirmar Asistencia</h2>
+        <!-- === SECCIÓN 3: Formulario de Confirmación (RSVP) === -->
+        <section class="rsvp-section snap-section" aria-label="Confirmación de asistencia">
+            <div class="rsvp-container">
+                <h2 class="section-subtitle elegant-script">Confirmar Asistencia</h2>
                 <p style="margin-bottom: 25px; color: var(--text-light);">
-                    Por favor,confirma tu asistencia <br>
-                    ! Esperamos que estes!
+                    Por favor, confirma tu asistencia <br>
+                    ¡Esperamos que estés!
                 </p>
-                <form id="wedding-rsvp">
+                <!-- Formulario -->
+                <form id="wedding-rsvp" aria-label="Formulario RSVP">
+                    <label for="name" class="sr-only">Nombre completo</label>
                     <input type="text" id="name" placeholder="Nombre completo" class="form-input" required>
+
+                    <label for="attendance" class="sr-only">¿Asistirás?</label>
                     <select id="attendance" class="form-input" required>
                         <option value="yes">Asistiré con gusto</option>
                         <option value="no">No podré asistir</option>
                     </select>
-                    <input type="number" id="kids" placeholder="¿Cuántos niños?" class="form-input" value="0">
+
+                    <label for="kids" class="sr-only">Cantidad de niños</label>
+                    <input type="number" id="kids" placeholder="¿Cuántos niños?" class="form-input" value="0" min="0">
+
+                    <label for="allergies" class="sr-only">Alergias o dieta especial</label>
                     <textarea id="allergies" placeholder="Alergias o dieta especial" class="form-input"
                         rows="2"></textarea>
-                    <button type="submit" class="enter-btn" style="width: 100%; border-radius: 10px;">Confirmar</button>
+
+                    <button type="submit" class="action-btn"
+                        style="width: 100%; border-radius: 10px;">Confirmar</button>
                 </form>
             </div>
         </section>
 
-        <!-- Audio -->
-        <audio id="wedding-song" loop preload="auto">
+        <!-- Elemento de Audio Oculto -->
+        <audio id="wedding-song" loop preload="auto" aria-hidden="true">
             <source src="audio_boda.m4a" type="audio/mp4">
+            Tu navegador no soporta elementos de audio.
         </audio>
 
-        <!-- Scroll Indicator Toast -->
-        <div id="scroll-toast" class="scroll-indicator">Desliza para ver más</div>
+        <!-- Indicador de Scroll para experiencia en dispositivos móviles -->
+        <div id="scroll-toast" class="scroll-indicator" aria-hidden="true" role="status">Desliza para ver más</div>
     </div>
 
+    <!-- ==========================================================================
+         6. SCRIPTS LÓGICOS
+         ========================================================================== -->
     <script>
-        // Countdown
-        const targetDate = new Date("March 13, 2026 19:30:00").getTime();
-        const updateCountdown = () => {
-            const now = new Date().getTime();
-            const dist = targetDate - now;
-            document.getElementById("days").innerText = Math.floor(dist / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
-            document.getElementById("hours").innerText = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
-            document.getElementById("minutes").innerText = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
-            document.getElementById("seconds").innerText = Math.floor((dist % (1000 * 60)) / 1000).toString().padStart(2, '0');
-        };
-        setInterval(updateCountdown, 1000); updateCountdown();
+        /**
+         * Módulo principal que engloba toda la lógica de la Landing Page
+         * utilizando un IIFE para evitar la contaminación del ámbito global.
+         */
+        (() => {
+            'use strict';
 
-        // Music & Splash
-        const audio = document.getElementById('wedding-song');
-        audio.volume = 0.2; // Volumen al 20%
-        const playIcon = document.getElementById('play-icon');
-        const enterBtn = document.getElementById('enter-site');
-        const musicToggle = document.getElementById('music-toggle');
-        let isPlaying = false;
+            // Documentación de elementos del DOM frecuentes
+            const domElements = {
+                splash: document.getElementById('splash'),
+                enterBtn: document.getElementById('enter-site'),
+                audioInput: document.getElementById('wedding-song'),
+                musicToggleBtn: document.getElementById('music-toggle'),
+                playIcon: document.getElementById('play-icon'),
+                btnCalendario: document.getElementById('add-to-calendar'),
+                formRsvp: document.getElementById('wedding-rsvp'),
+                btnScrollHero: document.getElementById('scroll-to-next'),
+                toastScroll: document.getElementById('scroll-toast'),
+                mainContentSection: document.querySelector('main.content-card')
+            };
 
-        const toggleMusic = () => {
-            if (isPlaying) {
-                audio.pause();
-                playIcon.classList.replace('fa-pause', 'fa-play');
-            } else {
-                audio.play();
-                playIcon.classList.replace('fa-play', 'fa-pause');
-            }
-            isPlaying = !isPlaying;
-        };
+            // Constantes Globales
+            const APP_CONFIG = {
+                fechaBoda: new Date("March 13, 2026 19:30:00").getTime(),
+                volumenMusica: 0.2 // (20%)
+            };
 
-        enterBtn.addEventListener('click', () => {
-            document.body.classList.add('show-content');
-            toggleMusic();
-        });
+            let isPlaying = false;
+            let scrollToastTimeout;
 
-        musicToggle.addEventListener('click', toggleMusic);
+            /**
+             * Inicializa el módulo del contador regresivo
+             */
+            const initCountdown = () => {
+                const ui = {
+                    d: document.getElementById("days"),
+                    h: document.getElementById("hours"),
+                    m: document.getElementById("minutes"),
+                    s: document.getElementById("seconds")
+                };
 
-        // Calendar
-        document.getElementById('add-to-calendar').addEventListener('click', (e) => {
-            e.preventDefault();
-            // Fin del evento a las 12:00 a.m. (representado como 00:00:00 del día siguiente). Icono de anillos URL Encoder = %F0%9F%92%8D
-            const url = `https://www.google.com/calendar/render?action=TEMPLATE&text=%F0%9F%92%8D+Boda+Dora+%26+Gregorio&dates=20260313T193000/20260314T000000&location=Barolo+8C+Chapalita&details=Lugar:+Barolo+8C+Chapalita`;
-            window.open(url, '_blank');
-        });
+                const updateTime = () => {
+                    const now = new Date().getTime();
+                    const dist = APP_CONFIG.fechaBoda - now;
 
-        // RSVP WhatsApp
-        document.getElementById('wedding-rsvp').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const name = document.getElementById('name').value;
-            const kids = document.getElementById('kids').value;
-            const msg = `¡Hola! Confirmo mi asistencia a la boda de Dora y Gregorio. (${name}, ${kids} niños)`;
-            window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
-        });
+                    // Lógica para cuando la fecha ha expirado
+                    if (dist < 0) {
+                        Object.values(ui).forEach(el => el.innerText = "00");
+                        return;
+                    }
 
-        // Scroll to next section
-        document.getElementById('scroll-to-next').addEventListener('click', () => {
-            const nextSection = document.querySelector('main.content-card');
-            nextSection.scrollIntoView({ behavior: 'smooth' });
-        });
+                    // Cálculo matemático del tiempo
+                    ui.d.innerText = Math.floor(dist / (1000 * 60 * 60 * 24)).toString().padStart(2, '0');
+                    ui.h.innerText = Math.floor((dist % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)).toString().padStart(2, '0');
+                    ui.m.innerText = Math.floor((dist % (1000 * 60 * 60)) / (1000 * 60)).toString().padStart(2, '0');
+                    ui.s.innerText = Math.floor((dist % (1000 * 60)) / 1000).toString().padStart(2, '0');
+                };
 
-        // Subtle Section Scroll Indicator on Touch
-        const scrollToast = document.getElementById('scroll-toast');
-        let scrollToastTimeout;
+                // Actualizar inmediatamente y luego cada segundo
+                updateTime();
+                setInterval(updateTime, 1000);
+            };
 
-        document.addEventListener('touchstart', () => {
-            // Mostrar indicador
-            scrollToast.classList.add('visible');
-            // Ocultar después de 2.5 segundos
-            clearTimeout(scrollToastTimeout);
-            scrollToastTimeout = setTimeout(() => {
-                scrollToast.classList.remove('visible');
-            }, 2500);
-        }, { passive: true });
+            /**
+             * Controlador del estado y la UI del reproductor de música
+             */
+            const toggleMusic = () => {
+                const isPaused = domElements.audioInput.paused;
+
+                if (isPaused) {
+                    domElements.audioInput.play().catch(e => console.warn('Bloqueo de Auto-play detectado.', e));
+                    domElements.playIcon.classList.replace('fa-play', 'fa-pause');
+                } else {
+                    domElements.audioInput.pause();
+                    domElements.playIcon.classList.replace('fa-pause', 'fa-play');
+                }
+                isPlaying = !isPaused;
+            };
+
+            /**
+             * Coordina las interacciones del área del Splash Screen (Bienvenida)
+             */
+            const initSplashScreen = () => {
+                domElements.audioInput.volume = APP_CONFIG.volumenMusica;
+
+                domElements.enterBtn.addEventListener('click', () => {
+                    // Revela el contenido debajo
+                    document.body.classList.add('show-content');
+                    // Inicia la música automáticamente
+                    toggleMusic();
+                    // Accesibilidad
+                    domElements.splash.setAttribute('aria-hidden', 'true');
+                });
+            };
+
+            /**
+             * Manejador de eventos para los botones de acción del usuario
+             */
+            const initUserActions = () => {
+                // Alternar Música Manualmente
+                domElements.musicToggleBtn.addEventListener('click', toggleMusic);
+
+                // Scroll Automático (Flecha abajo del Hero)
+                domElements.btnScrollHero.addEventListener('click', () => {
+                    if (domElements.mainContentSection) {
+                        domElements.mainContentSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+
+                // Añadir al Calendario (Google Calendar Template URL)
+                domElements.btnCalendario.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    // Url Encoded Ring Emoji: %F0%9F%92%8D, Ampersand: %26
+                    const calendarUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=%F0%9F%92%8D+Boda+Dora+%26+Gregorio&dates=20260313T193000/20260314T000000&location=Barolo+8C+Chapalita&details=Lugar:+Barolo+8C+Chapalita`;
+                    window.open(calendarUrl, '_blank', 'noopener,noreferrer');
+                });
+
+                // Enviar RSVP al WhatsApp
+                domElements.formRsvp.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const name = document.getElementById('name').value.trim();
+                    const kids = document.getElementById('kids').value;
+                    const asistenciaStatus = document.getElementById('attendance').value;
+
+                    let statusMsg = asistenciaStatus === 'yes' ? 'Confirmo mi asistencia' : 'Lamentablemente no podré asistir';
+                    const msg = `¡Hola! ${statusMsg} a la boda de Dora y Gregorio. \n\nInvitado: ${name}\nAcompañantes/Niños: ${kids}`;
+
+                    window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank', 'noopener,noreferrer');
+                });
+            };
+
+            /**
+             * Lógica UX para la aparición sutil del Toast (Indicador de Swipe) en Dispositivos Móviles
+             */
+            const initInteractiveFeedback = () => {
+                document.addEventListener('touchstart', () => {
+                    // Muestra el toast cuando el usuario interactúa por primera vez de forma touch
+                    domElements.toastScroll.classList.add('visible');
+
+                    clearTimeout(scrollToastTimeout);
+                    scrollToastTimeout = setTimeout(() => {
+                        domElements.toastScroll.classList.remove('visible');
+                    }, 2500); // Se oculta tras 2.5s
+                }, { passive: true });
+            };
+
+            // === Arranque de la Aplicación ===
+            const bootstrap = () => {
+                initCountdown();
+                initSplashScreen();
+                initUserActions();
+                initInteractiveFeedback();
+            };
+
+            bootstrap();
+        })();
     </script>
 </body>
 
