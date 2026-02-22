@@ -917,18 +917,36 @@
              * Lógica UX Adicional: Gestor de Pestañas, Condicional de RSVP y Animaciones de Scroll
              */
             const initEnhancements = () => {
-                // 1. Pausar música automáticamente cuando la pestaña está inactiva
-                document.addEventListener("visibilitychange", () => {
-                    if (document.hidden && isPlaying) {
+                // 1. Pausar música automáticamente cuando la pestaña está inactiva o cambia de app en móvil
+                const handleAppBackground = () => {
+                    if (isPlaying && !domElements.audioInput.paused) {
                         domElements.audioInput.pause();
                         domElements.playIcon.classList.replace('fa-pause', 'fa-play');
                         domElements.musicToggleBtn.setAttribute('aria-pressed', 'false');
-                    } else if (!document.hidden && isPlaying) {
+                    }
+                };
+
+                const handleAppForeground = () => {
+                    if (isPlaying && !document.hidden) {
                         domElements.audioInput.play().catch(e => console.warn('Auto-play blocked.', e));
                         domElements.playIcon.classList.replace('fa-play', 'fa-pause');
                         domElements.musicToggleBtn.setAttribute('aria-pressed', 'true');
                     }
+                };
+
+                // Visibility API (Modern Desktop & Mobile)
+                document.addEventListener("visibilitychange", () => {
+                    if (document.hidden) {
+                        handleAppBackground();
+                    } else {
+                        handleAppForeground();
+                    }
                 });
+
+                // Soporte extra para navegadores móviles (iOS Safari / Android Chrome)
+                window.addEventListener("pagehide", handleAppBackground);
+                window.addEventListener("blur", handleAppBackground);
+                window.addEventListener("focus", handleAppForeground);
 
                 // 2. Lógica Condicional: Ocultar campo de 'niños' si declina asistencia
                 const attendanceSelect = document.getElementById('attendance');
