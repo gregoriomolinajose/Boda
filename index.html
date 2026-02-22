@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boda Dora & Gregorio</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-rustic: #4a3728;
+            --accent-gold: #c5a059;
+            --bg-linen: #fdfaf6;
+            --text-main: #333;
+            --wood-dark: #2c1e14;
+            --olive: #6b705c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-linen);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1,
+        h2,
+        h3,
+        .cursive {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            height: 100vh;
+            width: 100%;
+            background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.4)),
+                url('https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80');
+            /* Placeholder rústico */
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 20px;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
+            animation: fadeInDown 1.5s ease-out;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-style: italic;
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        .hero h3 {
+            font-size: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 2rem;
+            animation: fadeInUp 2s ease-out;
+        }
+
+        /* --- Music Player --- */
+        .music-player {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(5px);
+            padding: 15px 25px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: -35px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 10;
+            width: 85%;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .music-player i {
+            color: var(--primary-rustic);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .music-player i:hover {
+            transform: scale(1.1);
+        }
+
+        .progress-container {
+            flex-grow: 1;
+            height: 4px;
+            background: #ddd;
+            border-radius: 2px;
+            position: relative;
+        }
+
+        .progress-bar {
+            width: 30%;
+            height: 100%;
+            background: var(--accent-gold);
+            border-radius: 2px;
+        }
+
+        /* --- Main Content --- */
+        .content-section {
+            padding: 60px 20px;
+            text-align: center;
+            background: url('https://www.transparenttextures.com/patterns/linen.png');
+        }
+
+        .invitation-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary-rustic);
+        }
+
+        .description {
+            max-width: 600px;
+            margin: 0 auto 40px;
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        /* --- Countdown --- */
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 50px;
+        }
+
+        .countdown-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: white;
+            padding: 15px;
+            border-radius: 15px;
+            width: 75px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            border: 1px solid #eee;
+        }
+
+        .countdown-item span:first-child {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--accent-gold);
+        }
+
+        .countdown-item span:last-child {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #888;
+        }
+
+        /* --- Details Section --- */
+        .details-grid {
+            margin-top: 40px;
+            display: grid;
+            gap: 30px;
+        }
+
+        .detail-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            border: 1px solid #f0e6d6;
+            position: relative;
+        }
+
+        .detail-card i {
+            font-size: 2rem;
+            color: var(--accent-gold);
+            margin-bottom: 15px;
+        }
+
+        .detail-card h3 {
+            margin-bottom: 15px;
+            color: var(--primary-rustic);
+            letter-spacing: 1px;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--primary-rustic);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 30px;
+            text-decoration: none;
+            margin-top: 20px;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background: var(--wood-dark);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* --- RSVP Form --- */
+        .rsvp-section {
+            background: #fdfdfd;
+            padding: 60px 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .rsvp-form {
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: left;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: var(--primary-rustic);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            font-family: inherit;
+        }
+
+        /* --- AI Float Button --- */
+        .ai-planner-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: var(--olive);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5rem;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            z-index: 100;
+            transition: transform 0.3s;
+        }
+
+        .ai-planner-btn:hover {
+            transform: scale(1.1);
+        }
+
+        /* Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (min-width: 768px) {
+            .details-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Hero -->
+    <section class="hero">
+        <h2>Nos casamos</h2>
+        <h1>Dora & Gregorio</h1>
+        <h3>Viernes 13 de Marzo, 2026</h3>
+    </section>
+
+    <!-- Music Player (Soporte Google Music / YouTube Music) -->
+    <div class="music-player">
+        <i class="fas fa-play" id="play-icon"></i>
+        <div class="progress-container">
+            <div class="progress-bar"></div>
+        </div>
+        <span style="font-size: 0.7rem; color: var(--primary-rustic);">Tap para música</span>
+    </div>
+
+    <!-- Content -->
+    <section class="content-section">
+        <h2 class="invitation-text">¡Estás invitado!</h2>
+        <p class="description">
+            Nos encantaría que seas parte de este momento tan especial para nosotros. ¡Falta poco!
+        </p>
+
+        <!-- Countdown -->
+        <div class="countdown" id="countdown">
+            <div class="countdown-item">
+                <span id="days">00</span>
+                <span>Días</span>
+            </div>
+            <div class="countdown-item">
+                <span id="hours">00</span>
+                <span>Hrs</span>
+            </div>
+            <div class="countdown-item">
+                <span id="minutes">00</span>
+                <span>Min</span>
+            </div>
+            <div class="countdown-item">
+                <span id="seconds">00</span>
+                <span>Seg</span>
+            </div>
+        </div>
+
+        <!-- Details -->
+        <div class="details-grid">
+            <div class="detail-card">
+                <i class="fas fa-church"></i>
+                <h3>Recepción</h3>
+                <p><strong>7:30 p.m.</strong></p>
+                <p>Barolo 8C Chapalita<br>Zapopan, Jalisco</p>
+                <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
+                    <a href="https://www.google.com/maps/search/?api=1&query=Barolo+8C+Chapalita" target="_blank"
+                        class="btn">
+                        Ver Mapa <i class="fas fa-external-link-alt"></i>
+                    </a>
+                    <a id="add-to-calendar" href="#" class="btn" style="background: var(--accent-gold);">
+                        Agendar Evento <i class="fas fa-calendar-plus"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="detail-card">
+                <i class="fas fa-tshirt"></i>
+                <h3>Código de Vestimenta</h3>
+                <p>Formal / Elegante</p>
+                <p>Nos encantaría verte lucir increíble en nuestro gran día.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- RSVP -->
+    <section class="rsvp-section" id="rsvp">
+        <h2 class="invitation-text">Confirma tu asistencia</h2>
+        <div class="rsvp-form">
+            <form id="wedding-rsvp">
+                <div class="form-group">
+                    <label for="name">Nombre Completo</label>
+                    <input type="text" id="name" name="name" placeholder="Escribe tu nombre" required>
+                </div>
+                <div class="form-group">
+                    <label for="attendance">¿Asistirás?</label>
+                    <select id="attendance" name="attendance" required>
+                        <option value="">Selecciona una opción</option>
+                        <option value="yes">Sí, asistiré</option>
+                        <option value="no">No podré asistir</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="kids">Número de niños</label>
+                    <input type="number" id="kids" name="kids" min="0" value="0">
+                </div>
+                <div class="form-group">
+                    <label for="allergies">Alergias o Dietas Especiales</label>
+                    <textarea id="allergies" name="allergies" rows="3"
+                        placeholder="Ej: Celíaco, Vegano, Alergia a nueces..."></textarea>
+                </div>
+                <button type="submit" class="btn" style="width: 100%;">Enviar Confirmación</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- AI Agent Toggle -->
+    <div class="ai-planner-btn" id="ai-toggle" title="Hablar con Wedding Planner IA">
+        <i class="fas fa-robot"></i>
+    </div>
+
+    <script>
+        // Countdown Logic
+        const targetDate = new Date("March 13, 2026 19:30:00").getTime();
+
+        const updateCountdown = () => {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((distance % (1000 * 60)) / 1000);
+
+            document.getElementById("days").innerText = d.toString().padStart(2, '0');
+            document.getElementById("hours").innerText = h.toString().padStart(2, '0');
+            document.getElementById("minutes").innerText = m.toString().padStart(2, '0');
+            document.getElementById("seconds").innerText = s.toString().padStart(2, '0');
+        };
+
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+
+        // Music Player Toggle (Visual Mock)
+        const playIcon = document.getElementById('play-icon');
+        playIcon.addEventListener('click', () => {
+            if (playIcon.classList.contains('fa-play')) {
+                playIcon.classList.replace('fa-play', 'fa-pause');
+            } else {
+                playIcon.classList.replace('fa-pause', 'fa-play');
+            }
+        });
+
+        // Form Submit Logic
+        document.getElementById('wedding-rsvp').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const attendance = document.getElementById('attendance').value;
+            const kids = document.getElementById('kids').value;
+
+            // Simulación de envío a n8n
+            console.log("Datos enviados a n8n:", { name, attendance, kids });
+
+            // Redirección a WhatsApp para confirmación personal (opcional)
+            if (attendance === 'yes') {
+                const message = `¡Hola! Soy ${name}. Confirmo mi asistencia a la boda de Dora y Gregorio. Llevo ${kids} niños.`;
+                const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+                window.open(whatsappUrl, '_blank');
+            }
+
+            alert('¡Gracias! Tu confirmación ha sido registrada. También te hemos redirigido a WhatsApp para finalizar.');
+        });
+
+        // Add to Calendar Logic
+        document.getElementById('add-to-calendar').addEventListener('click', (e) => {
+            e.preventDefault();
+            const title = "Boda Dora & Gregorio";
+            const location = "Barolo 8C Chapalita, Av. Niño Obrero 858, Zapopan, Jalisco";
+            const details = "¡No faltes a nuestro gran día! Recuerda el código de vestimenta Formal/Elegante.";
+            const startDate = "20260313T193000";
+            const endDate = "20260314T020000";
+            
+            const googleCalendarUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDate}/${endDate}&details=${encodeURIComponent(details)}&location=${encodeURIComponent(location)}&sf=true&output=xml`;
+            
+            window.open(googleCalendarUrl, '_blank');
+        });
+
+        // AI Chat Toggle Logic
+        const aiToggle = document.getElementById('ai-toggle');
+        aiToggle.addEventListener('click', () => {
+            alert('Abriendo Wedding Planner IA... (Aquí se integraría el widget de chat de n8n)');
+        });
+    </script>
+</body>
+
+</html>
