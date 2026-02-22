@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Boda Dora & Gregorio</title>
-    <link href="https://fonts.googleapis.com/css2?family=Satisfy&family=Montserrat:wght@200;300;400;600&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@200;300;400;600&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -33,8 +34,9 @@
             font-weight: 300;
         }
 
-        .script-font {
-            font-family: 'Satisfy', cursive;
+        .elegant-serif {
+            font-family: 'Cinzel', serif;
+            text-transform: uppercase;
         }
 
         /* --- Splash Screen --- */
@@ -113,29 +115,58 @@
             left: 0;
             width: 100%;
             height: 100%;
-            /* Fuerte difuminado oscuro arriba para que resalte el texto */
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.6) 0%, rgba(0, 0, 0, 0) 35%, rgba(255, 255, 255, 1) 100%);
+            /* Difuminado oscuro abajo para que resalte el texto */
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 40%);
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
+            justify-content: flex-end;
             align-items: center;
-            padding-top: 45px;
+            padding-bottom: 50px;
         }
 
         .hero-names {
-            font-size: 3.2rem;
+            font-size: 2.8rem;
             color: white;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-            margin-bottom: 5px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+            text-align: center;
         }
 
         .hero-tagline {
-            font-size: 0.9rem;
+            font-size: 1rem;
             text-transform: uppercase;
-            letter-spacing: 5px;
+            letter-spacing: 6px;
             color: white;
-            font-weight: 600;
+            font-weight: 300;
+            margin-bottom: 25px;
             text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .scroll-down i {
+            color: white;
+            font-size: 1.5rem;
+            animation: bounce 2s infinite;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-10px);
+            }
+
+            60% {
+                transform: translateY(-5px);
+            }
         }
 
         /* --- Content Card --- */
@@ -313,7 +344,7 @@
 
     <!-- Splash Screen -->
     <div id="splash">
-        <h2 class="script-font">Dora & Gregorio</h2>
+        <h2 class="elegant-serif">Dora <span style="font-size: 0.7em;">&</span> Gregorio</h2>
         <button class="enter-btn" id="enter-site">Abrir</button>
     </div>
 
@@ -322,8 +353,9 @@
         <header class="hero">
             <div class="hero-img"></div>
             <div class="hero-overlay">
-                <h1 class="hero-names script-font">Dora & Gregorio</h1>
+                <h1 class="hero-names elegant-serif">Dora <span style="font-size: 0.7em;">&</span> Gregorio</h1>
                 <p class="hero-tagline">Nos Casamos</p>
+                <div class="scroll-down"><i class="fas fa-chevron-down"></i></div>
             </div>
             <div class="music-player-mini" id="music-toggle">
                 <i class="fas fa-play" id="play-icon"></i>
@@ -333,7 +365,8 @@
         <!-- Content -->
         <main class="content-card">
             <p class="section-title">Estás invitado a</p>
-            <h2 class="section-subtitle script-font">nuestra boda</h2>
+            <h2 class="section-subtitle elegant-serif" style="font-size: 2.2rem; letter-spacing: 2px;">nuestro brindis
+            </h2>
 
             <p class="message">
                 Nos encantaría que seas parte de este momento tan especial para nosotros. Un brindis íntimo para
@@ -391,7 +424,7 @@
 
         <!-- RSVP -->
         <section class="rsvp-section">
-            <h2 class="section-subtitle script-font" style="font-size: 2.2rem;">RSVP</h2>
+            <h2 class="section-subtitle elegant-serif" style="font-size: 2rem;">RSVP</h2>
             <p style="margin-bottom: 25px; color: var(--text-light);">Por favor, confírmanos tu asistencia.</p>
             <form id="wedding-rsvp">
                 <input type="text" id="name" placeholder="Nombre completo" class="form-input" required>
