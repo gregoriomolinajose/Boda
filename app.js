@@ -151,7 +151,8 @@
                 attendance: attendance === 'yes' ? 'Confirma' : 'Declina',
                 adults: attendance === 'yes' ? domElements.adultsInput.value : 0,
                 kids: attendance === 'yes' ? domElements.kidsInput.value : 0,
-                allergies: attendance === 'yes' ? document.getElementById('allergies').value : 'N/A'
+                allergies: attendance === 'yes' ? document.getElementById('allergies').value : 'N/A',
+                link: window.location.href // Enviar el link actual para seguimiento
             };
 
             const SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzAQRqpo7CtyHYgD7-KLK7Wv5z83Qq2MA_EnOxFVwcKU66HmO2uGSxyE4eOEfBsNStuyg/exec';
