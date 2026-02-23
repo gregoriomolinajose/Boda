@@ -29,6 +29,7 @@
     const urlParams = new URLSearchParams(window.location.search);
     const GUEST_DATA = {
         name: urlParams.get('n') || 'Invitado',
+        id: urlParams.get('u') || '', // Capturar UUID invisible
         adults: parseInt(urlParams.get('ca')) || 1,
         kids: parseInt(urlParams.get('cc')) || 0
     };
@@ -149,6 +150,7 @@
 
             const attendance = domElements.attendanceSelect.value;
             const data = {
+                id: GUEST_DATA.id, // ID único invisible
                 guest: GUEST_DATA.name,
                 attendance: attendance === 'yes' ? 'Confirma' : 'Declina',
                 adults: attendance === 'yes' ? domElements.adultsInput.value : 0,

@@ -673,7 +673,9 @@
                                     class="sort-icon"></span></th>
                             <th class="sortable" style="text-align:center" onclick="sortByColumn('Niños')">Niños <span
                                     class="sort-icon"></span></th>
+                            <th style="text-align:center">Activo</th>
                             <th style="text-align:center">Link</th>
+                            <th style="text-align:center">Acciones</th>
                         </tr>
                     </thead>
                     <tbody id="guest-table-body">
@@ -740,10 +742,13 @@
 
             // Generar UUID corto (4 chars)
             const uuid = Math.random().toString(36).substring(2, 6).toUpperCase();
-            const name = `${baseName} (${uuid})`;
+
+            // EL NOMBRE YA NO LLEVA EL UUID
+            const name = baseName;
 
             const baseUrl = 'https://boda-doraygregorio.vercel.app/';
-            const params = `?n=${encodeURIComponent(name)}&ca=${adults}&cc=${kids}`;
+            // Parámetro 'u' para el UUID único
+            const params = `?n=${encodeURIComponent(name)}&u=${uuid}&ca=${adults}&cc=${kids}`;
             const fullUrl = baseUrl + params;
 
             document.getElementById('link-display').innerText = fullUrl;
@@ -755,12 +760,14 @@
             btn.disabled = true;
 
             const data = {
+                id: uuid, // Enviar ID por separado
                 guest: name,
                 attendance: 'Pendiente',
                 adults: adults,
                 kids: kids,
                 allergies: 'N/A',
-                link: fullUrl
+                link: fullUrl,
+                active: true
             };
 
             const SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbw_hbpSl2knGmBpthvwvnpQJGGR6C7sAWGdldPfW2xsDFfDCzEaCuXNF7m1eEHrHQ7gkg/exec';
@@ -939,17 +946,31 @@
                 const invitationLink = row['Invitación'] || row['Link Invitación'] || row.link || '';
                 const rowIndex = allData.length - allData.findIndex(item => item === row);
 
+                const isActive = (row.Activo || 'TRUE').toString().toUpperCase() === 'TRUE';
+
                 tr.innerHTML = `
                     <td style="color:#aaa;">${rowIndex}</td>
                     <td style="font-size: 0.75rem; color: #888;">${dateDisplay}</td>
-                    <td><strong>${row.Invitado}</strong></td>
-                    <td><span class="status-badge status-${statusClass}">${row.Asistencia}</span></td>
-                    <td style="text-align:center">${row.Adultos}</td>
-                    <td style="text-align:center">${row.Niños}</td>
+                    <td style="font-weight: 600;">${row.Invitado || 'Sin nombre'}</td>
+                    <td><span class="status-badge status-${statusClass}">${row.Asistencia || 'Pendiente'}</span></td>
+                    <td style="text-align:center">${row.Adultos || 0}</td>
+                    <td style="text-align:center">${row.Niños || 0}</td>
                     <td style="text-align:center">
-                        <div class="row-action" title="Copiar Link" onclick="copyToClipboard('${invitationLink}')" style="display: flex; justify-content: center;">
+                        <span style="color: ${isActive ? '#4cd137' : '#e84118'}; font-weight: bold; font-size: 0.7rem;">
+                            ${isActive ? 'ACTIVO' : 'INACTIVO'}
+                        </span>
+                    </td>
+                    <td style="text-align:center">
+                        <div class="row-action" title="Copiar Link" onclick="copyToClipboard('${invitationLink}')" style="display: flex; justify-content: center; cursor: pointer;">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                         </div>
+                    </td>
+                    <td style="text-align:center">
+                        <button class="action-btn-small" 
+                                onclick="toggleActivation('${row.ID}', ${isActive})" 
+                                style="background: ${isActive ? '#e84118' : '#4cd137'}; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 0.7rem;">
+                            ${isActive ? 'Desactivar' : 'Activar'}
+                        </button>
                     </td>
                 `;
                 tbody.appendChild(tr);
@@ -964,6 +985,9 @@
             let totalPending = 0;
 
             allData.forEach(row => {
+                const isActive = (row.Activo || 'TRUE').toString().toUpperCase() === 'TRUE';
+                if (!isActive) return; // No contar inactivas
+
                 const status = (row.Asistencia || '').toLowerCase().trim();
                 if (status === 'confirma') {
                     totalAdults += parseInt(row.Adultos || 0);
@@ -976,7 +1000,34 @@
             document.getElementById('stat-total-adults').innerText = totalAdults;
             document.getElementById('stat-total-kids').innerText = totalKids;
             document.getElementById('stat-total-pending').innerText = totalPending;
-            document.getElementById('stat-total-invites').innerText = allData.length;
+            document.getElementById('stat-total-invites').innerText = allData.filter(r => (r.Activo || 'TRUE').toString().toUpperCase() === 'TRUE').length;
+        }
+
+        async function toggleActivation(id, currentStatus) {
+            if (!confirm(`¿Estás seguro de que deseas ${currentStatus ? 'desactivar' : 'activar'} esta invitación?`)) return;
+
+            const data = {
+                id: id,
+                action: currentStatus ? 'deactivate' : 'activate',
+                active: !currentStatus
+            };
+
+            showToast(currentStatus ? 'Desactivando...' : 'Activando...', 'info');
+
+            try {
+                await fetch(SHEET_WEBHOOK_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    cache: 'no-cache',
+                    headers: { 'Content-Type': 'text/plain' },
+                    body: JSON.stringify(data)
+                });
+                showToast(`Invitación ${currentStatus ? 'desactivada' : 'activada'} correctamente`);
+                loadDashboard();
+            } catch (err) {
+                console.error('Error:', err);
+                showToast('Error al procesar la acción', 'error');
+            }
         }
 
         function renderPagination(totalRows) {
