@@ -21,6 +21,9 @@
 </head>
 
 <body>
+    <!-- Partículas de fondo -->
+    <div id="particles-container" aria-hidden="true"></div>
+
     <!-- Capa de Bienvenida -->
     <div id="splash" aria-hidden="false">
         <!-- Decoración Floral: Rama Olivo Superior Izquierda -->
@@ -137,7 +140,7 @@
         </main>
 
         <!-- === SECCIÓN 3: Itinerario === -->
-        <section class="content-card snap-section" aria-label="Itinerario de la boda">
+        <section class="content-card snap-section reveal reveal-up" aria-label="Itinerario de la boda">
             <h2 class="section-subtitle elegant-script animate-on-scroll">Itinerario</h2>
 
             <!-- Datos de evento: Dónde y Cuándo -->
@@ -198,9 +201,9 @@
         </section>
 
         <!-- === SECCIÓN 4: Código de Vestimenta y Regalos === -->
-        <section class="content-card snap-section" aria-label="Código de vestimenta y regalos">
+        <section class="content-card snap-section reveal reveal-in" aria-label="Código de vestimenta y regalos">
             <div class="logistics-grid">
-                <div class="dress-code-wrapper animate-on-scroll">
+                <div class="dress-code-wrapper stagger-item">
                     <div class="dress-code-icon">
                         <img src="vestimenta_inv.png" alt="Boceto de traje y vestido" class="w-100">
                     </div>
@@ -213,7 +216,7 @@
                     </div>
                 </div>
 
-                <div class="info-block animate-on-scroll gift-block">
+                <div class="info-block stagger-item gift-block">
                     <h2 class="section-subtitle elegant-script">Regalos</h2>
                     <p class="message">Lo más importante es tu presencia.</p>
                 </div>
@@ -221,7 +224,7 @@
         </section>
 
         <!-- === SECCIÓN 5: Galería de Recuerdos (Fotos) === -->
-        <section class="content-card snap-section" aria-label="Compartir fotos">
+        <section class="content-card snap-section reveal reveal-up" aria-label="Compartir fotos">
             <div class="photo-container-box animate-on-scroll">
                 <div class="photo-main-content">
                     <div class="photo-animation">
@@ -253,7 +256,8 @@
         </section>
 
         <!-- === SECCIÓN 3: Formulario de Confirmación (RSVP) === -->
-        <section class="rsvp-section snap-section " id="wedding-rsvp-section" aria-label="Confirmación de asistencia">
+        <section class="rsvp-section snap-section reveal reveal-in" id="wedding-rsvp-section"
+            aria-label="Confirmación de asistencia">
             <div class="rsvp-container animate-on-scroll">
                 <h2 class="section-subtitle elegant-script">Confirmar Asistencia</h2>
                 <p class="animate-on-scroll mb-25 text-light-color">
