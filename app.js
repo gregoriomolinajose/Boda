@@ -187,10 +187,11 @@
                         finalSection.scrollIntoView({ behavior: 'smooth' });
                     }
                 }, 800);
-            })
-            console.error('Error al enviar RSVP:', error);
-            submitBtn.textContent = 'Error';
-            submitBtn.disabled = false;
+            }).catch(error => {
+                console.error('Error al enviar RSVP:', error);
+                submitBtn.textContent = 'Error';
+                submitBtn.disabled = false;
+            });
         });
     });
 };
