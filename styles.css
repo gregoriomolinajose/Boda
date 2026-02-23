@@ -744,11 +744,14 @@ body.show-content #splash {
            7. RESPONSIVE DESIGN (Tablet & Desktop)
            ========================================================================== */
 
+/* ==========================================================================
+   7. RESPONSIVE DESIGN (Consolidado)
+   ========================================================================== */
+
 /* Tablets y Pantallas Pequeñas (>= 768px) */
 @media (min-width: 768px) {
     .page-container {
         max-width: 100%;
-        /* Aprovechar el espacio completo */
     }
 
     .hero-img {
