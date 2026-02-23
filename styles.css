@@ -449,6 +449,15 @@ body.show-content #splash {
     font-size: 2rem;
 }
 
+.guest-name-welcome {
+    display: block;
+    font-size: 4.5rem;
+    color: var(--primary-blue);
+    margin-bottom: -10px;
+    line-height: 1.1;
+    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
 .message {
     font-size: 1rem;
     line-height: 1.8;
