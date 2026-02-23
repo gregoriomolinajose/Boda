@@ -534,13 +534,9 @@
             <h1>Nueva Invitación 💍</h1>
             <div class="form-group">
                 <label>Nombre de la Familia / Invitados</label>
-                <div style="display: flex; gap: 10px;">
-                    <input type="text" id="guestName" placeholder="Ej: Familia Molina" style="flex: 2;">
-                    <input type="text" id="guestSuffix" placeholder="Diferenciador (Opcional)"
-                        style="flex: 1; font-size: 0.8rem;">
-                </div>
-                <p style="font-size: 0.7rem; color: #999; margin-top: 5px;">* Usa el diferenciador para invitados con el
-                    mismo nombre (ej: "Junior", "Tío").</p>
+                <input type="text" id="guestName" placeholder="Ej: Familia Molina">
+                <p style="font-size: 0.7rem; color: #999; margin-top: 5px;">* El sistema asignará un identificador único
+                    automáticamente.</p>
             </div>
             <div class="form-group">
                 <label>N° de Adultos (Cupos)</label>
@@ -675,7 +671,6 @@
             document.getElementById('modal-invitation').style.display = 'flex';
             document.getElementById('result').style.display = 'none';
             document.getElementById('guestName').value = '';
-            document.getElementById('guestSuffix').value = '';
             document.getElementById('adults').value = '2';
             document.getElementById('kids').value = '0';
             document.getElementById('guestName').focus();
@@ -706,17 +701,15 @@
         }
 
         function generateLink() {
-            let name = document.getElementById('guestName').value.trim();
-            const suffix = document.getElementById('guestSuffix').value.trim();
+            let baseName = document.getElementById('guestName').value.trim();
             const adults = document.getElementById('adults').value;
             const kids = document.getElementById('kids').value;
 
-            if (!name) return showToast('Por favor ingresa un nombre', 'error');
+            if (!baseName) return showToast('Por favor ingresa un nombre', 'error');
 
-            // Si hay un diferenciador, agregarlo al nombre
-            if (suffix) {
-                name = `${name} (${suffix})`;
-            }
+            // Generar UUID corto (4 chars)
+            const uuid = Math.random().toString(36).substring(2, 6).toUpperCase();
+            const name = `${baseName} (${uuid})`;
 
             const baseUrl = 'https://boda-doraygregorio.vercel.app/';
             const params = `?n=${encodeURIComponent(name)}&ca=${adults}&cc=${kids}`;
