@@ -272,21 +272,26 @@
                 </p>
                 <!-- Formulario -->
                 <form id="wedding-rsvp" aria-label="Formulario RSVP">
-                    <label for="name" class="sr-only">Nombre completo</label>
-                    <input type="text" id="name" placeholder="Nombre completo" class="form-input" required>
-
                     <label for="attendance" class="sr-only">¿Asistirás?</label>
                     <select id="attendance" class="form-input" required>
+                        <option value="" disabled selected>¿Asistirás?</option>
                         <option value="yes">Asistiré con gusto</option>
                         <option value="no">No podré asistir</option>
                     </select>
 
-                    <label for="kids" class="sr-only">Cantidad de niños</label>
-                    <input type="number" id="kids" placeholder="¿Cuántos niños?" class="form-input" value="0" min="0">
+                    <div id="rsvp-details" class="hidden-field">
+                        <label for="adults" class="sr-only">Cantidad de adultos</label>
+                        <input type="number" id="adults" placeholder="¿Cuántos adultos?" class="form-input" value="1"
+                            min="1">
 
-                    <label for="allergies" class="sr-only">Alergias o dieta especial</label>
-                    <textarea id="allergies" placeholder="Alergias o dieta especial" class="form-input"
-                        rows="2"></textarea>
+                        <label for="kids" class="sr-only">Cantidad de niños</label>
+                        <input type="number" id="kids" placeholder="¿Cuántos niños?" class="form-input" value="0"
+                            min="0">
+
+                        <label for="allergies" class="sr-only">Alergias o dieta especial</label>
+                        <textarea id="allergies" placeholder="Alergias o dieta especial" class="form-input"
+                            rows="2"></textarea>
+                    </div>
 
                     <button type="submit" class="action-btn action-btn--full action-btn--rect">Confirmar</button>
                 </form>

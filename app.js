@@ -16,7 +16,19 @@
         formRsvp: document.getElementById('wedding-rsvp'),
         btnScrollHero: document.getElementById('scroll-indicator'),
         mainContentSection: document.querySelector('main.content-card'),
-        particlesContainer: document.getElementById('particles-container')
+        particlesContainer: document.getElementById('particles-container'),
+        rsvpDetails: document.getElementById('rsvp-details'),
+        adultsInput: document.getElementById('adults'),
+        kidsInput: document.getElementById('kids'),
+        attendanceSelect: document.getElementById('attendance')
+    };
+
+    // Parámetros de la URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const GUEST_DATA = {
+        name: urlParams.get('n') || 'Invitado',
+        adults: parseInt(urlParams.get('ca')) || 1,
+        kids: parseInt(urlParams.get('cc')) || 0
     };
 
     // Constantes Globales
@@ -128,17 +140,25 @@
             submitBtn.disabled = true;
             submitBtn.textContent = 'Enviando...';
 
-            // Simular proceso de envío
+            const attendance = domElements.attendanceSelect.value;
+            const data = {
+                guest: GUEST_DATA.name,
+                attendance: attendance === 'yes' ? 'Confirma' : 'Declina',
+                adults: attendance === 'yes' ? domElements.adultsInput.value : 0,
+                kids: attendance === 'yes' ? domElements.kidsInput.value : 0,
+                allergies: attendance === 'yes' ? document.getElementById('allergies').value : 'N/A'
+            };
+
+            // Simular proceso de envío (Aquí irá el fetch a Google Sheets después)
+            console.log('Datos enviados:', data);
+
             setTimeout(() => {
                 // Limpiar formulario
                 domElements.formRsvp.reset();
-
-                // Ocultar campos condicionales si estaban visibles
-                document.getElementById('kids').classList.remove('hidden-field');
-                document.getElementById('kids').disabled = false;
+                domElements.rsvpDetails.classList.add('hidden-field');
 
                 // Cambiar texto del botón a éxito
-                submitBtn.textContent = '¡Confirmado!';
+                submitBtn.textContent = '¡Gracias!';
 
                 // Desplazar a la pantalla final de despedida
                 const finalSection = document.getElementById('final-screen');
@@ -185,16 +205,15 @@
         window.addEventListener("blur", handleAppBackground, false);
         window.addEventListener("focus", handleAppForeground, false);
 
-        // 2. Lógica Condicional: Ocultar campo de 'niños' si declina asistencia
-        const attendanceSelect = document.getElementById('attendance');
-        const kidsInput = document.getElementById('kids');
-        attendanceSelect.addEventListener('change', (e) => {
-            if (e.target.value === 'no') {
-                kidsInput.classList.add('hidden-field');
-                kidsInput.disabled = true;
+        // 2. Lógica Condicional de RSVP: Mostrar detalles solo si asiste
+        domElements.attendanceSelect.addEventListener('change', (e) => {
+            if (e.target.value === 'yes') {
+                domElements.rsvpDetails.classList.remove('hidden-field');
+                // Pre-llenar con datos de URL si existen
+                domElements.adultsInput.value = GUEST_DATA.adults;
+                domElements.kidsInput.value = GUEST_DATA.kids;
             } else {
-                kidsInput.classList.remove('hidden-field');
-                kidsInput.disabled = false;
+                domElements.rsvpDetails.classList.add('hidden-field');
             }
         });
 
