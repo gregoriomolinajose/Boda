@@ -256,9 +256,11 @@
                 <table>
                     <thead>
                         <tr>
+                            <th>Fecha</th>
                             <th>Invitado</th>
                             <th>Estado</th>
-                            <th>Cupos</th>
+                            <th>Adul.</th>
+                            <th>Niños</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -309,6 +311,7 @@
                 body: JSON.stringify(data)
             }).then(() => {
                 btn.innerText = '✅ Registrado y Generado';
+                loadDashboard(); // Auto-actualizar la tabla
                 setTimeout(() => {
                     btn.innerText = originalText;
                     btn.disabled = false;
@@ -373,11 +376,11 @@
                     renderTable(result.data);
                 } else {
                     console.error('Error del servidor:', result.message);
-                    tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:red;">${result.message}</td></tr>`;
+                    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:red;">${result.message}</td></tr>`;
                 }
             } catch (err) {
                 console.error('Error al cargar dashboard:', err);
-                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:red;">Error al conectar con Google Sheets</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:red;">Error al conectar con Google Sheets</td></tr>';
             } finally {
                 loading.style.display = 'none';
                 refreshIcon.classList.remove('fa-spin');
@@ -393,10 +396,21 @@
                 const tr = document.createElement('tr');
                 const statusClass = row.Asistencia.toLowerCase().replace(/\s/g, '');
 
+                // Formatear fecha corta (ej: 23/02)
+                let dateStr = row['Fecha/Hora'] || '-';
+                if (dateStr.includes(' ')) {
+                    const parts = dateStr.split(' ')[0].split('-');
+                    if (parts.length === 3) {
+                        dateStr = `${parts[2]}/${parts[1]}`;
+                    }
+                }
+
                 tr.innerHTML = `
+                    <td style="font-size: 0.75rem; color: #888;">${dateStr}</td>
                     <td><strong>${row.Invitado}</strong></td>
                     <td><span class="status-badge status-${statusClass}">${row.Asistencia}</span></td>
-                    <td>${row.Adultos}A | ${row.Niños}N</td>
+                    <td style="text-align:center">${row.Adultos}</td>
+                    <td style="text-align:center">${row.Niños}</td>
                     <td>
                         <i class="fas fa-copy row-action" title="Copiar Link" onclick="copyToClipboard('${row['Link Invitación']}')"></i>
                     </td>
