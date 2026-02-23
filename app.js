@@ -151,12 +151,12 @@
 
             const SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzAQRqpo7CtyHYgD7-KLK7Wv5z83Qq2MA_EnOxFVwcKU66HmO2uGSxyE4eOEfBsNStuyg/exec';
 
-            // Enviar datos a Google Sheets
+            // Enviar datos a Google Sheets usando un método que evita Preflight (CORS)
             fetch(SHEET_WEBHOOK_URL, {
                 method: 'POST',
-                mode: 'no-cors', // Permite enviar datos incluso si el script no devuelve cabeceras CORS
+                mode: 'no-cors',
                 cache: 'no-cache',
-                headers: { 'Content-Type': 'application/json' },
+                headers: { 'Content-Type': 'text/plain' }, // Cambiado a text/plain para evitar preflight
                 body: JSON.stringify(data)
             }).then(() => {
                 // Feedback de éxito
