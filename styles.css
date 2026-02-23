@@ -617,6 +617,11 @@ body.show-content #splash {
     width: 100%;
 }
 
+.lottie-camera {
+    width: 140px;
+    height: 140px;
+}
+
 /* -- Photo Card -- */
 .photo-container-box {
     background-color: var(--primary-olive-light);
@@ -634,6 +639,27 @@ body.show-content #splash {
 .photo-card {
     width: 100%;
     margin-top: 10px;
+}
+
+.photo-card--dual {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.action-card.action-card--small {
+    padding: 15px;
+    font-size: 0.9rem;
+}
+
+.action-card.outline {
+    background-color: transparent;
+    border: 1px solid var(--primary-olive);
+    color: var(--primary-olive);
+}
+
+.action-card.outline i {
+    color: var(--primary-olive);
 }
 
 /* -- Final Screen -- */
@@ -840,20 +866,26 @@ body.show-content #splash {
 
     .photo-container-box {
         flex-direction: row;
-        max-width: 900px;
+        max-width: 1000px;
         justify-content: space-between;
         padding: 40px 60px;
         text-align: left;
-        gap: 40px;
+        gap: 30px;
+    }
+
+    .photo-animation {
+        margin-right: -20px;
     }
 
     .photo-text-content {
-        flex: 1;
+        flex: 2;
         text-align: left;
     }
 
-    .photo-card {
-        width: 250px;
+    .photo-card--dual {
+        flex: 1;
+        flex-direction: column;
+        width: 220px;
         margin-top: 0;
     }
 

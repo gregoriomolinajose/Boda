@@ -14,6 +14,8 @@
 
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Lottie Player -->
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -221,6 +223,11 @@
         <!-- === SECCIÓN 5: Galería de Recuerdos (Fotos) === -->
         <section class="content-card snap-section" aria-label="Compartir fotos">
             <div class="photo-container-box animate-on-scroll">
+                <div class="photo-animation">
+                    <lottie-player src="https://assets9.lottiefiles.com/packages/lf20_0zv8teye.json"
+                        background="transparent" speed="1" loop autoplay class="lottie-camera">
+                    </lottie-player>
+                </div>
                 <div class="photo-text-content">
                     <h2 class="section-subtitle elegant-script">¡Captura los Mejores Momentos!</h2>
                     <p class="message mb-0">
@@ -228,11 +235,16 @@
                         Ayúdanos a crear un álbum lleno de recuerdos inolvidables subiendo tus fotos.
                     </p>
                 </div>
-                <div class="photo-card">
-                    <a href="https://photos.app.goo.gl/LqatfysFetmxUcgK8" class="action-card w-100" target="_blank"
-                        rel="noopener noreferrer" aria-label="Subir fotos del evento">
+                <div class="photo-card photo-card--dual">
+                    <a href="https://photos.app.goo.gl/LqatfysFetmxUcgK8" class="action-card action-card--small"
+                        target="_blank" rel="noopener noreferrer" aria-label="Subir fotos del evento">
                         <i class="fas fa-camera-retro" aria-hidden="true"></i>
                         <span>Subir Fotos</span>
+                    </a>
+                    <a href="https://photos.app.goo.gl/LqatfysFetmxUcgK8" class="action-card action-card--small outline"
+                        target="_blank" rel="noopener noreferrer" aria-label="Ver álbum de fotos">
+                        <i class="fas fa-images" aria-hidden="true"></i>
+                        <span>Ver Álbum</span>
                     </a>
                 </div>
             </div>
