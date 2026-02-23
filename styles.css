@@ -515,7 +515,8 @@ body.show-content #splash {
 }
 
 .dress-code-icon {
-    width: 100px;
+    width: 180px;
+    /* Incrementado un ~40% sobre los 130px anteriores */
     height: auto;
     flex-shrink: 0;
     display: flex;
@@ -524,7 +525,8 @@ body.show-content #splash {
 
 .vertical-divider {
     width: 1px;
-    height: 120px;
+    height: 180px;
+    /* Ajustado proporcionalmente */
     background: #000;
     /* Tinta negra */
     opacity: 0.8;
