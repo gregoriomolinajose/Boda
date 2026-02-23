@@ -7,7 +7,8 @@
     <link rel="icon" type="image/png" href="favicon.png">
     <title>Generador de Invitaciones - Dora & Gregorio</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        crossorigin="anonymous" referrerpolicy="no-referrer">
     <style>
         :root {
             --primary: #93afc2;
@@ -458,7 +459,7 @@
                     <td style="text-align:center">${row.Adultos}</td>
                     <td style="text-align:center">${row.Niños}</td>
                     <td style="text-align:center">
-                        <i class="fas fa-link row-action" style="font-size: 1rem; color: var(--primary);" title="Copiar Link" onclick="copyToClipboard('${invitationLink}')"></i>
+                        <i class="fas fa-copy row-action" style="font-size: 1.1rem; color: var(--primary);" title="Copiar Link" onclick="copyToClipboard('${invitationLink}')"></i>
                     </td>
                 `;
                 tbody.appendChild(tr);
