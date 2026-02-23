@@ -350,14 +350,28 @@
             refreshIcon.classList.add('fa-spin');
 
             try {
-                // El doGet devuelve los datos en JSON
                 const response = await fetch(SHEET_WEBHOOK_URL);
-                const result = await response.json();
+                const text = await response.text();
+
+                let result;
+                try {
+                    result = JSON.parse(text);
+                } catch (e) {
+                    // Si no es JSON, probablemente es el mensaje de texto de la versión anterior
+                    console.warn('Respuesta no es JSON:', text);
+                    tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:#856404; background:#fff3cd; padding:20px; border-radius:10px;">
+                        <strong>⚠️ Acción Requerida:</strong><br>
+                        Para ver esta tabla, debes actualizar tu Google Apps Script a la <strong>v2</strong>.<br>
+                        <small>(La versión actual respondió: "${text}")</small>
+                    </td></tr>`;
+                    return;
+                }
 
                 if (result.result === 'success') {
                     renderTable(result.data);
                 } else {
                     console.error('Error del servidor:', result.message);
+                    tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:red;">${result.message}</td></tr>`;
                 }
             } catch (err) {
                 console.error('Error al cargar dashboard:', err);
