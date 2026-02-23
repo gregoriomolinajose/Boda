@@ -437,51 +437,113 @@ body.show-content #splash {
     font-weight: 600;
 }
 
-/* -- Itinerario -- */
-.itinerary-container {
-    margin-top: 30px;
+/* -- Itinerario (Timeline Vertical Central) -- */
+.timeline-container {
+    position: relative;
     width: 100%;
-    max-width: 350px;
+    max-width: 400px;
+    margin-top: 40px;
+    padding-bottom: 20px;
 }
 
-.itinerary-item {
+.timeline-container::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 1px;
+    background: #e0e0e0;
+    transform: translateX(-50%);
+    z-index: 0;
+}
+
+.timeline-item {
+    position: relative;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    padding: 15px 0;
-    border-bottom: 1px solid #f5f5f5;
+    margin-bottom: 50px;
+    z-index: 1;
 }
 
-.itinerary-item:last-child {
-    border-bottom: none;
+.timeline-item:last-child {
+    margin-bottom: 0;
 }
 
-.itinerary-item .time {
-    font-weight: 600;
+.timeline-icon {
+    width: 50px;
+    height: 50px;
+    background: white;
+    border: 1px solid var(--primary-blue);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     color: var(--primary-blue);
-    font-size: 0.95rem;
-    width: 100px;
-    text-align: left;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 }
 
-.itinerary-item .event {
-    color: var(--text-dark);
-    font-size: 1.1rem;
-    flex-grow: 1;
-    text-align: right;
-}
-
-/* -- Info Blocks (Dress Code/Gifts) -- */
-.info-block {
+.timeline-content {
     text-align: center;
 }
 
-.dress-code {
-    font-size: 1.5rem;
-    color: var(--text-dark);
-    margin: 10px 0;
-    letter-spacing: 2px;
+.timeline-content .time {
+    font-weight: 600;
+    color: var(--primary-blue);
+    font-size: 0.9rem;
     text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+.timeline-content .event {
+    font-size: 1.3rem;
+    color: var(--text-dark);
+}
+
+/* -- Bloque Código de Vestimenta (Con Divisor) -- */
+.dress-code-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    width: 100%;
+    max-width: 500px;
+    margin: 20px auto;
+}
+
+.dress-code-icon {
+    width: 80px;
+    height: 100px;
+    flex-shrink: 0;
+}
+
+.vertical-divider {
+    width: 1px;
+    height: 120px;
+    background: #000;
+    /* Tinta negra */
+    opacity: 0.8;
+}
+
+.dress-code-text {
+    text-align: left;
+}
+
+.dress-detail {
+    font-size: 1.4rem;
+    color: var(--text-dark);
+    margin-bottom: 5px;
+    letter-spacing: 1px;
+}
+
+.dress-message {
+    font-size: 1rem;
+    color: var(--text-light);
+    font-style: italic;
 }
 
 /* -- Photo Card -- */
