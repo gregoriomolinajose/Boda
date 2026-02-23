@@ -149,7 +149,7 @@
                 allergies: attendance === 'yes' ? document.getElementById('allergies').value : 'N/A'
             };
 
-            const SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzqpstD8ffpSBKpUNQ0OJxAgoBdUSUY9I9CHNkJiZ6LipIMJEcq4kSelXfmSiQjbKaSAQ/exec';
+            const SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbzQWTjQIZAcglQO2qRqQGKInFa5Ijh_rH__4u1-D_GD6sCY4we7dNu0P2wGmGpsjZjWCg/exec';
 
             // Enviar datos a Google Sheets
             fetch(SHEET_WEBHOOK_URL, {
