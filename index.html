@@ -88,21 +88,27 @@
             <div class="hero-img" aria-hidden="true" role="img" aria-label="Foto de la pareja"></div>
             <div class="hero-overlay">
                 <h2 class="hero-names elegant-script">Dora & Gregorio</h2>
-                <p class="hero-tagline">¡NOS CASAMOS!</p>
-                <button class="scroll-down" id="scroll-to-next" aria-label="Bajar a la siguiente sección">
-                    <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                </button>
+                <h2 class="hero-tagline animate-flicker">SÁBADO | 13 MARZO | 2026</h2>
             </div>
 
-            <!-- Botón de Control de Audio Global -->
-            <button class="music-player-mini" id="music-toggle" aria-label="Pausar o reproducir música de fondo"
-                aria-pressed="false">
-                <i class="fas fa-play" id="play-icon" aria-hidden="true"></i>
-            </button>
+            <!-- Flecha para bajar -->
+            <div class="scroll-indicator animate-bounce" id="scroll-indicator">
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </header>
+
+        <!-- Botón de Control de Audio Global -->
+        <button class="music-btn" id="music-toggle" aria-label="Reproducir o pausar música" aria-pressed="false">
+            <div class="eq-container">
+                <div class="eq-bar"></div>
+                <div class="eq-bar"></div>
+                <div class="eq-bar"></div>
+            </div>
+        </button>
         </header>
 
         <!-- === SECCIÓN 2: Detalles de la Boda y Countdown === -->
-        <main class="content-card snap-section" aria-label="Detalles de la celebración">
+        <main class="content-card snap-section reveal reveal-up" aria-label="Detalles de la celebración">
             <p class="section-title animate-on-scroll">Estás invitado a</p>
             <h2 class="section-subtitle elegant-script animate-on-scroll section-subtitle--mt-15">Nuestra Boda</h2>
 
@@ -288,7 +294,8 @@
         </section>
 
         <!-- === SECCIÓN FINAL: Despedida === -->
-        <section class="snap-section final-screen" id="final-screen" aria-label="Pantalla de despedida">
+        <section class="snap-section final-screen reveal reveal-up" id="final-screen"
+            aria-label="Pantalla de despedida">
             <div class="final-content">
                 <h2 class="elegant-script animate-on-scroll">Te esperamos</h2>
                 <p class="hero-names elegant-script animate-on-scroll">Dora & Gregorio</p>
