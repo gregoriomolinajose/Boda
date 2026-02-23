@@ -516,19 +516,20 @@ body.show-content #splash {
 }
 
 .dress-code-icon {
-    width: 180px;
+    width: 144px;
+    /* Reducido un 20% sobre los 180px (180 * 0.8) */
     height: auto;
     flex-shrink: 0;
     display: flex;
     align-items: center;
-    margin-right: -45px;
-    /* Reducción agresiva para eliminar el aire de la imagen */
+    margin-right: -30px;
+    /* Ajustado proporcionalmente para mantener la cercanía */
 }
 
 .vertical-divider {
     width: 1px;
-    height: 180px;
-    /* Ajustado proporcionalmente */
+    height: 140px;
+    /* Ajustado al nuevo tamaño de la imagen */
     background: #000;
     /* Tinta negra */
     opacity: 0.8;
