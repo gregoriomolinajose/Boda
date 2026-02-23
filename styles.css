@@ -437,13 +437,12 @@ body.show-content #splash {
     font-weight: 600;
 }
 
-/* -- Itinerario (Timeline Vertical Central) -- */
+/* -- Itinerario (Timeline Lateral para mejor visibilidad) -- */
 .timeline-container {
     position: relative;
     width: 100%;
-    max-width: 400px;
-    margin-top: 40px;
-    padding-bottom: 20px;
+    max-width: 350px;
+    margin-top: 30px;
 }
 
 .timeline-container::after {
@@ -451,19 +450,20 @@ body.show-content #splash {
     position: absolute;
     top: 0;
     bottom: 0;
-    left: 50%;
+    left: 25px;
+    /* Centrado con el icono */
     width: 1px;
     background: #e0e0e0;
-    transform: translateX(-50%);
     z-index: 0;
 }
 
 .timeline-item {
     position: relative;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    margin-bottom: 50px;
+    gap: 20px;
+    margin-bottom: 25px;
+    /* Espaciado optimizado */
     z-index: 1;
 }
 
@@ -474,6 +474,7 @@ body.show-content #splash {
 .timeline-icon {
     width: 50px;
     height: 50px;
+    flex-shrink: 0;
     background: white;
     border: 1px solid var(--primary-blue);
     border-radius: 50%;
@@ -481,26 +482,24 @@ body.show-content #splash {
     justify-content: center;
     align-items: center;
     color: var(--primary-blue);
-    font-size: 1.2rem;
-    margin-bottom: 15px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    font-size: 1.1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
 .timeline-content {
-    text-align: center;
+    text-align: left;
 }
 
 .timeline-content .time {
     font-weight: 600;
     color: var(--primary-blue);
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     text-transform: uppercase;
     letter-spacing: 1px;
-    margin-bottom: 5px;
 }
 
 .timeline-content .event {
-    font-size: 1.3rem;
+    font-size: 1.25rem;
     color: var(--text-dark);
 }
 
