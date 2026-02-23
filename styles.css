@@ -610,6 +610,13 @@ body.show-content #splash {
     font-style: italic;
 }
 
+.logistics-grid {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
 /* -- Photo Card -- */
 .photo-container-box {
     background-color: var(--primary-olive-light);
@@ -823,6 +830,18 @@ body.show-content #splash {
         padding: 15px 50px;
         font-size: 1rem;
     }
+
+    .logistics-grid {
+        flex-direction: row;
+        justify-content: center;
+        gap: 60px;
+        align-items: center;
+    }
+
+    .gift-block {
+        margin-top: 0;
+        text-align: left;
+    }
 }
 
 /* Pantallas Grandes de Escritorio (>= 1024px) */
@@ -863,6 +882,10 @@ body.show-content #splash {
 
     .rsvp-container {
         max-width: 800px;
+    }
+
+    .logistics-grid {
+        gap: 120px;
     }
 }
 
