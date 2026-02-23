@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generador de Invitaciones - Dora & Gregorio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/all.min.css">
+    <style>
+        :root {
+            --primary: #93afc2;
+            --olive: #6b705c;
+            --bg: #f9f9f9;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: var(--bg);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        h1 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 50px;
+            background: var(--olive);
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: opacity 0.3s;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        #result {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f0f4f7;
+            border-radius: 10px;
+            display: none;
+        }
+
+        #link-display {
+            word-break: break-all;
+            font-size: 0.85rem;
+            color: #555;
+            margin-bottom: 15px;
+        }
+
+        .copy-btn {
+            background: var(--primary);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <h1>Generador de Links 💍</h1>
+        <div class="form-group">
+            <label>Nombre de la Familia / Invitados</label>
+            <input type="text" id="guestName" placeholder="Ej: Familia Molina">
+        </div>
+        <div class="form-group">
+            <label>N° de Adultos (Cupos)</label>
+            <input type="number" id="adults" value="2" min="1">
+        </div>
+        <div class="form-group">
+            <label>N° de Niños (Cupos)</label>
+            <input type="number" id="kids" value="0" min="0">
+        </div>
+        <button class="btn" onclick="generateLink()">Generar Invitación</button>
+
+        <div id="result">
+            <p><strong>Link Personalizado:</strong></p>
+            <div id="link-display"></div>
+            <a href="#" class="copy-btn" id="copyBtn" onclick="copyLink(event)">
+                <i class="fab fa-whatsapp"></i> Copiar para WhatsApp
+            </a>
+        </div>
+    </div>
+
+    <script>
+        function generateLink() {
+            const name = document.getElementById('guestName').value;
+            const adults = document.getElementById('adults').value;
+            const kids = document.getElementById('kids').value;
+
+            if (!name) return alert('Pon un nombre');
+
+            // Cambiar "index.html" por tu URL final cuando la tengas
+            const baseUrl = window.location.href.replace('generator.html', 'index.html');
+            const params = `?n=${encodeURIComponent(name)}&ca=${adults}&cc=${kids}`;
+            const fullUrl = baseUrl + params;
+
+            document.getElementById('link-display').innerText = fullUrl;
+            document.getElementById('result').style.display = 'block';
+        }
+
+        function copyLink(e) {
+            e.preventDefault();
+            const link = document.getElementById('link-display').innerText;
+            navigator.clipboard.writeText(link).then(() => {
+                alert('¡Link copiado! Ya puedes pegarlo en WhatsApp.');
+            });
+        }
+    </script>
+</body>
+
+</html>
