@@ -19,7 +19,6 @@
             background: var(--bg);
             display: flex;
             flex-direction: column;
-            align-items: center;
             min-height: 100vh;
             margin: 0;
             padding: 20px;
@@ -28,6 +27,7 @@
         .container {
             width: 100%;
             max-width: 1400px;
+            margin: 0 auto;
             display: grid;
             grid-template-columns: 1fr;
             gap: 30px;
@@ -517,8 +517,8 @@
         </div>
     </div>
 
-    <div class="container" style="max-width: 1200px;">
-        <div class="dashboard-card" style="width: 100%;">
+    <div class="container">
+        <div class="dashboard-card">
             <div class="dashboard-header">
                 <div>
                     <h2 style="font-size: 1.4rem; margin: 0; color: var(--olive);">Panel de Invitados</h2>
@@ -609,6 +609,7 @@
         }
 
         function closeModal() {
+            console.log("Closing modal...");
             document.getElementById('modal-invitation').style.display = 'none';
         }
 
@@ -674,6 +675,7 @@
 
                 // Mostrar el link por un momento y luego cerrar
                 setTimeout(() => {
+                    console.log("Timeout reached, closing...");
                     btn.innerText = originalText;
                     btn.disabled = false;
                     closeModal();
