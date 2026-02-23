@@ -117,7 +117,7 @@
                     window.open(calendarUrl, '_blank', 'noopener,noreferrer');
                 });
 
-                // Enviar RSVP al WhatsApp
+                // Manejo de RSVP (Sin WhatsApp)
                 const submitBtn = domElements.formRsvp.querySelector('button[type="submit"]');
 
                 domElements.formRsvp.addEventListener('submit', (e) => {
@@ -125,33 +125,26 @@
 
                     // Prevenir doble clic y dar feedback
                     submitBtn.disabled = true;
-                    submitBtn.textContent = 'Procesando...';
+                    submitBtn.textContent = 'Enviando...';
 
-                    const name = document.getElementById('name').value.trim();
-                    const kids = document.getElementById('kids').value;
-                    const asistenciaStatus = document.getElementById('attendance').value;
-
-                    let statusMsg = asistenciaStatus === 'yes' ? 'Confirmo mi asistencia' : 'Lamentablemente no podré asistir';
-                    // El mensaje cambia según si asiste o no (sin acompañantes/niños si dice 'no')
-                    let msg = `¡Hola! ${statusMsg} a la boda de Dora y Gregorio. \n\nInvitado: ${name}`;
-                    if (asistenciaStatus === 'yes') {
-                        msg += `\nAcompañantes/Niños: ${kids}`;
-                    }
-
-                    const numeroTelefono = "523312345678"; // <--- Ajustar número de WhatsApp destino
-
-                    // setTimeout simula proceso asíncrono y permite feedback en UI
+                    // Simular proceso de envío
                     setTimeout(() => {
-                        window.open(`https://wa.me/${numeroTelefono}?text=${encodeURIComponent(msg)}`, '_blank', 'noopener,noreferrer');
-
-                        // Resetear formulario para cuando el usuario vuelva
+                        // Limpiar formulario
                         domElements.formRsvp.reset();
+                        
+                        // Ocultar campos condicionales si estaban visibles
                         document.getElementById('kids').classList.remove('hidden-field');
                         document.getElementById('kids').disabled = false;
 
-                        submitBtn.disabled = false;
-                        submitBtn.textContent = 'Confirmar';
-                    }, 800);
+                        // Cambiar texto del botón a éxito
+                        submitBtn.textContent = '¡Confirmado!';
+                        
+                        // Desplazar a la pantalla final de despedida
+                        const finalSection = document.getElementById('final-screen');
+                        if (finalSection) {
+                            finalSection.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    }, 1200);
                 });
             };
 
