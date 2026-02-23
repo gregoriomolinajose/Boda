@@ -149,23 +149,32 @@
                 allergies: attendance === 'yes' ? document.getElementById('allergies').value : 'N/A'
             };
 
-            // Simular proceso de envío (Aquí irá el fetch a Google Sheets después)
-            console.log('Datos enviados:', data);
+            const SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwiv7Tdgsnvv6K9qXfNMdo6QPubpmyg6FD5rznLRkld/exec'; // Cambiado de /dev a /exec para producción
 
-            setTimeout(() => {
-                // Limpiar formulario
+            // Enviar datos a Google Sheets
+            fetch(SHEET_WEBHOOK_URL, {
+                method: 'POST',
+                mode: 'no-cors', // Permite enviar datos incluso si el script no devuelve cabeceras CORS
+                cache: 'no-cache',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            }).then(() => {
+                // Feedback de éxito
                 domElements.formRsvp.reset();
                 domElements.rsvpDetails.classList.add('hidden-field');
-
-                // Cambiar texto del botón a éxito
                 submitBtn.textContent = '¡Gracias!';
 
-                // Desplazar a la pantalla final de despedida
-                const finalSection = document.getElementById('final-screen');
-                if (finalSection) {
-                    finalSection.scrollIntoView({ behavior: 'smooth' });
-                }
-            }, 1200);
+                setTimeout(() => {
+                    const finalSection = document.getElementById('final-screen');
+                    if (finalSection) {
+                        finalSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }, 500);
+            }).catch(error => {
+                console.error('Error al enviar RSVP:', error);
+                submitBtn.textContent = 'Error';
+                submitBtn.disabled = false;
+            });
         });
     };
 
