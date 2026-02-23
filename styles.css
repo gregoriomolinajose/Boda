@@ -65,6 +65,12 @@ select {
     font-weight: 400;
 }
 
+.script-accent {
+    font-size: 2.2rem;
+    text-transform: none;
+    letter-spacing: normal;
+}
+
 /* ==========================================================================
            3. ESTRUCTURA DE NAVEGACIÓN (Scroll Snapping)
            ========================================================================== */
@@ -112,6 +118,14 @@ select {
     font-size: 0.9rem;
     border-radius: 50px;
     transition: all 0.3s ease;
+}
+
+.action-btn--full {
+    width: 100%;
+}
+
+.action-btn--rect {
+    border-radius: 10px;
 }
 
 .action-btn:hover,
@@ -289,6 +303,8 @@ body.show-content #splash {
 .scroll-down {
     cursor: pointer;
     padding: 10px;
+    background: none;
+    border: none;
 }
 
 .scroll-down i {
@@ -340,6 +356,14 @@ body.show-content #splash {
     color: var(--text-dark);
 }
 
+.section-subtitle--mt-15 {
+    margin-top: 15px;
+}
+
+.section-subtitle--small {
+    font-size: 2rem;
+}
+
 .message {
     font-size: 1rem;
     line-height: 1.8;
@@ -372,7 +396,10 @@ body.show-content #splash {
     letter-spacing: 3px;
     color: var(--text-light);
     width: 100%;
+    margin-top: 20px;
+    line-height: 1.2;
 }
+
 
 /* -- Detalles: Lugares y Fecha -- */
 .details-container {
@@ -625,6 +652,10 @@ body.show-content #splash {
 }
 
 
+#seconds {
+    color: var(--primary-blue);
+}
+
 .countdown-divider {
     font-size: 2rem;
     color: #f0f0f0;
@@ -674,6 +705,39 @@ body.show-content #splash {
     overflow: hidden;
     clip: rect(0, 0, 0, 0);
     border: 0;
+}
+
+/* Utilidades de Espaciado */
+.mt-20 {
+    margin-top: 20px;
+}
+
+.mt-50 {
+    margin-top: 50px;
+}
+
+.mb-0 {
+    margin-bottom: 0px;
+}
+
+.mb-5 {
+    margin-bottom: 5px;
+}
+
+.mb-25 {
+    margin-bottom: 25px;
+}
+
+.w-100 {
+    width: 100%;
+}
+
+.opacity-30 {
+    opacity: 0.3;
+}
+
+.text-light-color {
+    color: var(--text-light);
 }
 
 /* ==========================================================================
