@@ -702,6 +702,22 @@ body.show-content #splash {
     width: 100%;
 }
 
+.photo-main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 15px;
+    width: 100%;
+}
+
+.photo-animation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
 .lottie-camera {
     width: 140px;
     height: 140px;
