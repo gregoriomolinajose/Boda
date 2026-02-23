@@ -870,22 +870,30 @@ body.show-content #splash {
         justify-content: space-between;
         padding: 40px 60px;
         text-align: left;
-        gap: 30px;
+        gap: 40px;
+        align-items: center;
+    }
+
+    .photo-main-content {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 20px;
+        flex: 2;
     }
 
     .photo-animation {
-        margin-right: -20px;
+        margin-right: 0;
     }
 
     .photo-text-content {
-        flex: 2;
         text-align: left;
     }
 
     .photo-card--dual {
         flex: 1;
         flex-direction: column;
-        width: 220px;
+        max-width: 250px;
         margin-top: 0;
     }
 
@@ -984,8 +992,8 @@ body.show-content #splash {
     }
 
     .photo-container-box {
-        max-width: 600px;
-        padding: 50px;
+        max-width: 1100px;
+        padding: 50px 80px;
     }
 }
 
