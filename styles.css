@@ -1,0 +1,629 @@
+/* ==========================================================================
+           1. VARIABLES CSS (Design Tokens)
+           ========================================================================== */
+        :root {
+            /* Colores Principales */
+            --primary-blue: #93afc2;
+            /* Azul grisáceo elegante */
+            --text-dark: #4a4a4a;
+            /* Texto principal */
+            --text-light: #7a7a7a;
+            /* Texto secundario */
+            --bg-page: #f9f9f9;
+            /* Fondo general de la página */
+            --bg-card: #ffffff;
+            /* Fondo de las tarjetas */
+
+            /* Tipografías */
+            --font-primary: 'Montserrat', sans-serif;
+            --font-script: 'Great Vibes', cursive;
+        }
+
+        /* ==========================================================================
+           2. RESET & BASE
+           ========================================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            /* El scroll está delegado al contenedor de snap para la navegación por secciones */
+        }
+
+        body {
+            font-family: var(--font-primary);
+            background-color: var(--bg-page);
+            color: var(--text-dark);
+            line-height: 1.6;
+            font-weight: 300;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        input,
+        textarea,
+        select {
+            -webkit-user-select: auto;
+            user-select: auto;
+        }
+
+        /* Utilidad tipográfica para fuente script */
+        .elegant-script {
+            font-family: var(--font-script);
+            text-transform: none;
+            font-weight: 400;
+        }
+
+        /* ==========================================================================
+           3. ESTRUCTURA DE NAVEGACIÓN (Scroll Snapping)
+           ========================================================================== */
+        .page-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            height: 100vh;
+            overflow-y: scroll;
+            scroll-snap-type: y mandatory;
+            scroll-behavior: smooth;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.05);
+            /* Sombra difusa para enmarcar la app en pantallas grandes */
+            position: relative;
+            scrollbar-width: none;
+            /* Firefox: oculta la barra de scroll para estética app-nativa */
+        }
+
+        .page-container::-webkit-scrollbar {
+            display: none;
+            /* Chrome/Safari: oculta la barra de scroll */
+        }
+
+        /* Define el comportamiento de anclaje de cada "pantalla" */
+        .snap-section {
+            height: 100vh;
+            width: 100%;
+            scroll-snap-align: start;
+            scroll-snap-stop: always;
+        }
+
+        /* ==========================================================================
+           4. COMPONENTES GLOBALES
+           ========================================================================== */
+
+        /* -- Botones Base -- */
+        .action-btn {
+            padding: 12px 45px;
+            border: 1px solid var(--primary-blue);
+            color: var(--primary-blue);
+            background: transparent;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover,
+        .action-btn:focus {
+            background: var(--primary-blue);
+            color: white;
+            outline: none;
+        }
+
+        /* -- Reproductor de Música Flotante -- */
+        .music-player-mini {
+            position: fixed;
+            top: 25px;
+            right: 30px;
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.85);
+            /* Fondo oscuro semitransparente constante */
+            color: var(--primary-blue);
+            border: 2px solid var(--primary-blue);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            /* Sombra para que resalte en fondos blancos */
+            z-index: 100;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .music-player-mini:hover,
+        .music-player-mini:focus {
+            background: var(--primary-blue);
+            color: white;
+            border-color: white;
+            transform: scale(1.1);
+            outline: none;
+        }
+
+        /* ==========================================================================
+           5. SECCIONES (Páginas de la UI)
+           ========================================================================== */
+
+        /* --- 5.1 Pantalla de Carga (Splash) --- */
+        #splash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            /* Siempre encima de todo hasta que se cierre */
+            transition: opacity 1s ease-out;
+        }
+
+        #splash h1 {
+            font-size: 3.5rem;
+            margin-bottom: 2rem;
+            color: var(--primary-blue);
+        }
+
+        body.show-content #splash {
+            opacity: 0;
+            pointer-events: none;
+            /* Asegura que no sea clickeable una vez invisible */
+        }
+
+        /* Estilos Decoración Floral Splash */
+        .floral-deco {
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            opacity: 0;
+            z-index: -1;
+        }
+
+        .floral-deco.top-left {
+            top: -20px;
+            left: -20px;
+            animation: grow-in-top 1.8s ease-out forwards;
+            animation-delay: 0.3s;
+        }
+
+        .floral-deco.bottom-right {
+            bottom: -20px;
+            right: -20px;
+            animation: grow-in-bottom 1.8s ease-out forwards;
+            animation-delay: 0.5s;
+        }
+
+        .floral-deco svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        @keyframes grow-in-top {
+            0% {
+                transform: scale(0.5) translate(-50px, -50px) rotate(-15deg);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1) translate(0, 0) rotate(0deg);
+                opacity: 0.5; /* Sutil y elegante */
+            }
+        }
+
+        @keyframes grow-in-bottom {
+            0% {
+                transform: scale(0.5) translate(50px, 50px) rotate(15deg);
+                opacity: 0;
+            }
+
+            100% {
+                transform: scale(1) translate(0, 0) rotate(0deg);
+                opacity: 0.5;
+            }
+        }
+
+        /* --- 5.2 Sección Principal (Hero) --- */
+        .hero {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            background: url('pareja.jpg') center bottom/cover no-repeat;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* Gradiente de sombra de abajo hacia arriba para legibilidad del texto */
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.6) 50%, rgba(0, 0, 0, 0) 80%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            padding-bottom: 110px;
+        }
+
+        .hero-names {
+            font-size: 2.7rem;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+            margin-bottom: 5px;
+            letter-spacing: 2px;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .hero-tagline {
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            color: white;
+            font-weight: 300;
+            margin-bottom: 25px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        .scroll-down {
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        .scroll-down i {
+            color: white;
+            font-size: 1.5rem;
+            animation: bounce 2s infinite;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateY(0);
+            }
+
+            40% {
+                transform: translateY(-10px);
+            }
+
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        /* --- 5.3 Tarjeta de Contenido General (Invitación) --- */
+        .content-card {
+            padding: 40px 30px;
+            text-align: center;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--text-light);
+        }
+
+        .section-subtitle {
+            font-size: 3.5rem;
+            color: var(--text-dark);
+        }
+
+        .message {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #444;
+            /* Oscurecido ligeramente para mejor contraste */
+            font-weight: 400;
+        }
+
+        /* -- Detalles: Lugares y Fecha -- */
+        .details-container {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .detail-box {
+            text-align: center;
+        }
+
+        .detail-box h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--primary-blue);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .detail-box p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+        }
+
+        /* -- Tarjetas de Acción (Mapa, Calendario) -- */
+        .action-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+        .action-card {
+            background: #fdfdfd;
+            border: 1px solid #f0f0f0;
+            padding: 20px 10px;
+            border-radius: 15px;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .action-card i {
+            font-size: 1.2rem;
+            color: var(--primary-blue);
+        }
+
+        .action-card span {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .action-card:hover,
+        .action-card:focus {
+            border-color: var(--primary-blue);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            outline: none;
+        }
+
+        /* -- Contador Regresivo -- */
+        .countdown {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            border-top: 1px solid #f0f0f0;
+            border-bottom: 1px solid #f0f0f0;
+            padding: 25px 0;
+        }
+
+        .countdown-item span:first-child {
+            display: block;
+            font-size: 2.2rem;
+            color: var(--text-dark);
+            font-weight: 300;
+        }
+
+        .countdown-item span:last-child {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--primary-blue);
+            font-weight: 600;
+        }
+
+        .countdown-divider {
+            font-size: 2rem;
+            color: #f0f0f0;
+            padding-top: 5px;
+        }
+
+        /* --- 5.4 Formulario RSVP --- */
+        .rsvp-section {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            background: var(--bg-page);
+            padding: 0 30px;
+            /* Evita que choque en pantallas muy pequeñas */
+        }
+
+        .rsvp-container {
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            border: 1px solid #eee;
+            border-radius: 10px;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-input:focus {
+            border-color: var(--primary-blue);
+        }
+
+        /* Accesibilidad - Visually Hidden */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+
+        /* ==========================================================================
+           7. RESPONSIVE DESIGN (Tablet & Desktop)
+           ========================================================================== */
+
+        /* Tablets y Pantallas Pequeñas (>= 768px) */
+        @media (min-width: 768px) {
+            .page-container {
+                max-width: 100%;
+                /* Aprovechar el espacio completo */
+            }
+
+            .hero-img {
+                background: url('pareja_horizontal.jpg') center center/cover no-repeat;
+            }
+
+            .hero-names {
+                font-size: 5rem;
+            }
+
+            .hero-tagline {
+                font-size: 1.5rem;
+            }
+
+            .content-card {
+                padding: 60px 40px;
+            }
+
+            .section-subtitle {
+                font-size: 5rem;
+            }
+
+            .message {
+                font-size: 1.25rem;
+                max-width: 700px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .details-container,
+            .action-cards,
+            .countdown,
+            .rsvp-container {
+                max-width: 700px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .detail-box h3 {
+                font-size: 1.5rem;
+            }
+
+            .detail-box p {
+                font-size: 1.1rem;
+            }
+
+            .action-card {
+                padding: 25px 15px;
+            }
+
+            .action-card i {
+                font-size: 1.5rem;
+            }
+
+            .action-card span {
+                font-size: 0.9rem;
+            }
+
+            .countdown-item span:first-child {
+                font-size: 3.5rem;
+            }
+
+            .form-input {
+                padding: 20px;
+                font-size: 1.1rem;
+            }
+
+            .action-btn {
+                padding: 15px 50px;
+                font-size: 1rem;
+            }
+        }
+
+        /* Pantallas Grandes de Escritorio (>= 1024px) */
+        @media (min-width: 1024px) {
+            .hero-names {
+                font-size: 6.5rem;
+            }
+
+            .hero-tagline {
+                font-size: 1.8rem;
+                letter-spacing: 10px;
+            }
+
+            .section-subtitle {
+                font-size: 6rem;
+            }
+
+            .message {
+                font-size: 1.4rem;
+                max-width: 800px;
+            }
+
+            .details-container,
+            .action-cards,
+            .countdown {
+                max-width: 800px;
+            }
+
+            .action-cards {
+                display: flex;
+                justify-content: center;
+                gap: 40px;
+            }
+
+            .action-card {
+                width: 300px;
+            }
+
+            .rsvp-container {
+                max-width: 800px;
+            }
+        }
+
+        /* ==========================================================================
+           8. ANIMACIONES Y MEJORAS UX
+           ========================================================================== */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .hidden-field {
+            display: none !important;
+        }
