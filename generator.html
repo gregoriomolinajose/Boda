@@ -140,8 +140,8 @@
 
             if (!name) return alert('Pon un nombre');
 
-            // Cambiar "index.html" por tu URL final cuando la tengas
-            const baseUrl = window.location.href.replace('generator.html', 'index.html');
+            // Usar la URL de producción real
+            const baseUrl = 'https://boda-doraygregorio.vercel.app/';
             const params = `?n=${encodeURIComponent(name)}&ca=${adults}&cc=${kids}`;
             const fullUrl = baseUrl + params;
 
