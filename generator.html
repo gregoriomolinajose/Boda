@@ -350,7 +350,9 @@
             refreshIcon.classList.add('fa-spin');
 
             try {
-                const response = await fetch(SHEET_WEBHOOK_URL);
+                // Agregar cache busting para asegurar datos frescos
+                const fetchUrl = SHEET_WEBHOOK_URL + (SHEET_WEBHOOK_URL.includes('?') ? '&' : '?') + 't=' + new Date().getTime();
+                const response = await fetch(fetchUrl);
                 const text = await response.text();
 
                 let result;
