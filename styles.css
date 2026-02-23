@@ -14,6 +14,11 @@
     --bg-card: #ffffff;
     /* Fondo de las tarjetas */
 
+    --primary-olive: #6b705c;
+    /* Olivo elegante */
+    --primary-olive-light: #eff2ed;
+    /* Fondo olivo muy suave */
+
     /* Tipografías */
     --font-primary: 'Montserrat', sans-serif;
     --font-script: 'Great Vibes', cursive;
@@ -579,10 +584,22 @@ body.show-content #splash {
 }
 
 /* -- Photo Card -- */
-.photo-card {
-    margin-top: 30px;
+.photo-container-box {
+    background-color: var(--primary-olive-light);
+    border-radius: 30px;
+    padding: 30px 20px;
     width: 100%;
-    max-width: 350px;
+    max-width: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.02);
+}
+
+.photo-card {
+    width: 100%;
+    margin-top: 10px;
 }
 
 /* -- Final Screen -- */
