@@ -205,8 +205,15 @@
         .loading-spinner {
             display: none;
             text-align: center;
-            padding: 30px;
+            padding: 20px;
             color: #999;
+            font-size: 0.8rem;
+        }
+
+        tfoot tr {
+            background: #f8f9fa;
+            font-weight: 600;
+            border-top: 2px solid #eee;
         }
     </style>
 </head>
@@ -257,16 +264,20 @@
                     <thead>
                         <tr>
                             <th>Fecha</th>
+                            <th>Hora</th>
                             <th>Invitado</th>
                             <th>Estado</th>
-                            <th>Adul.</th>
-                            <th>Niños</th>
-                            <th>Acciones</th>
+                            <th style="text-align:center">Adul.</th>
+                            <th style="text-align:center">Niños</th>
+                            <th style="text-align:center">Link</th>
                         </tr>
                     </thead>
                     <tbody id="guest-table-body">
                         <!-- Las filas se cargarán aquí dinámicamente -->
                     </tbody>
+                    <tfoot id="guest-table-footer">
+                        <!-- Totales aquí -->
+                    </tfoot>
                 </table>
             </div>
         </div>
@@ -348,12 +359,19 @@
             const loading = document.getElementById('loading');
             const refreshIcon = document.getElementById('refresh-icon');
 
-            tbody.innerHTML = '';
-            loading.style.display = 'block';
+            // 1. Cargar desde caché primero para velocidad instantánea
+            const cachedData = localStorage.getItem('rsvp_cache');
+            if (cachedData) {
+                renderTable(JSON.parse(cachedData));
+            }
+
+            if (!cachedData) {
+                tbody.innerHTML = '';
+                loading.style.display = 'block';
+            }
             refreshIcon.classList.add('fa-spin');
 
             try {
-                // Agregar cache busting para asegurar datos frescos
                 const fetchUrl = SHEET_WEBHOOK_URL + (SHEET_WEBHOOK_URL.includes('?') ? '&' : '?') + 't=' + new Date().getTime();
                 const response = await fetch(fetchUrl);
                 const text = await response.text();
@@ -362,25 +380,25 @@
                 try {
                     result = JSON.parse(text);
                 } catch (e) {
-                    // Si no es JSON, probablemente es el mensaje de texto de la versión anterior
                     console.warn('Respuesta no es JSON:', text);
-                    tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:#856404; background:#fff3cd; padding:20px; border-radius:10px;">
+                    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:#856404; background:#fff3cd; padding:20px; border-radius:10px;">
                         <strong>⚠️ Acción Requerida:</strong><br>
-                        Para ver esta tabla, debes actualizar tu Google Apps Script a la <strong>v2</strong>.<br>
-                        <small>(La versión actual respondió: "${text}")</small>
+                        Actualiza tu Google Apps Script a la v2.1 para habilitar el Dashboard.
                     </td></tr>`;
                     return;
                 }
 
                 if (result.result === 'success') {
+                    // Guardar en caché y renderizar
+                    localStorage.setItem('rsvp_cache', JSON.stringify(result.data));
                     renderTable(result.data);
                 } else {
                     console.error('Error del servidor:', result.message);
-                    tbody.innerHTML = `<tr><td colspan="6" style="text-align:center; color:red;">${result.message}</td></tr>`;
+                    if (!cachedData) tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; color:red;">${result.message}</td></tr>`;
                 }
             } catch (err) {
                 console.error('Error al cargar dashboard:', err);
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; color:red;">Error al conectar con Google Sheets</td></tr>';
+                if (!cachedData) tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:red;">Error de conexión</td></tr>';
             } finally {
                 loading.style.display = 'none';
                 refreshIcon.classList.remove('fa-spin');
@@ -389,34 +407,61 @@
 
         function renderTable(data) {
             const tbody = document.getElementById('guest-table-body');
+            const tfoot = document.getElementById('guest-table-footer');
             tbody.innerHTML = '';
 
-            // Invertir para ver los más recientes arriba
-            data.reverse().forEach(row => {
-                const tr = document.createElement('tr');
-                const statusClass = row.Asistencia.toLowerCase().replace(/\s/g, '');
+            let totalAdults = 0;
+            let totalKids = 0;
 
-                // Formatear fecha corta (ej: 23/02)
-                let dateStr = row['Fecha/Hora'] || '-';
-                if (dateStr.includes(' ')) {
-                    const parts = dateStr.split(' ')[0].split('-');
-                    if (parts.length === 3) {
-                        dateStr = `${parts[2]}/${parts[1]}`;
-                    }
+            // Invertir para ver los más recientes arriba
+            const sortedData = [...data].reverse();
+
+            sortedData.forEach(row => {
+                const tr = document.createElement('tr');
+                const statusClean = (row.Asistencia || 'Pendiente').toLowerCase().trim();
+                const statusClass = statusClean === 'confirma' ? 'confirma' : (statusClean === 'declina' ? 'declina' : 'pendiente');
+
+                // Procesar Fecha y Hora
+                let fullDate = row['Fecha/Hora'] || '';
+                let dateDisplay = '-';
+                let timeDisplay = '-';
+
+                if (fullDate.includes(' ')) {
+                    const parts = fullDate.split(' ');
+                    const dateParts = parts[0].split('-');
+                    if (dateParts.length === 3) dateDisplay = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
+                    timeDisplay = parts[1].substring(0, 5); // HH:MM
+                }
+
+                // Sumar si confirma
+                if (statusClean === 'confirma') {
+                    totalAdults += parseInt(row.Adultos || 0);
+                    totalKids += parseInt(row.Niños || 0);
                 }
 
                 tr.innerHTML = `
-                    <td style="font-size: 0.75rem; color: #888;">${dateStr}</td>
+                    <td style="font-size: 0.75rem; color: #888;">${dateDisplay}</td>
+                    <td style="font-size: 0.75rem; color: #aaa;">${timeDisplay}</td>
                     <td><strong>${row.Invitado}</strong></td>
                     <td><span class="status-badge status-${statusClass}">${row.Asistencia}</span></td>
                     <td style="text-align:center">${row.Adultos}</td>
                     <td style="text-align:center">${row.Niños}</td>
-                    <td>
-                        <i class="fas fa-copy row-action" title="Copiar Link" onclick="copyToClipboard('${row['Link Invitación']}')"></i>
+                    <td style="text-align:center">
+                        <i class="fas fa-link row-action" style="font-size: 1rem; color: var(--primary);" title="Copiar Link" onclick="copyToClipboard('${row['Link Invitación']}')"></i>
                     </td>
                 `;
                 tbody.appendChild(tr);
             });
+
+            // Renderizar Totales
+            tfoot.innerHTML = `
+                <tr>
+                    <td colspan="4" style="text-align:right; padding:15px"><strong>TOTALES CONFIRMADOS:</strong></td>
+                    <td style="text-align:center; color: var(--olive); font-weight:bold; font-size:1rem">${totalAdults}</td>
+                    <td style="text-align:center; color: var(--olive); font-weight:bold; font-size:1rem">${totalKids}</td>
+                    <td></td>
+                </tr>
+            `;
         }
 
         // Cargar al iniciar
