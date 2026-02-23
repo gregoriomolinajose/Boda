@@ -448,7 +448,7 @@
                     totalKids += parseInt(row.Niños || 0);
                 }
 
-                const invitationLink = row['Link Invitación'] || row.link || '';
+                const invitationLink = row['Invitación'] || row['Link Invitación'] || row.link || '';
 
                 tr.innerHTML = `
                     <td style="font-size: 0.75rem; color: #888;">${dateDisplay}</td>
