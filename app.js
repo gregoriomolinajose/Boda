@@ -157,7 +157,7 @@
                 link: window.location.href // Enviar el link actual para seguimiento
             };
 
-            const SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbyU8B5SodJaPQcOJJoctf90QcbIccepJh8-_LcGRUvk84KENK6JgqK3YcTpUv8af8WlKw/exec';
+            const SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbwQX0wNNok4ZT0Ky8I8m_Qdq_WjT3KG9axRIH344-2feUglgN_dRRud6o4bwXY_plst6A/exec';
 
             // Enviar datos a Google Sheets usando un método que evita Preflight (CORS)
             fetch(SHEET_WEBHOOK_URL, {
