@@ -341,6 +341,20 @@ body.show-content #splash {
     color: #444;
     /* Oscurecido ligeramente para mejor contraste */
     font-weight: 400;
+    width: 100%;
+}
+
+.messages-wrapper {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
 }
 
 /* -- Detalles: Lugares y Fecha -- */
