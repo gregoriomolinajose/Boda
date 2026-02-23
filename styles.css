@@ -451,7 +451,7 @@ body.show-content #splash {
 
 .guest-name-welcome {
     display: block;
-    font-size: 4.5rem;
+    font-size: 3.8rem;
     color: var(--primary-blue);
     margin-bottom: -5px;
     line-height: 1;
