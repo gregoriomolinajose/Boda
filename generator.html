@@ -138,7 +138,10 @@
             const adults = document.getElementById('adults').value;
             const kids = document.getElementById('kids').value;
 
-            if (!name) return alert('Pon un nombre');
+            // Usar la URL de producción real
+            const baseUrl = 'https://boda-doraygregorio.vercel.app/';
+            const params = `?n=${encodeURIComponent(name)}&ca=${adults}&cc=${kids}`;
+            const fullUrl = baseUrl + params;
 
             document.getElementById('link-display').innerText = fullUrl;
             document.getElementById('result').style.display = 'block';
