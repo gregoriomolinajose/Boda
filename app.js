@@ -15,12 +15,12 @@
         btnCalendario: document.getElementById('add-to-calendar'),
         formRsvp: document.getElementById('wedding-rsvp'),
         btnScrollHero: document.getElementById('scroll-indicator'),
-        mainContentSection: document.querySelector('main.content-card'),
         particlesContainer: document.getElementById('particles-container'),
         rsvpDetails: document.getElementById('rsvp-details'),
         adultsInput: document.getElementById('adults'),
         kidsInput: document.getElementById('kids'),
-        attendanceSelect: document.getElementById('attendance')
+        attendanceSelect: document.getElementById('attendance'),
+        guestWelcome: document.getElementById('guest-welcome')
     };
 
     // Parámetros de la URL
@@ -99,6 +99,11 @@
         domElements.audioInput.volume = APP_CONFIG.volumenMusica;
 
         domElements.enterBtn.addEventListener('click', () => {
+            // Inyectar nombre si existe
+            if (GUEST_DATA.name && GUEST_DATA.name !== 'Invitado') {
+                domElements.guestWelcome.innerText = GUEST_DATA.name;
+            }
+
             // Revela el contenido debajo
             document.body.classList.add('show-content');
             // Inicia la música automáticamente
@@ -218,13 +223,29 @@
         domElements.attendanceSelect.addEventListener('change', (e) => {
             if (e.target.value === 'yes') {
                 domElements.rsvpDetails.classList.remove('hidden-field');
-                // Pre-llenar con datos de URL si existen
+                // Pre-llenar con datos de URL si existen y establecer límites
                 domElements.adultsInput.value = GUEST_DATA.adults;
+                domElements.adultsInput.setAttribute('max', GUEST_DATA.adults);
                 domElements.kidsInput.value = GUEST_DATA.kids;
+                domElements.kidsInput.setAttribute('max', GUEST_DATA.kids);
             } else {
                 domElements.rsvpDetails.classList.add('hidden-field');
             }
         });
+
+        // 3. Validación de Cupos Máximos
+        const validateMax = (input, max) => {
+            input.addEventListener('input', () => {
+                const val = parseInt(input.value) || 0;
+                if (val > max) {
+                    input.value = max;
+                    alert(`El cupo máximo para esta invitación es de ${max} personas.`);
+                }
+            });
+        };
+
+        validateMax(domElements.adultsInput, GUEST_DATA.adults);
+        validateMax(domElements.kidsInput, GUEST_DATA.kids);
 
         // 4. Animaciones al hacer Scroll (Intersection Observer Mejorado)
         if ('IntersectionObserver' in window) {
