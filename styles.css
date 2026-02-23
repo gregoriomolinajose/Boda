@@ -357,6 +357,18 @@ body.show-content #splash {
     text-align: right;
 }
 
+.text-center {
+    text-align: center;
+}
+
+.tagline-style {
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--text-light);
+    width: 100%;
+}
+
 /* -- Detalles: Lugares y Fecha -- */
 .details-container {
     display: flex;
