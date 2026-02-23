@@ -7,8 +7,6 @@
     <link rel="icon" type="image/png" href="favicon.png">
     <title>Generador de Invitaciones - Dora & Gregorio</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        crossorigin="anonymous" referrerpolicy="no-referrer">
     <style>
         :root {
             --primary: #93afc2;
@@ -216,6 +214,20 @@
             font-weight: 600;
             border-top: 2px solid #eee;
         }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .spin {
+            animation: spin 1s linear infinite;
+        }
     </style>
 </head>
 
@@ -252,12 +264,17 @@
             <div class="dashboard-header">
                 <h2 style="font-size: 1.2rem; margin: 0; color: var(--olive);">Lista de Invitados & RSVP</h2>
                 <button class="refresh-btn" onclick="loadDashboard()">
-                    <i class="fas fa-sync-alt" id="refresh-icon"></i> Actualizar
+                    <svg id="refresh-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M23 4v6h-6"></path>
+                        <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+                    </svg>
+                    Actualizar
                 </button>
             </div>
 
             <div id="loading" class="loading-spinner">
-                <i class="fas fa-circle-notch fa-spin"></i> Cargando datos...
+                Cargando datos...
             </div>
 
             <div class="table-container">
@@ -370,7 +387,7 @@
                 tbody.innerHTML = '';
                 loading.style.display = 'block';
             }
-            refreshIcon.classList.add('fa-spin');
+            refreshIcon.classList.add('spin');
 
             try {
                 const fetchUrl = SHEET_WEBHOOK_URL + (SHEET_WEBHOOK_URL.includes('?') ? '&' : '?') + 't=' + new Date().getTime();
@@ -402,7 +419,7 @@
                 if (!cachedData) tbody.innerHTML = '<tr><td colspan="7" style="text-align:center; color:red;">Error de conexión</td></tr>';
             } finally {
                 loading.style.display = 'none';
-                refreshIcon.classList.remove('fa-spin');
+                refreshIcon.classList.remove('spin');
             }
         }
 
@@ -459,7 +476,9 @@
                     <td style="text-align:center">${row.Adultos}</td>
                     <td style="text-align:center">${row.Niños}</td>
                     <td style="text-align:center">
-                        <i class="fas fa-copy row-action" style="font-size: 1.1rem; color: var(--primary);" title="Copiar Link" onclick="copyToClipboard('${invitationLink}')"></i>
+                        <div class="row-action" title="Copiar Link" onclick="copyToClipboard('${invitationLink}')" style="display: flex; justify-content: center; align-items: center; cursor: pointer;">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                        </div>
                     </td>
                 `;
                 tbody.appendChild(tr);
