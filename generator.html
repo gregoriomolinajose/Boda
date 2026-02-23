@@ -609,7 +609,6 @@
         }
 
         function closeModal() {
-            console.log("Closing modal...");
             document.getElementById('modal-invitation').style.display = 'none';
         }
 
@@ -675,7 +674,6 @@
 
                 // Mostrar el link por un momento y luego cerrar
                 setTimeout(() => {
-                    console.log("Timeout reached, closing...");
                     btn.innerText = originalText;
                     btn.disabled = false;
                     closeModal();
