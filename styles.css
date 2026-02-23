@@ -508,7 +508,8 @@ body.show-content #splash {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 30px;
+    gap: 10px;
+    /* Reducción agresiva */
     width: 100%;
     max-width: 500px;
     margin: 20px auto;
@@ -516,11 +517,12 @@ body.show-content #splash {
 
 .dress-code-icon {
     width: 180px;
-    /* Incrementado un ~40% sobre los 130px anteriores */
     height: auto;
     flex-shrink: 0;
     display: flex;
     align-items: center;
+    margin-right: -45px;
+    /* Reducción agresiva para eliminar el aire de la imagen */
 }
 
 .vertical-divider {
