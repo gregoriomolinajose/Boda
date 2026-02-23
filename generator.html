@@ -19,20 +19,33 @@
             font-family: 'Montserrat', sans-serif;
             background: var(--bg);
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             min-height: 100vh;
             margin: 0;
             padding: 20px;
         }
 
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        @media (min-width: 900px) {
+            .container {
+                grid-template-columns: 350px 1fr;
+                align-items: start;
+            }
+        }
+
         .card {
             background: white;
-            padding: 40px;
+            padding: 30px;
             border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
         }
 
         h1 {
@@ -104,32 +117,156 @@
             text-decoration: none;
             display: block;
         }
+
+        /* Dashboard Styles */
+        .dashboard-card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .refresh-btn {
+            background: #eee;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .refresh-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .table-container {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        th {
+            text-align: left;
+            background: #f8f9fa;
+            padding: 12px;
+            color: #666;
+            font-weight: 600;
+            border-bottom: 2px solid #eee;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-confirma {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-declina {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .status-pendiente {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .row-action {
+            cursor: pointer;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            padding: 30px;
+            color: #999;
+        }
     </style>
 </head>
 
 <body>
-    <div class="card">
-        <h1>Generador de Links 💍</h1>
-        <div class="form-group">
-            <label>Nombre de la Familia / Invitados</label>
-            <input type="text" id="guestName" placeholder="Ej: Familia Molina">
-        </div>
-        <div class="form-group">
-            <label>N° de Adultos (Cupos)</label>
-            <input type="number" id="adults" value="2" min="1">
-        </div>
-        <div class="form-group">
-            <label>N° de Niños (Cupos)</label>
-            <input type="number" id="kids" value="0" min="0">
-        </div>
-        <button class="btn" onclick="generateLink()">Generar Invitación</button>
+    <div class="container">
+        <!-- Formulario Izquierda -->
+        <div class="card">
+            <h1>Generador de Links 💍</h1>
+            <div class="form-group">
+                <label>Nombre de la Familia / Invitados</label>
+                <input type="text" id="guestName" placeholder="Ej: Familia Molina">
+            </div>
+            <div class="form-group">
+                <label>N° de Adultos (Cupos)</label>
+                <input type="number" id="adults" value="2" min="1">
+            </div>
+            <div class="form-group">
+                <label>N° de Niños (Cupos)</label>
+                <input type="number" id="kids" value="0" min="0">
+            </div>
+            <button class="btn" onclick="generateLink()">Generar Invitación</button>
 
-        <div id="result">
-            <p><strong>Link Personalizado:</strong></p>
-            <div id="link-display"></div>
-            <a href="#" class="copy-btn" id="copyBtn" onclick="copyLink(event)">
-                <i class="fab fa-whatsapp"></i> Copiar para WhatsApp
-            </a>
+            <div id="result">
+                <p><strong>Link Personalizado:</strong></p>
+                <div id="link-display"></div>
+                <a href="#" class="copy-btn" id="copyBtn" onclick="copyLink(event)">
+                    <i class="fab fa-whatsapp"></i> Copiar para WhatsApp
+                </a>
+            </div>
+        </div>
+
+        <!-- Dashboard Derecha -->
+        <div class="dashboard-card">
+            <div class="dashboard-header">
+                <h2 style="font-size: 1.2rem; margin: 0; color: var(--olive);">Lista de Invitados & RSVP</h2>
+                <button class="refresh-btn" onclick="loadDashboard()">
+                    <i class="fas fa-sync-alt" id="refresh-icon"></i> Actualizar
+                </button>
+            </div>
+
+            <div id="loading" class="loading-spinner">
+                <i class="fas fa-circle-notch fa-spin"></i> Cargando datos...
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Invitado</th>
+                            <th>Estado</th>
+                            <th>Cupos</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="guest-table-body">
+                        <!-- Las filas se cargarán aquí dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -191,10 +328,69 @@
         function copyLink(e) {
             e.preventDefault();
             const link = document.getElementById('link-display').innerText;
-            navigator.clipboard.writeText(link).then(() => {
-                alert('¡Link copiado! Ya puedes pegarlo en WhatsApp.');
+            copyToClipboard(link);
+        }
+
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert('¡Link copiado!');
             });
         }
+
+        // Lógica del Dashboard
+        const SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbyU8B5SodJaPQcOJJoctf90QcbIccepJh8-_LcGRUvk84KENK6JgqK3YcTpUv8af8WlKw/exec';
+
+        async function loadDashboard() {
+            const tbody = document.getElementById('guest-table-body');
+            const loading = document.getElementById('loading');
+            const refreshIcon = document.getElementById('refresh-icon');
+
+            tbody.innerHTML = '';
+            loading.style.display = 'block';
+            refreshIcon.classList.add('fa-spin');
+
+            try {
+                // El doGet devuelve los datos en JSON
+                const response = await fetch(SHEET_WEBHOOK_URL);
+                const result = await response.json();
+
+                if (result.result === 'success') {
+                    renderTable(result.data);
+                } else {
+                    console.error('Error del servidor:', result.message);
+                }
+            } catch (err) {
+                console.error('Error al cargar dashboard:', err);
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center; color:red;">Error al conectar con Google Sheets</td></tr>';
+            } finally {
+                loading.style.display = 'none';
+                refreshIcon.classList.remove('fa-spin');
+            }
+        }
+
+        function renderTable(data) {
+            const tbody = document.getElementById('guest-table-body');
+            tbody.innerHTML = '';
+
+            // Invertir para ver los más recientes arriba
+            data.reverse().forEach(row => {
+                const tr = document.createElement('tr');
+                const statusClass = row.Asistencia.toLowerCase().replace(/\s/g, '');
+
+                tr.innerHTML = `
+                    <td><strong>${row.Invitado}</strong></td>
+                    <td><span class="status-badge status-${statusClass}">${row.Asistencia}</span></td>
+                    <td>${row.Adultos}A | ${row.Niños}N</td>
+                    <td>
+                        <i class="fas fa-copy row-action" title="Copiar Link" onclick="copyToClipboard('${row['Link Invitación']}')"></i>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // Cargar al iniciar
+        window.onload = loadDashboard;
     </script>
 </body>
 
