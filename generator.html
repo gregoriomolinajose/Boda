@@ -421,16 +421,25 @@
                 const statusClean = (row.Asistencia || 'Pendiente').toLowerCase().trim();
                 const statusClass = statusClean === 'confirma' ? 'confirma' : (statusClean === 'declina' ? 'declina' : 'pendiente');
 
-                // Procesar Fecha y Hora
+                // Procesar Fecha y Hora (Soporta espacio o T como separador)
                 let fullDate = row['Fecha/Hora'] || '';
                 let dateDisplay = '-';
                 let timeDisplay = '-';
 
-                if (fullDate.includes(' ')) {
-                    const parts = fullDate.split(' ');
-                    const dateParts = parts[0].split('-');
-                    if (dateParts.length === 3) dateDisplay = `${dateParts[2]}/${dateParts[1]}/${dateParts[0]}`;
-                    timeDisplay = parts[1].substring(0, 5); // HH:MM
+                if (fullDate) {
+                    const parts = fullDate.split(/[ T]/);
+                    if (parts.length >= 1) {
+                        const d = parts[0].split(/[/-]/);
+                        if (d.length === 3) {
+                            // Manejar YYYY-MM-DD o DD/MM/YYYY
+                            dateDisplay = d[0].length === 4 ? `${d[2]}/${d[1]}/${d[0]}` : `${d[0]}/${d[1]}/${d[2]}`;
+                        } else {
+                            dateDisplay = parts[0];
+                        }
+                    }
+                    if (parts.length >= 2) {
+                        timeDisplay = parts[1].substring(0, 5);
+                    }
                 }
 
                 // Sumar si confirma
@@ -438,6 +447,8 @@
                     totalAdults += parseInt(row.Adultos || 0);
                     totalKids += parseInt(row.Niños || 0);
                 }
+
+                const invitationLink = row['Link Invitación'] || row.link || '';
 
                 tr.innerHTML = `
                     <td style="font-size: 0.75rem; color: #888;">${dateDisplay}</td>
@@ -447,7 +458,7 @@
                     <td style="text-align:center">${row.Adultos}</td>
                     <td style="text-align:center">${row.Niños}</td>
                     <td style="text-align:center">
-                        <i class="fas fa-link row-action" style="font-size: 1rem; color: var(--primary);" title="Copiar Link" onclick="copyToClipboard('${row['Link Invitación']}')"></i>
+                        <i class="fas fa-link row-action" style="font-size: 1rem; color: var(--primary);" title="Copiar Link" onclick="copyToClipboard('${invitationLink}')"></i>
                     </td>
                 `;
                 tbody.appendChild(tr);
