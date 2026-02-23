@@ -177,11 +177,44 @@
         }
 
         .refresh-btn:hover {
-            background: #e0e0e0;
+            background: #fdfdfd;
+            border-color: var(--primary);
+            color: var(--primary);
         }
 
         .table-container {
             overflow-x: auto;
+            margin-top: 10px;
+        }
+
+        @media (min-width: 900px) {
+            th:nth-child(1) {
+                width: 50px;
+            }
+
+            th:nth-child(2) {
+                width: 140px;
+            }
+
+            th:nth-child(3) {
+                width: auto;
+            }
+
+            th:nth-child(4) {
+                width: 150px;
+            }
+
+            th:nth-child(5) {
+                width: 100px;
+            }
+
+            th:nth-child(6) {
+                width: 100px;
+            }
+
+            th:nth-child(7) {
+                width: 80px;
+            }
         }
 
         table {
@@ -644,7 +677,7 @@
                     btn.innerText = originalText;
                     btn.disabled = false;
                     closeModal();
-                }, 2000);
+                }, 1500);
             }).catch(err => {
                 console.error('Error al guardar:', err);
                 showToast('Error al conectar con la lista', 'error');
