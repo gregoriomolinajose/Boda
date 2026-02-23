@@ -451,11 +451,11 @@ body.show-content #splash {
 
 .guest-name-welcome {
     display: block;
-    font-size: 4.5rem;
+    font-size: 6.5rem;
     color: var(--primary-blue);
-    margin-bottom: -10px;
-    line-height: 1.1;
-    text-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    margin-bottom: -15px;
+    line-height: 1;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .message {
