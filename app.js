@@ -20,7 +20,8 @@
         adultsInput: document.getElementById('adults'),
         kidsInput: document.getElementById('kids'),
         attendanceSelect: document.getElementById('attendance'),
-        guestWelcome: document.getElementById('guest-welcome')
+        guestWelcome: document.getElementById('guest-welcome'),
+        declineMessage: document.getElementById('decline-message')
     };
 
     // Parámetros de la URL
@@ -224,13 +225,18 @@
         domElements.attendanceSelect.addEventListener('change', (e) => {
             if (e.target.value === 'yes') {
                 domElements.rsvpDetails.classList.remove('hidden-field');
+                domElements.declineMessage.classList.add('hidden-field');
                 // Pre-llenar con datos de URL si existen y establecer límites
                 domElements.adultsInput.value = GUEST_DATA.adults;
                 domElements.adultsInput.setAttribute('max', GUEST_DATA.adults);
                 domElements.kidsInput.value = GUEST_DATA.kids;
                 domElements.kidsInput.setAttribute('max', GUEST_DATA.kids);
+            } else if (e.target.value === 'no') {
+                domElements.rsvpDetails.classList.add('hidden-field');
+                domElements.declineMessage.classList.remove('hidden-field');
             } else {
                 domElements.rsvpDetails.classList.add('hidden-field');
+                domElements.declineMessage.classList.add('hidden-field');
             }
         });
 
