@@ -193,126 +193,125 @@
                 submitBtn.disabled = false;
             });
         });
-    });
-};
-
-/**
- * Lógica UX Adicional: Gestor de Pestañas, Condicional de RSVP y Animaciones de Scroll
- */
-const initEnhancements = () => {
-    // 1. Pausar música automáticamente cuando la pestaña está inactiva o cambia de app en móvil
-    const handleAppBackground = () => {
-        if (isPlaying && !domElements.audioInput.paused) {
-            domElements.audioInput.pause();
-            domElements.musicToggleBtn.classList.remove('playing');
-            domElements.musicToggleBtn.setAttribute('aria-pressed', 'false');
-        }
     };
 
-    const handleAppForeground = () => {
-        // Only resume if it was explicitly playing before backgrounding
-        if (isPlaying && document.visibilityState === 'visible') {
-            domElements.audioInput.play().catch(e => console.warn('Auto-play blocked.', e));
-            domElements.playIcon.classList.replace('fa-play', 'fa-pause');
-            domElements.musicToggleBtn.setAttribute('aria-pressed', 'true');
-        }
-    };
+    /**
+     * Lógica UX Adicional: Gestor de Pestañas, Condicional de RSVP y Animaciones de Scroll
+     */
+    const initEnhancements = () => {
+        // 1. Pausar música automáticamente cuando la pestaña está inactiva o cambia de app en móvil
+        const handleAppBackground = () => {
+            if (isPlaying && !domElements.audioInput.paused) {
+                domElements.audioInput.pause();
+                domElements.musicToggleBtn.classList.remove('playing');
+                domElements.musicToggleBtn.setAttribute('aria-pressed', 'false');
+            }
+        };
 
-    // Visibility API (Modern Desktop & Mobile) - Uso estricto de visibilityState
-    document.addEventListener("visibilitychange", () => {
-        if (document.visibilityState === 'hidden') {
-            handleAppBackground();
-        } else if (document.visibilityState === 'visible') {
-            handleAppForeground();
-        }
-    }, false);
+        const handleAppForeground = () => {
+            // Only resume if it was explicitly playing before backgrounding
+            if (isPlaying && document.visibilityState === 'visible') {
+                domElements.audioInput.play().catch(e => console.warn('Auto-play blocked.', e));
+                domElements.playIcon.classList.replace('fa-play', 'fa-pause');
+                domElements.musicToggleBtn.setAttribute('aria-pressed', 'true');
+            }
+        };
 
-    // Soporte extra para iOS Safari / Android Chrome
-    window.addEventListener("pagehide", handleAppBackground, false);
-    window.addEventListener("blur", handleAppBackground, false);
-    window.addEventListener("focus", handleAppForeground, false);
+        // Visibility API (Modern Desktop & Mobile) - Uso estricto de visibilityState
+        document.addEventListener("visibilitychange", () => {
+            if (document.visibilityState === 'hidden') {
+                handleAppBackground();
+            } else if (document.visibilityState === 'visible') {
+                handleAppForeground();
+            }
+        }, false);
 
-    // 2. Lógica Condicional de RSVP: Mostrar detalles solo si asiste
-    domElements.attendanceSelect.addEventListener('change', (e) => {
-        if (e.target.value === 'yes') {
-            domElements.rsvpDetails.classList.remove('hidden-field');
-            // Pre-llenar con datos de URL si existen y establecer límites
-            domElements.adultsInput.value = GUEST_DATA.adults;
-            domElements.adultsInput.setAttribute('max', GUEST_DATA.adults);
-            domElements.kidsInput.value = GUEST_DATA.kids;
-            domElements.kidsInput.setAttribute('max', GUEST_DATA.kids);
-        } else {
-            domElements.rsvpDetails.classList.add('hidden-field');
-        }
-    });
+        // Soporte extra para iOS Safari / Android Chrome
+        window.addEventListener("pagehide", handleAppBackground, false);
+        window.addEventListener("blur", handleAppBackground, false);
+        window.addEventListener("focus", handleAppForeground, false);
 
-    // 3. Validación de Cupos Máximos
-    const validateMax = (input, max) => {
-        input.addEventListener('input', () => {
-            const val = parseInt(input.value) || 0;
-            if (val > max) {
-                input.value = max;
-                alert(`El cupo máximo para esta invitación es de ${max} personas.`);
+        // 2. Lógica Condicional de RSVP: Mostrar detalles solo si asiste
+        domElements.attendanceSelect.addEventListener('change', (e) => {
+            if (e.target.value === 'yes') {
+                domElements.rsvpDetails.classList.remove('hidden-field');
+                // Pre-llenar con datos de URL si existen y establecer límites
+                domElements.adultsInput.value = GUEST_DATA.adults;
+                domElements.adultsInput.setAttribute('max', GUEST_DATA.adults);
+                domElements.kidsInput.value = GUEST_DATA.kids;
+                domElements.kidsInput.setAttribute('max', GUEST_DATA.kids);
+            } else {
+                domElements.rsvpDetails.classList.add('hidden-field');
             }
         });
-    };
 
-    validateMax(domElements.adultsInput, GUEST_DATA.adults);
-    validateMax(domElements.kidsInput, GUEST_DATA.kids);
-
-    // 4. Animaciones al hacer Scroll (Intersection Observer Mejorado)
-    if ('IntersectionObserver' in window) {
-        const observerOptions = {
-            root: null,
-            threshold: 0.1,
-            rootMargin: "0px"
-        };
-        const observer = new IntersectionObserver((entries, observerObj) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible', 'active');
-
-                    // Trigger staggered children if any
-                    const staggers = entry.target.querySelectorAll('.stagger-item');
-                    staggers.forEach((item, index) => {
-                        setTimeout(() => item.classList.add('active'), index * 150);
-                    });
-
-                    observerObj.unobserve(entry.target);
+        // 3. Validación de Cupos Máximos
+        const validateMax = (input, max) => {
+            input.addEventListener('input', () => {
+                const val = parseInt(input.value) || 0;
+                if (val > max) {
+                    input.value = max;
+                    alert(`El cupo máximo para esta invitación es de ${max} personas.`);
                 }
             });
-        }, observerOptions);
+        };
 
-        document.querySelectorAll('.animate-on-scroll, .reveal').forEach(el => observer.observe(el));
-    }
+        validateMax(domElements.adultsInput, GUEST_DATA.adults);
+        validateMax(domElements.kidsInput, GUEST_DATA.kids);
 
-    // 5. Partículas de Fondo
-    const initParticles = () => {
-        if (!domElements.particlesContainer) return;
+        // 4. Animaciones al hacer Scroll (Intersection Observer Mejorado)
+        if ('IntersectionObserver' in window) {
+            const observerOptions = {
+                root: null,
+                threshold: 0.1,
+                rootMargin: "0px"
+            };
+            const observer = new IntersectionObserver((entries, observerObj) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible', 'active');
 
-        const particleCount = 20;
-        for (let i = 0; i < particleCount; i++) {
-            const p = document.createElement('div');
-            p.className = 'particle';
-            const size = Math.random() * 4 + 2 + 'px';
-            p.style.width = size;
-            p.style.height = size;
-            p.style.left = Math.random() * 100 + '%';
-            p.style.animationDuration = Math.random() * 10 + 10 + 's';
-            p.style.animationDelay = Math.random() * 10 + 's';
-            domElements.particlesContainer.appendChild(p);
+                        // Trigger staggered children if any
+                        const staggers = entry.target.querySelectorAll('.stagger-item');
+                        staggers.forEach((item, index) => {
+                            setTimeout(() => item.classList.add('active'), index * 150);
+                        });
+
+                        observerObj.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.animate-on-scroll, .reveal').forEach(el => observer.observe(el));
         }
+
+        // 5. Partículas de Fondo
+        const initParticles = () => {
+            if (!domElements.particlesContainer) return;
+
+            const particleCount = 20;
+            for (let i = 0; i < particleCount; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                const size = Math.random() * 4 + 2 + 'px';
+                p.style.width = size;
+                p.style.height = size;
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDuration = Math.random() * 10 + 10 + 's';
+                p.style.animationDelay = Math.random() * 10 + 's';
+                domElements.particlesContainer.appendChild(p);
+            }
+        };
+        initParticles();
     };
-    initParticles();
-};
 
-// === Arranque de la Aplicación ===
-const bootstrap = () => {
-    initCountdown();
-    initSplashScreen();
-    initUserActions();
-    initEnhancements();
-};
+    // === Arranque de la Aplicación ===
+    const bootstrap = () => {
+        initCountdown();
+        initSplashScreen();
+        initUserActions();
+        initEnhancements();
+    };
 
-bootstrap();
-}) ();
+    bootstrap();
+})();
