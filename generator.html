@@ -140,13 +140,48 @@
 
             if (!name) return alert('Pon un nombre');
 
-            // Usar la URL de producción real
-            const baseUrl = 'https://boda-doraygregorio.vercel.app/';
-            const params = `?n=${encodeURIComponent(name)}&ca=${adults}&cc=${kids}`;
-            const fullUrl = baseUrl + params;
-
             document.getElementById('link-display').innerText = fullUrl;
             document.getElementById('result').style.display = 'block';
+
+            // feedback de guardado
+            const btn = document.querySelector('.btn');
+            const originalText = btn.innerText;
+            btn.innerText = '💾 Guardando en lista...';
+            btn.disabled = true;
+
+            const data = {
+                guest: name,
+                attendance: 'Pendiente',
+                adults: adults,
+                kids: kids,
+                allergies: 'N/A',
+                link: fullUrl
+            };
+
+            const SHEET_WEBHOOK_URL = 'https://script.google.com/macros/s/AKfycbyU8B5SodJaPQcOJJoctf90QcbIccepJh8-_LcGRUvk84KENK6JgqK3YcTpUv8af8WlKw/exec';
+
+            fetch(SHEET_WEBHOOK_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                cache: 'no-cache',
+                headers: { 'Content-Type': 'text/plain' },
+                body: JSON.stringify(data)
+            }).then(() => {
+                btn.innerText = '✅ Registrado y Generado';
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                }, 2000);
+            }).catch(err => {
+                console.error('Error al guardar:', err);
+                btn.innerText = '⚠️ Error al guardar (link generado)';
+                btn.style.background = '#e74c3c';
+                setTimeout(() => {
+                    btn.innerText = originalText;
+                    btn.disabled = false;
+                    btn.style.background = '';
+                }, 3000);
+            });
         }
 
         function copyLink(e) {
