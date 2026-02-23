@@ -282,15 +282,6 @@
                         <option value="no">No podré asistir</option>
                     </select>
 
-                    <div id="decline-message" class="hidden-field"
-                        style="margin-top: 15px; padding: 15px; background: var(--primary-olive-light); border-radius: 8px; border-left: 4px solid var(--primary-blue);">
-                        <p class="message text-center"
-                            style="font-style: italic; color: var(--text-dark); font-size: 0.95rem;">
-                            "Valoramos mucho tu cariño y, aunque nos encantaría celebrar juntos, entendemos que a veces
-                            los tiempos no coinciden. Gracias por acompañarnos siempre; ¡sigues siendo una persona muy
-                            especial para nosotros!"
-                        </p>
-                    </div>
 
                     <div id="rsvp-details" class="hidden-field">
                         <label for="adults" class="sr-only">Cantidad de adultos</label>
@@ -315,7 +306,19 @@
         <section class="snap-section final-screen reveal reveal-up" id="final-screen"
             aria-label="Pantalla de despedida">
             <div class="final-content">
-                <h2 class="elegant-script animate-on-scroll">Te esperamos</h2>
+                <!-- Estado: Asistirá -->
+                <div id="final-msg-yes">
+                    <h2 class="elegant-script animate-on-scroll">Te esperamos</h2>
+                </div>
+                <!-- Estado: No asistirá (Mensaje Educado) -->
+                <div id="final-msg-no" class="hidden-field">
+                    <p class="message text-center animate-on-scroll"
+                        style="font-style: italic; color: var(--text-dark); font-size: 1.1rem; max-width: 450px; margin: 0 auto 30px; line-height: 1.6;">
+                        "Valoramos mucho tu cariño y, aunque nos encantaría celebrar juntos, entendemos que a veces los
+                        tiempos no coinciden. <br>Gracias por acompañarnos siempre; ¡sigues siendo una persona muy
+                        especial para nosotros!"
+                    </p>
+                </div>
                 <p class="hero-names elegant-script animate-on-scroll">Dora & Gregorio</p>
 
                 <!-- Decoración Floral Extra para el cierre -->
