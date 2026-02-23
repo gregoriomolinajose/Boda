@@ -838,6 +838,25 @@ body.show-content #splash {
         font-size: 1.2rem;
     }
 
+    .photo-container-box {
+        flex-direction: row;
+        max-width: 900px;
+        justify-content: space-between;
+        padding: 40px 60px;
+        text-align: left;
+        gap: 40px;
+    }
+
+    .photo-text-content {
+        flex: 1;
+        text-align: left;
+    }
+
+    .photo-card {
+        width: 250px;
+        margin-top: 0;
+    }
+
     .logistics-grid {
         flex-direction: row;
         justify-content: center;
