@@ -522,14 +522,18 @@ body.show-content #splash {
 
 /* -- Tarjetas de Acción (Mapa, Calendario) -- */
 .action-cards {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
     gap: 15px;
     width: 100%;
     margin-bottom: 30px;
 }
 
 .action-card {
+    flex: 1;
+    min-width: 140px;
+    max-width: 200px;
     background: #fdfdfd;
     border: 1px solid #f0f0f0;
     padding: 20px 10px;

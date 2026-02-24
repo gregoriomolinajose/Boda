@@ -146,8 +146,14 @@
             let calendarUrl = '';
 
             if (GUEST_DATA.type === 'd') {
-                // Link proporcionado para evento público (Digital)
-                calendarUrl = "https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=M2x2dHB2Y2Nyajl0NmhsYzJ0dTk1M2FscmsgZ3JlZ29yaW9tb2xpbmFqb3NlQG0&tmsrc=gregoriomolinajose%40gmail.com";
+                // Link Robusto para Digital (Evita abrir evento vacío en móvil)
+                calendarUrl = "https://www.google.com/calendar/render?action=TEMPLATE" +
+                    "&text=%F0%9F%92%8D+Boda+Dora+%26+Gregorio+(Virtual)" +
+                    "&dates=20260313T193000/20260314T010000" +
+                    "&details=%F0%9F%8C%9F+¡Nos+encantaría+que+nos+acompañes+en+nuestra+unión!+%0A%0A" +
+                    "🎥+Link+de+transmisión:+https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=M2x2dHB2Y2Nyajl0NmhsYzJ0dTk1M2FscmsgZ3JlZ29yaW9tb2xpbmFqb3NlQG0" +
+                    "%0A%0A🕒+Itinerario:%0A7:30+PM+-+Recepción%0A8:00+PM+-+Ceremonia%0A8:30+PM+-+Brindis%0A9:00+PM+-+Cena" +
+                    "&location=Google+Meet";
             } else {
                 // Url Encoded Ring Emoji: %F0%9F%92%8D, Ampersand: %26
                 calendarUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=%F0%9F%92%8D+Boda+Dora+%26+Gregorio&dates=20260313T193000/20260314T000000&location=Barolo+8C+Chapalita&details=Lugar:+Barolo+8C+Chapalita`;

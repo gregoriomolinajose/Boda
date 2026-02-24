@@ -533,9 +533,10 @@
             <span class="modal-close" onclick="closeModal()">&times;</span>
             <h1 id="modal-title">Nueva Invitación</h1>
             <input type="hidden" id="edit-id">
-            <div class="form-group">
+            <div class="form-group" id="group-guestName">
                 <label>Nombre de la Familia / Invitados</label>
                 <input type="text" id="guestName" placeholder="Ej: Familia Molina">
+                <span class="error-msg">Por favor ingresa un nombre</span>
                 <p style="font-size: 0.7rem; color: #999; margin-top: 5px;">* El sistema asignará un identificador único
                     automáticamente.</p>
             </div>
@@ -549,10 +550,16 @@
             </div>
             <div class="form-group">
                 <label>Tipo de Invitación</label>
-                <select id="invitation-type">
-                    <option value="f" selected>Física (Presencial)</option>
-                    <option value="d">Digital (Virtual)</option>
-                </select>
+                <div class="modal-selector">
+                    <div class="modal-option">
+                        <input type="radio" name="inv-type" id="type-f" value="f" checked>
+                        <label for="type-f">Física</label>
+                    </div>
+                    <div class="modal-option">
+                        <input type="radio" name="inv-type" id="type-d" value="d">
+                        <label for="type-d">Digital</label>
+                    </div>
+                </div>
             </div>
             <button class="btn" id="generate-btn" onclick="generateLink()">Generar e Inscribir</button>
 
@@ -743,7 +750,9 @@
                 document.getElementById('guestName').value = editData.guest;
                 document.getElementById('adults').value = editData.adults;
                 document.getElementById('kids').value = editData.kids;
-                document.getElementById('invitation-type').value = editData.type || 'f';
+
+                const type = editData.type || 'f';
+                document.getElementById(`type-${type}`).checked = true;
             } else {
                 title.innerText = 'Nueva Invitación';
                 btn.innerText = 'Generar e Inscribir';
@@ -751,8 +760,11 @@
                 document.getElementById('guestName').value = '';
                 document.getElementById('adults').value = 2;
                 document.getElementById('kids').value = 0;
-                document.getElementById('invitation-type').value = 'f';
+                document.getElementById('type-f').checked = true;
             }
+
+            // Limpiar errores previos
+            document.getElementById('group-guestName').classList.remove('has-error');
 
             document.getElementById('result').style.display = 'none';
             modal.style.display = 'flex';
@@ -786,10 +798,17 @@
             let baseName = document.getElementById('guestName').value.trim();
             const adults = document.getElementById('adults').value;
             const kids = document.getElementById('kids').value;
-            const invitationType = document.getElementById('invitation-type').value;
+            const invitationType = document.querySelector('input[name="inv-type"]:checked').value;
             const editId = document.getElementById('edit-id').value;
 
-            if (!baseName) return showToast('Por favor ingresa un nombre', 'error');
+            // Validación Inline
+            const nameGroup = document.getElementById('group-guestName');
+            if (!baseName) {
+                nameGroup.classList.add('has-error');
+                document.getElementById('guestName').focus();
+                return;
+            }
+            nameGroup.classList.remove('has-error');
 
             const isEditing = !!editId;
             const uuid = isEditing ? editId : Math.random().toString(36).substring(2, 6).toUpperCase();
