@@ -155,7 +155,7 @@
 
             <!-- Datos de evento: Dónde y Cuándo -->
             <section class="details-container animate-on-scroll" aria-label="Lugar y fecha">
-                <div class="detail-box">
+                <div class="detail-box" id="location-box">
                     <h3>Dónde</h3>
                     <p>Barolo 8C Chapalita<br>Zapopan, Jalisco</p>
                 </div>
@@ -167,8 +167,9 @@
 
             <!-- Acciones de soporte: Botones -->
             <nav class="action-cards animate-on-scroll" aria-label="Enlaces útiles">
-                <a href="https://www.google.com/maps/search/?api=1&query=Barolo+8C+Chapalita" target="_blank"
-                    rel="noopener noreferrer" class="action-card" aria-label="Abrir ubicación en Google Maps">
+                <a id="view-map-btn" href="https://www.google.com/maps/search/?api=1&query=Barolo+8C+Chapalita"
+                    target="_blank" rel="noopener noreferrer" class="action-card"
+                    aria-label="Abrir ubicación en Google Maps">
                     <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
                     <span>Ver Mapa</span>
                 </a>
@@ -213,7 +214,7 @@
         <!-- === SECCIÓN 4: Código de Vestimenta y Regalos === -->
         <section class="content-card snap-section reveal reveal-in" aria-label="Código de vestimenta y regalos">
             <div class="logistics-grid">
-                <div class="dress-code-wrapper stagger-item">
+                <div class="dress-code-wrapper stagger-item" id="dress-code-section">
                     <div class="dress-code-icon">
                         <img src="vestimenta_inv.png" alt="Boceto de traje y vestido" class="w-100">
                     </div>

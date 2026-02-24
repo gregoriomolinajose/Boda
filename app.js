@@ -31,7 +31,8 @@
         name: urlParams.get('n') || 'Invitado',
         id: urlParams.get('u') || '', // Capturar UUID invisible
         adults: parseInt(urlParams.get('ca')) || 1,
-        kids: parseInt(urlParams.get('cc')) || 0
+        kids: parseInt(urlParams.get('cc')) || 0,
+        type: urlParams.get('t') || 'f' // 'f' para física, 'd' para digital
     };
 
     // Constantes Globales
@@ -107,6 +108,15 @@
                 domElements.guestWelcome.innerText = GUEST_DATA.name;
             }
 
+            // Lógica para invitación digital
+            if (GUEST_DATA.type === 'd') {
+                const elementsToHide = ['location-box', 'view-map-btn', 'dress-code-section'];
+                elementsToHide.forEach(id => {
+                    const el = document.getElementById(id);
+                    if (el) el.classList.add('hidden-field');
+                });
+            }
+
             // Revela el contenido debajo
             document.body.classList.add('show-content');
             // Inicia la música automáticamente
@@ -130,11 +140,19 @@
             }
         });
 
-        // Añadir al Calendario (Google Calendar Template URL)
+        // Añadir al Calendario
         domElements.btnCalendario.addEventListener('click', (e) => {
             e.preventDefault();
-            // Url Encoded Ring Emoji: %F0%9F%92%8D, Ampersand: %26
-            const calendarUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=%F0%9F%92%8D+Boda+Dora+%26+Gregorio&dates=20260313T193000/20260314T000000&location=Barolo+8C+Chapalita&details=Lugar:+Barolo+8C+Chapalita`;
+            let calendarUrl = '';
+
+            if (GUEST_DATA.type === 'd') {
+                // Link proporcionado para evento público (Digital)
+                calendarUrl = "https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=M2x2dHB2Y2Nyajl0NmhsYzJ0dTk1M2FscmsgZ3JlZ29yaW9tb2xpbmFqb3NlQG0&tmsrc=gregoriomolinajose%40gmail.com";
+            } else {
+                // Url Encoded Ring Emoji: %F0%9F%92%8D, Ampersand: %26
+                calendarUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=%F0%9F%92%8D+Boda+Dora+%26+Gregorio&dates=20260313T193000/20260314T000000&location=Barolo+8C+Chapalita&details=Lugar:+Barolo+8C+Chapalita`;
+            }
+
             window.open(calendarUrl, '_blank', 'noopener,noreferrer');
         });
 

@@ -547,6 +547,13 @@
                 <label>N° de Niños (Cupos)</label>
                 <input type="number" id="kids" value="0" min="0">
             </div>
+            <div class="form-group">
+                <label>Tipo de Invitación</label>
+                <select id="invitation-type">
+                    <option value="f" selected>Física (Presencial)</option>
+                    <option value="d">Digital (Virtual)</option>
+                </select>
+            </div>
             <button class="btn" id="generate-btn" onclick="generateLink()">Generar e Inscribir</button>
 
             <div id="result">
@@ -591,6 +598,29 @@
                 </div>
                 <span class="stat-value" id="stat-total-kids">0</span>
                 <span class="stat-label">Niños Confirmados</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                        <circle cx="9" cy="7" r="4" />
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                        <path d="M17 3.13a4 4 0 0 1 0 7.75" />
+                    </svg>
+                </div>
+                <span class="stat-value" id="stat-invited-adults">0</span>
+                <span class="stat-label">Total Adultos Invitados</span>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                    </svg>
+                </div>
+                <span class="stat-value" id="stat-invited-kids">0</span>
+                <span class="stat-label">Total Niños Invitados</span>
             </div>
             <div class="stat-card">
                 <div class="stat-icon">
@@ -705,27 +735,27 @@
             const modal = document.getElementById('modal-invitation');
             const title = document.getElementById('modal-title');
             const btn = document.getElementById('generate-btn');
-            const editId = document.getElementById('edit-id');
-
-            modal.style.display = 'flex';
-            document.getElementById('result').style.display = 'none';
 
             if (editData) {
                 title.innerText = 'Editar Invitación';
-                btn.innerText = 'Guardar Cambios';
-                editId.value = editData.id;
+                btn.innerText = 'Actualizar Invitación';
+                document.getElementById('edit-id').value = editData.id;
                 document.getElementById('guestName').value = editData.guest;
                 document.getElementById('adults').value = editData.adults;
                 document.getElementById('kids').value = editData.kids;
+                document.getElementById('invitation-type').value = editData.type || 'f';
             } else {
                 title.innerText = 'Nueva Invitación';
                 btn.innerText = 'Generar e Inscribir';
-                editId.value = '';
+                document.getElementById('edit-id').value = '';
                 document.getElementById('guestName').value = '';
-                document.getElementById('adults').value = '2';
-                document.getElementById('kids').value = '0';
+                document.getElementById('adults').value = 2;
+                document.getElementById('kids').value = 0;
+                document.getElementById('invitation-type').value = 'f';
             }
-            document.getElementById('guestName').focus();
+
+            document.getElementById('result').style.display = 'none';
+            modal.style.display = 'flex';
         }
 
         function closeModal() {
@@ -756,6 +786,7 @@
             let baseName = document.getElementById('guestName').value.trim();
             const adults = document.getElementById('adults').value;
             const kids = document.getElementById('kids').value;
+            const invitationType = document.getElementById('invitation-type').value;
             const editId = document.getElementById('edit-id').value;
 
             if (!baseName) return showToast('Por favor ingresa un nombre', 'error');
@@ -766,8 +797,8 @@
             const name = baseName;
 
             const baseUrl = 'https://boda-doraygregorio.vercel.app/';
-            // Parámetro 'u' para el UUID único
-            const params = `?n=${encodeURIComponent(name)}&u=${uuid}&ca=${adults}&cc=${kids}`;
+            // Parámetro 'u' para el UUID único, 't' para tipo (f=física, d=digital)
+            const params = `?n=${encodeURIComponent(name)}&u=${uuid}&ca=${adults}&cc=${kids}&t=${invitationType}`;
             const fullUrl = baseUrl + params;
 
             document.getElementById('link-display').innerText = fullUrl;
@@ -786,6 +817,7 @@
                 adults: adults,
                 kids: kids,
                 allergies: isEditing ? undefined : 'N/A',
+                type: invitationType, // Enviar tipo al webhook
                 link: fullUrl,
                 active: isEditing ? undefined : true
             };
@@ -1069,25 +1101,35 @@
         }
 
         function renderStats() {
-            let totalAdults = 0;
-            let totalKids = 0;
+            let confirmedAdults = 0;
+            let confirmedKids = 0;
+            let totalInvitedAdults = 0;
+            let totalInvitedKids = 0;
             let totalPending = 0;
 
             allData.forEach(row => {
                 const isActive = (row['Estado de la liga'] || 'TRUE').toString().toUpperCase() === 'TRUE';
                 if (!isActive) return; // No contar inactivas
 
+                const adults = parseInt(row.Adultos || 0);
+                const kids = parseInt(row.Niños || 0);
+
+                totalInvitedAdults += adults;
+                totalInvitedKids += kids;
+
                 const status = (row.Asistencia || '').toLowerCase().trim();
                 if (status === 'confirma') {
-                    totalAdults += parseInt(row.Adultos || 0);
-                    totalKids += parseInt(row.Niños || 0);
+                    confirmedAdults += adults;
+                    confirmedKids += kids;
                 } else if (status === 'pendiente' || !status) {
                     totalPending++;
                 }
             });
 
-            document.getElementById('stat-total-adults').innerText = totalAdults;
-            document.getElementById('stat-total-kids').innerText = totalKids;
+            document.getElementById('stat-total-adults').innerText = confirmedAdults;
+            document.getElementById('stat-total-kids').innerText = confirmedKids;
+            document.getElementById('stat-invited-adults').innerText = totalInvitedAdults;
+            document.getElementById('stat-invited-kids').innerText = totalInvitedKids;
             document.getElementById('stat-total-pending').innerText = totalPending;
             document.getElementById('stat-total-invites').innerText = allData.filter(r => (r['Estado de la liga'] || 'TRUE').toString().toUpperCase() === 'TRUE').length;
         }
