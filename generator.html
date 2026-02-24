@@ -963,10 +963,10 @@
                     }
                 }
 
-                const invitationLink = row['Invitación'] || row['Link Invitación'] || row.link || '';
+                const invitationLink = row['Link'] || row.link || '';
                 const rowIndex = allData.length - allData.findIndex(item => item === row);
 
-                const isActive = (row.Activo || 'TRUE').toString().toUpperCase() === 'TRUE';
+                const isActive = (row['Estado de la liga'] || 'TRUE').toString().toUpperCase() === 'TRUE';
 
                 tr.innerHTML = `
                     <td style="color:#aaa;">${rowIndex}</td>
@@ -1023,7 +1023,7 @@
             let totalPending = 0;
 
             allData.forEach(row => {
-                const isActive = (row.Activo || 'TRUE').toString().toUpperCase() === 'TRUE';
+                const isActive = (row['Estado de la liga'] || 'TRUE').toString().toUpperCase() === 'TRUE';
                 if (!isActive) return; // No contar inactivas
 
                 const status = (row.Asistencia || '').toLowerCase().trim();
@@ -1038,7 +1038,7 @@
             document.getElementById('stat-total-adults').innerText = totalAdults;
             document.getElementById('stat-total-kids').innerText = totalKids;
             document.getElementById('stat-total-pending').innerText = totalPending;
-            document.getElementById('stat-total-invites').innerText = allData.filter(r => (r.Activo || 'TRUE').toString().toUpperCase() === 'TRUE').length;
+            document.getElementById('stat-total-invites').innerText = allData.filter(r => (r['Estado de la liga'] || 'TRUE').toString().toUpperCase() === 'TRUE').length;
         }
 
         async function toggleActivation(id, currentStatus) {
