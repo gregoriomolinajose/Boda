@@ -31,7 +31,8 @@
         name: urlParams.get('n') || 'Invitado',
         id: urlParams.get('u') || '', // Capturar UUID invisible
         adults: parseInt(urlParams.get('ca')) || 1,
-        kids: parseInt(urlParams.get('cc')) || 0
+        kids: parseInt(urlParams.get('cc')) || 0,
+        meet: urlParams.get('m') || '' // Capturar link de Meet
     };
 
     // Constantes Globales
@@ -107,6 +108,16 @@
                 domElements.guestWelcome.innerText = GUEST_DATA.name;
             }
 
+            // Mostrar sección virtual si hay link de Meet
+            if (GUEST_DATA.meet) {
+                const virtualSec = document.getElementById('virtual-section');
+                const meetBtn = document.getElementById('meet-btn');
+                if (virtualSec && meetBtn) {
+                    virtualSec.classList.remove('hidden-field');
+                    meetBtn.href = GUEST_DATA.meet;
+                }
+            }
+
             // Revela el contenido debajo
             document.body.classList.add('show-content');
             // Inicia la música automáticamente
@@ -133,8 +144,25 @@
         // Añadir al Calendario (Google Calendar Template URL)
         domElements.btnCalendario.addEventListener('click', (e) => {
             e.preventDefault();
-            // Url Encoded Ring Emoji: %F0%9F%92%8D, Ampersand: %26
-            const calendarUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=%F0%9F%92%8D+Boda+Dora+%26+Gregorio&dates=20260313T193000/20260314T000000&location=Barolo+8C+Chapalita&details=Lugar:+Barolo+8C+Chapalita`;
+
+            const title = encodeURIComponent("💍 Boda Dora & Gregorio");
+            const location = encodeURIComponent("Barolo 8C Chapalita, Zapopan, Jal.");
+
+            let description = "¡Hola! Estamos muy emocionados de compartir este gran paso con ustedes. Nuestra unión representa el inicio de una nueva etapa llena de amor y sueños. Su cariño nos acompaña siempre.\n\n";
+            description += "📍 ITINERARIO:\n";
+            description += "• 19:30 - Recepción\n";
+            description += "• 20:00 - Ceremonia\n";
+            description += "• 20:30 - Brindis\n";
+            description += "• 21:00 - Cena\n\n";
+
+            if (GUEST_DATA.meet) {
+                description += `🎥 TRANSMISIÓN EN VIVO:\n${GUEST_DATA.meet}\n\n`;
+            }
+
+            description += "¡Te esperamos con mucha alegría!";
+            const details = encodeURIComponent(description);
+
+            const calendarUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=20260313T193000/20260314T000000&location=${location}&details=${details}`;
             window.open(calendarUrl, '_blank', 'noopener,noreferrer');
         });
 
