@@ -547,10 +547,6 @@
                 <label>N° de Niños (Cupos)</label>
                 <input type="number" id="kids" value="0" min="0">
             </div>
-            <div class="form-group">
-                <label>Link de Google Meet (Opcional)</label>
-                <input type="url" id="meetLink" placeholder="https://meet.google.com/xxx-xxxx-xxx">
-            </div>
             <button class="btn" id="generate-btn" onclick="generateLink()">Generar e Inscribir</button>
 
             <div id="result">
@@ -760,7 +756,6 @@
             let baseName = document.getElementById('guestName').value.trim();
             const adults = document.getElementById('adults').value;
             const kids = document.getElementById('kids').value;
-            const meetLink = document.getElementById('meetLink').value.trim();
             const editId = document.getElementById('edit-id').value;
 
             if (!baseName) return showToast('Por favor ingresa un nombre', 'error');
@@ -771,9 +766,8 @@
             const name = baseName;
 
             const baseUrl = 'https://boda-doraygregorio.vercel.app/';
-            // Parámetro 'u' para el UUID único, 'm' para Meet opcional
-            let params = `?n=${encodeURIComponent(name)}&u=${uuid}&ca=${adults}&cc=${kids}`;
-            if (meetLink) params += `&m=${encodeURIComponent(meetLink)}`;
+            // Parámetro 'u' para el UUID único
+            const params = `?n=${encodeURIComponent(name)}&u=${uuid}&ca=${adults}&cc=${kids}`;
             const fullUrl = baseUrl + params;
 
             document.getElementById('link-display').innerText = fullUrl;
@@ -792,7 +786,6 @@
                 adults: adults,
                 kids: kids,
                 allergies: isEditing ? undefined : 'N/A',
-                meet: meetLink || '',
                 link: fullUrl,
                 active: isEditing ? undefined : true
             };
