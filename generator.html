@@ -520,6 +520,73 @@
             opacity: 0.5;
             color: var(--primary);
         }
+
+        /* -- Selector de Modalidad Estilizado (Radios) -- */
+        .modal-selector {
+            display: flex;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .modal-option {
+            flex: 1;
+            position: relative;
+        }
+
+        .modal-option input {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+            z-index: 2;
+        }
+
+        .modal-option label {
+            display: block;
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #fdfdfd;
+            margin-bottom: 0;
+            color: #666;
+            font-weight: 500;
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        .modal-option input:checked+label {
+            border-color: var(--olive);
+            background: var(--olive);
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(107, 112, 92, 0.2);
+        }
+
+        /* -- Validaciones Inline -- */
+        .error-msg {
+            color: #ff4757;
+            font-size: 0.7rem;
+            margin-top: 5px;
+            display: none;
+            text-align: left;
+            font-weight: 500;
+            text-transform: none;
+        }
+
+        .form-group.has-error input {
+            border-color: #ff4757;
+        }
+
+        .form-group.has-error .error-msg {
+            display: block;
+        }
     </style>
 </head>
 
