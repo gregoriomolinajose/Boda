@@ -188,7 +188,8 @@ function renderStats() {
     let confirmedKids = 0;
     let totalInvitedAdults = 0;
     let totalInvitedKids = 0;
-    let totalPending = 0;
+    let acceptedInvites = 0;
+    let declinedInvites = 0;
 
     allData.forEach(row => {
         const isActive = (row['Estado de la liga'] || 'TRUE').toString().toUpperCase() === 'TRUE';
@@ -204,22 +205,23 @@ function renderStats() {
         if (status === 'confirma') {
             confirmedAdults += adults;
             confirmedKids += kids;
-        } else if (status === 'pendiente' || !status) {
-            totalPending++;
+            acceptedInvites++;
+        } else if (status === 'declina') {
+            declinedInvites++;
         }
     });
 
-    const setStat = (id, val) => {
+    const totalActiveInvites = allData.filter(r => (r['Estado de la liga'] || 'TRUE').toString().toUpperCase() === 'TRUE').length;
+
+    const setRatio = (id, current, total) => {
         const el = document.getElementById(id);
-        if (el) el.innerText = val;
+        if (el) el.innerText = `${current} / ${total}`;
     };
 
-    setStat('stat-total-adults', confirmedAdults);
-    setStat('stat-total-kids', confirmedKids);
-    setStat('stat-invited-adults', totalInvitedAdults);
-    setStat('stat-invited-kids', totalInvitedKids);
-    setStat('stat-total-pending', totalPending);
-    setStat('stat-total-invites', allData.filter(r => (r['Estado de la liga'] || 'TRUE').toString().toUpperCase() === 'TRUE').length);
+    setRatio('stat-ratio-adults', confirmedAdults, totalInvitedAdults);
+    setRatio('stat-ratio-kids', confirmedKids, totalInvitedKids);
+    setRatio('stat-ratio-declined', declinedInvites, totalActiveInvites);
+    setRatio('stat-ratio-accepted', acceptedInvites, totalActiveInvites);
 }
 
 async function toggleActivation(id, currentStatus) {
