@@ -1762,15 +1762,20 @@ td {
 .timeline-builder-item {
     display: grid;
     grid-template-columns: 60px 100px 1fr 140px;
-    /* Tamaño fijo para la columna de acciones */
     gap: 15px;
     align-items: center;
     padding: 15px;
     background: #ffffff;
     border-radius: 12px;
     margin-bottom: 12px;
-    border: 1px solid #e0e0e0;
+    border: 1px solid #e1e1e1;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.timeline-builder-item input {
+    min-width: 0;
+    /* Permite que el input se encoja si es necesario */
+    width: 100%;
 }
 
 .timeline-builder-actions {
@@ -1778,6 +1783,8 @@ td {
     gap: 8px;
     justify-content: flex-end;
     align-items: center;
+    min-width: 120px;
+    /* Asegurar espacio para botones */
 }
 
 .switch {

@@ -90,7 +90,7 @@ function renderTimelineUI() {
 
     timeline.forEach((item, index) => {
         const row = document.createElement('div');
-        row.className = 'timeline-item timeline-builder-item'; // Reusar clase base si es necesario
+        row.className = 'timeline-builder-item';
         row.innerHTML = `
             <button class="icon-selector-btn" 
                     onclick="openIconPicker('timeline-icon-${index}')" 
