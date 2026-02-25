@@ -326,7 +326,9 @@
                 const row = document.createElement('div');
                 row.className = 'timeline-item animate-on-scroll';
                 row.innerHTML = `
-                    <div class="timeline-icon" style="background-color: ${iconColor}"><i class="fas ${item.icon}"></i></div>
+                    <div class="timeline-icon" style="background-color: white; border: 2px solid ${iconColor}">
+                        <i class="fas ${item.icon}" style="color: ${iconColor}"></i>
+                    </div>
                     <div class="timeline-content">
                         <div class="time">${item.time}</div>
                         <div class="event">${item.activity}</div>

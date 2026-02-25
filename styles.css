@@ -628,22 +628,19 @@ body.show-content #splash {
 }
 
 .timeline-icon {
-    width: 50px;
-    height: 50px;
-    flex-shrink: 0;
-    background: white;
-    border: 1px solid var(--primary-blue);
+    width: 60px;
+    height: 60px;
+    background-color: white;
     border-radius: 50%;
     display: flex;
-    justify-content: center;
     align-items: center;
-    color: var(--primary-blue);
-    font-size: 1.1rem;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-.timeline-content {
-    text-align: left;
+    justify-content: center;
+    color: var(--primary-olive);
+    font-size: 1.5rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    z-index: 2;
+    transition: all 0.3s ease;
+    border: 2px solid var(--primary-olive);
 }
 
 .timeline-content .time {

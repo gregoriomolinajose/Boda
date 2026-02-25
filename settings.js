@@ -118,7 +118,24 @@ function addTimelineItem() {
 
 function removeTimelineItem(index) {
     if (confirm('¿Estás seguro de que deseas eliminar esta actividad?')) {
+        // Primero sincronizamos los datos actuales de los inputs
+        const items = document.querySelectorAll('.timeline-builder-item');
+        const currentData = [];
+        items.forEach(row => {
+            currentData.push({
+                time: row.querySelector('.set-timeline-time').value,
+                activity: row.querySelector('.set-timeline-activity').value,
+                icon: row.querySelector('.icon-selector-btn').dataset.icon
+            });
+        });
+
+        // Aplicamos al objeto global
+        APP_CONFIG.timeline = currentData;
+
+        // Eliminamos el índice deseado
         APP_CONFIG.timeline.splice(index, 1);
+
+        // Re-renderizamos
         renderTimelineUI();
     }
 }
