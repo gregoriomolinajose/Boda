@@ -1336,7 +1336,7 @@ body.show-content #splash {
 }
 
 .settings-preview-column {
-    width: 440px;
+    width: 480px;
     position: sticky;
     top: 100px;
     display: flex;
@@ -1344,14 +1344,14 @@ body.show-content #splash {
     align-items: center;
 }
 
-/* -- Simplified Mobile Preview (No Frame) -- */
+/* -- Simplified Mobile Preview (Simulating 5.6" screen) -- */
 .mobile-frame {
-    width: 375px;
-    height: 750px;
+    width: 400px;
+    height: 800px;
     background: white;
     border-radius: 12px;
     position: relative;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
     border: 1px solid #ddd;
     overflow: hidden;
     transition: all 0.3s ease;
