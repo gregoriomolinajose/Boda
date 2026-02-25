@@ -307,6 +307,27 @@
             </div>
             <div class="cropper-container">
                 <img id="cropper-image" src="" style="max-width: 100%;">
+
+                <!-- Selector de Proporción -->
+                <div class="cropper-ratio-menu">
+                    <div class="ratio-toggle-btn" onclick="toggleRatioMenu()" title="Cambiar Proporción">
+                        <i class="fas fa-expand"></i>
+                    </div>
+                    <div class="ratio-options" id="ratio-options">
+                        <div class="ratio-btn" onclick="setCropRatio(NaN, 'Original', this)">
+                            <div class="ratio-icon r-free"></div> Original
+                        </div>
+                        <div class="ratio-btn" onclick="setCropRatio(1, '1:1', this)">
+                            <div class="ratio-icon r-1-1"></div> 1:1
+                        </div>
+                        <div class="ratio-btn active" id="default-ratio-btn" onclick="setCropRatio(0.8, '4:5', this)">
+                            <div class="ratio-icon r-4-5"></div> 4:5
+                        </div>
+                        <div class="ratio-btn" onclick="setCropRatio(1.7777, '16:9', this)">
+                            <div class="ratio-icon r-16-9"></div> 16:9
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="modal-actions" style="margin-top: 20px; display: flex; gap: 10px; justify-content: flex-end;">
                 <button class="btn btn-danger" onclick="closeCropper()">Cancelar</button>

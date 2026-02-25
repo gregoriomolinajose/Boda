@@ -132,7 +132,7 @@ function openCropper(imageSrc) {
     if (cropper) cropper.destroy();
 
     cropper = new Cropper(image, {
-        aspectRatio: 1,
+        aspectRatio: 0.8, // 4:5 por defecto
         viewMode: 1,
         dragMode: 'move',
         guides: true,
@@ -142,6 +142,28 @@ function openCropper(imageSrc) {
         cropBoxResizable: true,
         toggleDragModeOnDblclick: false,
     });
+
+    // Resetear menu de ratios
+    document.getElementById('ratio-options').classList.remove('active');
+    document.querySelectorAll('.ratio-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('default-ratio-btn').classList.add('active');
+}
+
+function toggleRatioMenu() {
+    const menu = document.getElementById('ratio-options');
+    menu.classList.toggle('active');
+}
+
+function setCropRatio(ratio, label, btn) {
+    if (!cropper) return;
+
+    cropper.setAspectRatio(ratio);
+
+    // UI feedback
+    document.querySelectorAll('.ratio-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    toggleRatioMenu();
 }
 
 function closeCropper() {
@@ -157,10 +179,7 @@ function closeCropper() {
 function applyCrop() {
     if (!cropper) return;
 
-    const canvas = cropper.getCroppedCanvas({
-        width: 600,
-        height: 600
-    });
+    const canvas = cropper.getCroppedCanvas(); // Dinámico según selección
 
     const croppedBase64 = canvas.toDataURL('image/jpeg', 0.8);
 
