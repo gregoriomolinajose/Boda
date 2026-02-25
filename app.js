@@ -37,6 +37,7 @@
     };
 
     let isPlaying = false;
+    let scrollObserver = null;
 
     /**
      * Inicializa el módulo del contador regresivo
@@ -259,7 +260,7 @@
 
         // Intersection Observer
         if ('IntersectionObserver' in window) {
-            const observer = new IntersectionObserver((entries) => {
+            scrollObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('visible', 'active');
@@ -267,7 +268,7 @@
                 });
             }, { threshold: 0.1 });
 
-            document.querySelectorAll('.animate-on-scroll, .reveal, .stagger-item').forEach(el => observer.observe(el));
+            document.querySelectorAll('.animate-on-scroll, .reveal, .stagger-item').forEach(el => scrollObserver.observe(el));
         }
     };
 
@@ -376,6 +377,7 @@
                     </div>
                 `;
                 timelineContainer.appendChild(row);
+                if (scrollObserver) scrollObserver.observe(row);
             });
         }
     };
