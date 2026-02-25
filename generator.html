@@ -163,9 +163,15 @@
                         </div>
                         <div class="photo-upload-controls"
                             style="margin-top: 15px; display: flex; flex-direction: column; gap: 10px;">
-                            <label for="photo-input" class="btn btn-primary" style="align-self: flex-start; margin: 0;">
-                                <i class="fas fa-upload"></i> Seleccionar Foto
-                            </label>
+                            <div style="display: flex; gap: 10px;">
+                                <label for="photo-input" class="btn btn-primary"
+                                    style="margin: 0; flex: 1; text-align: center;">
+                                    <i class="fas fa-upload"></i> Seleccionar Foto
+                                </label>
+                                <button class="btn btn-danger" onclick="deletePhoto()" style="margin: 0; flex: 1;">
+                                    <i class="fas fa-trash-alt"></i> Eliminar Foto
+                                </button>
+                            </div>
                             <input type="file" id="photo-input" accept="image/*" style="display: none;">
                             <p class="help-text" style="font-size: 0.75rem; color: #777;">JPG o PNG. Se recomienda
                                 formato cuadrado.</p>

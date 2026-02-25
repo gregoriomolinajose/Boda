@@ -191,6 +191,15 @@ function applyCrop() {
     notifyPreview();
 }
 
+function deletePhoto() {
+    if (confirm('¿Estás seguro de que deseas eliminar la foto de los novios?')) {
+        const placeholder = "https://via.placeholder.com/600x600?text=Subir+Foto";
+        APP_CONFIG.wedding.photo = placeholder;
+        document.getElementById('couple-photo-preview').src = placeholder;
+        notifyPreview();
+    }
+}
+
 function notifyPreview() {
     const iframe = document.getElementById('preview-iframe');
     if (!iframe || !iframe.contentWindow) return;
