@@ -1897,3 +1897,138 @@ input:checked+.slider {
 input:checked+.slider:before {
     transform: translateX(26px);
 }
+/* -- Photo Upload & Advanced Cropper -- */
+.photo-upload-container {
+    padding: 20px;
+    background: #fdfdfd;
+    border: 1px dashed #ddd;
+    border-radius: 12px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.photo-preview-box {
+    width: 100px;
+    height: 125px;
+    background: #eee;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #fff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.photo-preview-box img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}
+
+.cropper-container {
+    position: relative;
+    width: 100%;
+    height: 450px;
+    background: #111;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.cropper-ratio-menu {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    z-index: 1001;
+}
+
+.ratio-toggle-btn {
+    width: 44px;
+    height: 44px;
+    background: rgba(0, 0, 0, 0.75);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(8px);
+}
+
+.ratio-options {
+    position: absolute;
+    bottom: 55px;
+    left: 0;
+    background: rgba(25, 25, 25, 0.95);
+    backdrop-filter: blur(15px);
+    border-radius: 14px;
+    overflow: hidden;
+    display: none;
+    flex-direction: column;
+    min-width: 160px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.ratio-options.active {
+    display: flex;
+}
+
+.ratio-btn {
+    padding: 12px 18px;
+    color: #e0e0e0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.ratio-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.ratio-btn.active {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.ratio-icon {
+    width: 18px;
+    height: 18px;
+    border: 2px solid currentColor;
+    border-radius: 2px;
+}
+
+.ratio-icon.r-1-1 { width: 14px; height: 14px; }
+.ratio-icon.r-4-5 { width: 14px; height: 18px; }
+.ratio-icon.r-16-9 { width: 22px; height: 12px; }
+.ratio-icon.r-free { border-style: dashed; }
+
+.couple-photo-section {
+    width: 100%;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.photo-frame {
+    max-width: 320px;
+    width: 100%;
+    border-radius: 20px;
+    border: 8px solid white;
+    box-shadow: 0 15px 45px rgba(0,0,0,0.12);
+    overflow: hidden;
+    position: relative;
+    background: #f9f9f9;
+}
+
+.photo-frame img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
