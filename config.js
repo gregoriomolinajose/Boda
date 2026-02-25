@@ -16,7 +16,12 @@ const APP_CONFIG = {
     ui: {
         baseUrl: "https://boda-doraygregorio.vercel.app/",
         musicVolume: 0.2,
-        showCountdown: true
+        showCountdown: true,
+        iconColor: "#80a040",
+        primaryBlue: "#93afc2",
+        primaryOlive: "#6b705c",
+        fontPrimary: "Montserrat",
+        fontScript: "Great Vibes"
     },
     timeline: [
         { time: "19:30", activity: "Recepción", icon: "fa-leaf" },

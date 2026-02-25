@@ -59,7 +59,13 @@ function populateSettingsForm() {
     document.getElementById('set-virtual-location').value = APP_CONFIG.wedding.location.virtual;
     document.getElementById('set-base-url').value = APP_CONFIG.ui.baseUrl;
     document.getElementById('set-webhook-url').value = APP_CONFIG.api.sheetWebhook;
+
+    // Estilos y Colores
+    document.getElementById('set-primary-blue').value = APP_CONFIG.ui.primaryBlue || '#93afc2';
+    document.getElementById('set-primary-olive').value = APP_CONFIG.ui.primaryOlive || '#6b705c';
     document.getElementById('set-icon-color').value = APP_CONFIG.ui.iconColor || '#80a040';
+    document.getElementById('set-font-primary').value = APP_CONFIG.ui.fontPrimary || 'Montserrat';
+    document.getElementById('set-font-script').value = APP_CONFIG.ui.fontScript || 'Great Vibes';
 
     renderTimelineUI();
 
@@ -74,6 +80,14 @@ function populateSettingsForm() {
                 const icon = btn.querySelector('i');
                 if (icon) icon.style.color = newColor;
             });
+        };
+    }
+
+    // Preview para colores principales (opcional si se quiere feedback visual en el panel)
+    const primaryBluePicker = document.getElementById('set-primary-blue');
+    if (primaryBluePicker) {
+        primaryBluePicker.oninput = (e) => {
+            document.documentElement.style.setProperty('--primary-blue', e.target.value);
         };
     }
 }
@@ -205,13 +219,19 @@ function saveSettings() {
     // Actualizar objeto APP_CONFIG
     APP_CONFIG.wedding.names = document.getElementById('set-wedding-names').value;
     APP_CONFIG.wedding.date = `${date} ${time}`;
-    APP_CONFIG.ui.showCountdown = document.getElementById('set-show-countdown').checked;
-    APP_CONFIG.ui.iconColor = document.getElementById('set-icon-color').value;
-
     APP_CONFIG.wedding.location.physical = document.getElementById('set-physical-location').value;
     APP_CONFIG.wedding.location.virtual = document.getElementById('set-virtual-location').value;
-    APP_CONFIG.ui.baseUrl = document.getElementById('set-base-url').value;
     APP_CONFIG.api.sheetWebhook = document.getElementById('set-webhook-url').value;
+
+    APP_CONFIG.ui = {
+        baseUrl: document.getElementById('set-base-url').value,
+        showCountdown: document.getElementById('set-show-countdown').checked,
+        iconColor: document.getElementById('set-icon-color').value,
+        primaryBlue: document.getElementById('set-primary-blue').value,
+        primaryOlive: document.getElementById('set-primary-olive').value,
+        fontPrimary: document.getElementById('set-font-primary').value,
+        fontScript: document.getElementById('set-font-script').value
+    };
 
     // Consolidar Timeline (para capturar cambios en inputs de texto/hora)
     const items = document.querySelectorAll('.timeline-builder-item');

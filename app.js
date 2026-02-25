@@ -272,9 +272,49 @@
     };
 
     /**
+     * Aplica estilos dinámicos (colores y fuentes) basados en la configuración
+     */
+    const applyDynamicStyles = () => {
+        const ui = APP_CONFIG.ui;
+        const root = document.documentElement;
+
+        // Aplicar Colores
+        if (ui.primaryBlue) root.style.setProperty('--primary-blue', ui.primaryBlue);
+        if (ui.primaryOlive) {
+            root.style.setProperty('--primary-olive', ui.primaryOlive);
+            // También calcular un color de fondo ultra-suave basado en el olivo
+            root.style.setProperty('--primary-olive-light', `${ui.primaryOlive}15`); // 15 es aprox 8% de opacidad en hex
+        }
+
+        // Aplicar Fuentes
+        if (ui.fontPrimary) root.style.setProperty('--font-primary', `'${ui.fontPrimary}', sans-serif`);
+        if (ui.fontScript) root.style.setProperty('--font-script', `'${ui.fontScript}', cursive`);
+
+        // Cargar Google Fonts dinámicamente si no están ya
+        const fontsToLoad = [];
+        if (ui.fontPrimary && ui.fontPrimary !== 'Montserrat') fontsToLoad.push(ui.fontPrimary);
+        if (ui.fontScript && ui.fontScript !== 'Great Vibes') fontsToLoad.push(ui.fontScript);
+
+        if (fontsToLoad.length > 0) {
+            const fontFamilies = fontsToLoad.map(f => `family=${f.replace(/ /g, '+')}:wght@300;400;600`).join('&');
+            const linkId = 'dynamic-google-fonts';
+            let link = document.getElementById(linkId);
+            if (!link) {
+                link = document.createElement('link');
+                link.id = linkId;
+                link.rel = 'stylesheet';
+                document.head.appendChild(link);
+            }
+            link.href = `https://fonts.googleapis.com/css2?${fontFamilies}&display=swap`;
+        }
+    };
+
+    /**
      * Renderiza dinámicamente el contenido basado en la configuración
      */
     const renderDynamicContent = () => {
+        applyDynamicStyles();
+
         // Nombres (múltiples lugares)
         const hostElements = ['wedding-names-main', 'host-names-splash', 'host-names-hero', 'host-names-final'];
         hostElements.forEach(id => {
