@@ -547,10 +547,10 @@ body.show-content #splash {
     cursor: pointer;
 }
 
-.act.icon-selector-btn i {
+.icon-selector-btn i {
     font-size: 1.5rem;
-    color: #333 !important;
-    /* Forzar visibilidad en config */
+    color: inherit;
+    /* Permitir que el JS controle el color */
 }
 
 .icon-option i {
@@ -1747,9 +1747,15 @@ td {
     transition: all 0.2s;
 }
 
-.move-btn i,
+.move-btn i {
+    color: #80a040 !important;
+    /* Verde oliva oscuro para visibilidad */
+    font-weight: 900;
+}
+
 .remove-item i {
-    color: inherit;
+    color: #e74c3c !important;
+    /* Rojo vibrante para visibilidad */
     font-weight: 900;
 }
 

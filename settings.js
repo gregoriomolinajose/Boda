@@ -67,11 +67,13 @@ function populateSettingsForm() {
     const colorPicker = document.getElementById('set-icon-color');
     if (colorPicker) {
         colorPicker.oninput = (e) => {
-            APP_CONFIG.ui.iconColor = e.target.value;
+            const newColor = e.target.value;
+            APP_CONFIG.ui.iconColor = newColor;
             // Actualizar el color de los bordes e iconos en el builder dinámicamente
             document.querySelectorAll('.icon-selector-btn').forEach(btn => {
-                btn.style.borderColor = e.target.value;
-                btn.querySelector('i').style.color = e.target.value;
+                btn.style.borderColor = newColor;
+                const icon = btn.querySelector('i');
+                if (icon) icon.style.color = newColor;
             });
         };
     }
