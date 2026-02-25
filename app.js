@@ -72,6 +72,39 @@
     };
 
     /**
+     * Inicializa las partículas ambientales
+     */
+    const initParticles = () => {
+        if (!domElements.particlesContainer) return;
+
+        const createParticle = () => {
+            const p = document.createElement('div');
+            p.className = 'particle';
+
+            const size = Math.random() * 5 + 2 + 'px';
+            p.style.width = size;
+            p.style.height = size;
+
+            p.style.left = Math.random() * 100 + 'vw';
+            const duration = Math.random() * 10 + 10 + 's';
+            p.style.animationDuration = duration;
+
+            domElements.particlesContainer.appendChild(p);
+
+            setTimeout(() => {
+                p.remove();
+            }, parseFloat(duration) * 1000);
+        };
+
+        // Crear partículas iniciales
+        for (let i = 0; i < 15; i++) {
+            setTimeout(createParticle, Math.random() * 5000);
+        }
+
+        setInterval(createParticle, 1500);
+    };
+
+    /**
      * Controlador del estado y la UI del reproductor de música
      */
     const toggleMusic = () => {
@@ -234,7 +267,7 @@
                 });
             }, { threshold: 0.1 });
 
-            document.querySelectorAll('.animate-on-scroll, .reveal').forEach(el => observer.observe(el));
+            document.querySelectorAll('.animate-on-scroll, .reveal, .stagger-item').forEach(el => observer.observe(el));
         }
     };
 
@@ -250,6 +283,7 @@
         }
 
         initCountdown();
+        initParticles();
         initSplashScreen();
         initUserActions();
         initEnhancements();

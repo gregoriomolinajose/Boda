@@ -715,6 +715,15 @@ body.show-content #splash {
     width: 100%;
 }
 
+.info-block {
+    margin-top: 30px;
+    width: 100%;
+}
+
+.gift-block {
+    text-align: center;
+}
+
 .photo-main-content {
     display: flex;
     flex-direction: column;
@@ -1425,8 +1434,15 @@ td {
 }
 
 @keyframes flicker {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.8; }
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.8;
+    }
 }
 
 .animate-flicker {
