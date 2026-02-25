@@ -69,7 +69,6 @@ function populateSettingsForm() {
         colorPicker.oninput = (e) => {
             const newColor = e.target.value;
             APP_CONFIG.ui.iconColor = newColor;
-            // Actualizar el color de los bordes e iconos en el builder dinámicamente
             document.querySelectorAll('.icon-selector-btn').forEach(btn => {
                 btn.style.borderColor = newColor;
                 const icon = btn.querySelector('i');
@@ -91,7 +90,11 @@ function renderTimelineUI() {
     timeline.forEach((item, index) => {
         const row = document.createElement('div');
         row.className = 'timeline-builder-item';
+        row.dataset.index = index;
         row.innerHTML = `
+            <div class="timeline-builder-handle">
+                <i class="fas fa-grip-vertical"></i>
+            </div>
             <button class="icon-selector-btn" 
                     onclick="openIconPicker('timeline-icon-${index}')" 
                     id="timeline-icon-${index}" 
@@ -102,12 +105,6 @@ function renderTimelineUI() {
             <input type="time" class="set-timeline-time" value="${item.time}">
             <input type="text" class="set-timeline-activity" value="${item.activity}" placeholder="Actividad">
             <div class="timeline-builder-actions">
-                <div class="move-btn" onclick="moveTimelineItem(${index}, -1)" title="Subir">
-                    <i class="fas fa-chevron-up"></i>
-                </div>
-                <div class="move-btn" onclick="moveTimelineItem(${index}, 1)" title="Bajar">
-                    <i class="fas fa-chevron-down"></i>
-                </div>
                 <div class="remove-item" onclick="removeTimelineItem(${index})" title="Eliminar">
                     <i class="fas fa-trash-alt"></i>
                 </div>
@@ -115,48 +112,59 @@ function renderTimelineUI() {
         `;
         container.appendChild(row);
     });
-}
 
-function moveTimelineItem(index, direction) {
-    const timeline = APP_CONFIG.timeline || [];
-    const newIndex = index + direction;
-
-    if (newIndex < 0 || newIndex >= timeline.length) return;
-
-    // Intercambiar elementos
-    const temp = timeline[index];
-    timeline[index] = timeline[newIndex];
-    timeline[newIndex] = temp;
-
-    renderTimelineUI();
+    // Inicializar Sortable
+    if (window.Sortable) {
+        new Sortable(container, {
+            handle: '.timeline-builder-handle',
+            animation: 150,
+            ghostClass: 'sortable-ghost',
+            onEnd: function () {
+                // Sincronizar el array con el nuevo orden visual
+                const items = container.querySelectorAll('.timeline-builder-item');
+                const newTimeline = [];
+                items.forEach(row => {
+                    newTimeline.push({
+                        time: row.querySelector('.set-timeline-time').value,
+                        activity: row.querySelector('.set-timeline-activity').value,
+                        icon: row.querySelector('.icon-selector-btn').dataset.icon
+                    });
+                });
+                APP_CONFIG.timeline = newTimeline;
+                // Re-renderizar para actualizar índices de eventos si es necesario
+                renderTimelineUI();
+            }
+        });
+    }
 }
 
 function addTimelineItem() {
+    // Sincronizar datos actuales antes de añadir para no perder cambios de texto
+    syncTimelineData();
     if (!APP_CONFIG.timeline) APP_CONFIG.timeline = [];
     APP_CONFIG.timeline.push({ time: "12:00", activity: "", icon: "fa-leaf" });
     renderTimelineUI();
 }
 
+function syncTimelineData() {
+    const container = document.getElementById('timeline-builder-container');
+    if (!container) return;
+    const items = container.querySelectorAll('.timeline-builder-item');
+    const currentData = [];
+    items.forEach(row => {
+        currentData.push({
+            time: row.querySelector('.set-timeline-time').value,
+            activity: row.querySelector('.set-timeline-activity').value,
+            icon: row.querySelector('.icon-selector-btn').dataset.icon
+        });
+    });
+    APP_CONFIG.timeline = currentData;
+}
+
 function removeTimelineItem(index) {
     if (confirm('¿Estás seguro de que deseas eliminar esta actividad?')) {
-        // Primero sincronizamos los datos actuales de los inputs
-        const items = document.querySelectorAll('.timeline-builder-item');
-        const currentData = [];
-        items.forEach(row => {
-            currentData.push({
-                time: row.querySelector('.set-timeline-time').value,
-                activity: row.querySelector('.set-timeline-activity').value,
-                icon: row.querySelector('.icon-selector-btn').dataset.icon
-            });
-        });
-
-        // Aplicamos al objeto global
-        APP_CONFIG.timeline = currentData;
-
-        // Eliminamos el índice deseado
+        syncTimelineData();
         APP_CONFIG.timeline.splice(index, 1);
-
-        // Re-renderizamos
         renderTimelineUI();
     }
 }

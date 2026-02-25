@@ -1748,20 +1748,28 @@ td {
 }
 
 .move-btn i {
-    color: #80a040 !important;
-    /* Verde oliva oscuro para visibilidad */
-    font-weight: 900;
+    color: #666 !important;
+    /* Color neutro para el handle */
+    cursor: grab;
+}
+
+.timeline-builder-handle {
+    cursor: grab;
+    color: #999;
+    font-size: 1.2rem;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
 }
 
 .remove-item i {
     color: #e74c3c !important;
-    /* Rojo vibrante para visibilidad */
     font-weight: 900;
 }
 
 .timeline-builder-item {
     display: grid;
-    grid-template-columns: 60px 100px 1fr 140px;
+    grid-template-columns: 40px 60px 100px 1fr 50px;
     gap: 15px;
     align-items: center;
     padding: 15px;
@@ -1770,6 +1778,13 @@ td {
     margin-bottom: 12px;
     border: 1px solid #e1e1e1;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    cursor: default;
+}
+
+.sortable-ghost {
+    opacity: 0.4;
+    background: #f0f4f0 !important;
+    border: 2px dashed var(--primary-olive);
 }
 
 .timeline-builder-item input {
@@ -1780,11 +1795,8 @@ td {
 
 .timeline-builder-actions {
     display: flex;
-    gap: 8px;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
-    min-width: 120px;
-    /* Asegurar espacio para botones */
 }
 
 .switch {
