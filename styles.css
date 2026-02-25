@@ -1344,64 +1344,28 @@ body.show-content #splash {
     align-items: center;
 }
 
-/* -- Mobile Device Frame (iPhone 17 style, 5.2" screen) -- */
+/* -- Simplified Mobile Preview (No Frame) -- */
 .mobile-frame {
-    width: 360px;
-    height: 720px;
-    background: #000;
-    border-radius: 50px;
-    padding: 14px;
+    width: 375px;
+    height: 750px;
+    background: white;
+    border-radius: 12px;
     position: relative;
-    box-shadow: 0 45px 110px rgba(0, 0, 0, 0.55);
-    border: 7px solid #1a1a1a;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid #ddd;
+    overflow: hidden;
+    transition: all 0.3s ease;
 }
 
-/* Dynamic Island */
-.mobile-header {
-    width: 80px;
-    height: 22px;
-    background: #000;
-    border-radius: 20px;
-    position: absolute;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-/* Speaker/Camera dot inside Dynamic Island */
-.mobile-header::after {
-    content: '';
-    position: absolute;
-    right: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 6px;
-    height: 6px;
-    background: #1a1a1a;
-    border-radius: 50%;
-}
-
+.mobile-header,
 .mobile-footer {
-    width: 100px;
-    height: 4px;
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 10px;
-    position: absolute;
-    bottom: 12px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 2;
-    border: none;
+    display: none;
 }
 
 #preview-iframe {
     width: 100%;
     height: 100%;
     border: none;
-    border-radius: 32px;
     background: white;
 }
 
