@@ -62,6 +62,19 @@ function populateSettingsForm() {
     document.getElementById('set-icon-color').value = APP_CONFIG.ui.iconColor || '#80a040';
 
     renderTimelineUI();
+
+    // Sincronización de color en tiempo real para el builder
+    const colorPicker = document.getElementById('set-icon-color');
+    if (colorPicker) {
+        colorPicker.oninput = (e) => {
+            APP_CONFIG.ui.iconColor = e.target.value;
+            // Actualizar el color de los bordes e iconos en el builder dinámicamente
+            document.querySelectorAll('.icon-selector-btn').forEach(btn => {
+                btn.style.borderColor = e.target.value;
+                btn.querySelector('i').style.color = e.target.value;
+            });
+        };
+    }
 }
 
 function renderTimelineUI() {
@@ -71,12 +84,18 @@ function renderTimelineUI() {
     container.innerHTML = '';
 
     const timeline = APP_CONFIG.timeline || [];
+    const iconColor = APP_CONFIG.ui.iconColor || '#80a040';
+
     timeline.forEach((item, index) => {
         const row = document.createElement('div');
-        row.className = 'timeline-builder-item';
+        row.className = 'timeline-item timeline-builder-item'; // Reusar clase base si es necesario
         row.innerHTML = `
-            <button class="icon-selector-btn" onclick="openIconPicker('timeline-icon-${index}')" id="timeline-icon-${index}" data-icon="${item.icon}">
-                <i class="fas ${item.icon}"></i>
+            <button class="icon-selector-btn" 
+                    onclick="openIconPicker('timeline-icon-${index}')" 
+                    id="timeline-icon-${index}" 
+                    data-icon="${item.icon}"
+                    style="border: 2px solid ${iconColor}">
+                <i class="fa-solid ${item.icon}" style="color: ${iconColor}; font-weight: 900;"></i>
             </button>
             <input type="time" class="set-timeline-time" value="${item.time}">
             <input type="text" class="set-timeline-activity" value="${item.activity}" placeholder="Actividad">

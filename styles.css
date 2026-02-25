@@ -547,6 +547,18 @@ body.show-content #splash {
     cursor: pointer;
 }
 
+.act.icon-selector-btn i {
+    font-size: 1.5rem;
+    color: #333 !important;
+    /* Forzar visibilidad en config */
+}
+
+.icon-option i {
+    font-size: 1.5rem;
+    color: #333 !important;
+    /* Forzar visibilidad en picker */
+}
+
 .action-card i {
     font-size: 1.2rem;
     color: var(--primary-blue);
@@ -1735,9 +1747,10 @@ td {
     transition: all 0.2s;
 }
 
-.move-btn:hover {
-    transform: scale(1.2);
-    color: var(--primary-blue) !important;
+.move-btn i,
+.remove-item i {
+    color: inherit;
+    font-weight: 900;
 }
 
 .timeline-builder-item {
