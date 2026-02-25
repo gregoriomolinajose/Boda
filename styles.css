@@ -767,6 +767,7 @@ body.show-content #splash {
 .photo-card--dual {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 15px;
 }
 
