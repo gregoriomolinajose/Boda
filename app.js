@@ -323,6 +323,12 @@
             if (el) el.innerText = APP_CONFIG.wedding.names;
         });
 
+        // Foto de los Novios
+        const photoEl = document.getElementById('wedding-photo-img');
+        if (photoEl) {
+            photoEl.src = APP_CONFIG.wedding.photo || 'https://via.placeholder.com/600x600?text=Novios';
+        }
+
         // Ubicación (Texto)
         const locEl = document.getElementById('wedding-location-physical');
         if (locEl) locEl.innerText = APP_CONFIG.wedding.location.physical;

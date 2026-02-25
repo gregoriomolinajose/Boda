@@ -8,6 +8,7 @@
     <title>Generador de Invitaciones - Dora & Gregorio</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
     <link rel="stylesheet" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 </head>
@@ -153,6 +154,25 @@
                     </div>
 
                     <div class="settings-section-title">
+                        <i class="fas fa-camera"></i> Foto de los Novios
+                    </div>
+                    <div class="photo-upload-container">
+                        <div class="photo-preview-box" id="couple-photo-preview-box">
+                            <img id="couple-photo-preview" src="https://via.placeholder.com/600x600?text=Subir+Foto"
+                                alt="Foto Novios" style="max-width: 100%; border-radius: 8px;">
+                        </div>
+                        <div class="photo-upload-controls"
+                            style="margin-top: 15px; display: flex; flex-direction: column; gap: 10px;">
+                            <label for="photo-input" class="btn btn-primary" style="align-self: flex-start; margin: 0;">
+                                <i class="fas fa-upload"></i> Seleccionar Foto
+                            </label>
+                            <input type="file" id="photo-input" accept="image/*" style="display: none;">
+                            <p class="help-text" style="font-size: 0.75rem; color: #777;">JPG o PNG. Se recomienda
+                                formato cuadrado.</p>
+                        </div>
+                    </div>
+
+                    <div class="settings-section-title">
                         <i class="fas fa-clock"></i> Itinerario (Timeline)
                         <button class="btn btn-olive" style="margin-left: auto; padding: 5px 15px; font-size: 0.7rem;"
                             onclick="addTimelineItem()">
@@ -278,11 +298,29 @@
         </div>
     </div>
 
+    <!-- Modal Recorte de Foto -->
+    <div id="modal-cropper" class="modal-overlay" style="z-index: 5000;">
+        <div class="modal-content" style="max-width: 600px;">
+            <span class="modal-close" onclick="closeCropper()">&times;</span>
+            <div class="modal-header">
+                <h3>Recortar Foto</h3>
+            </div>
+            <div class="cropper-container">
+                <img id="cropper-image" src="" style="max-width: 100%;">
+            </div>
+            <div class="modal-actions" style="margin-top: 20px; display: flex; gap: 10px; justify-content: flex-end;">
+                <button class="btn btn-danger" onclick="closeCropper()">Cancelar</button>
+                <button class="btn btn-primary" onclick="applyCrop()">Guardar Recorte</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Scripts Modulares -->
     <script src="config.js"></script>
     <script src="utils.js"></script>
     <script src="dashboard.js"></script>
     <script src="invitation-modal.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
     <script src="settings.js"></script>
 
     <script>

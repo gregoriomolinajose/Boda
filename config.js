@@ -8,7 +8,8 @@ const APP_CONFIG = {
             physical: "Barolo 8C Chapalita",
             virtual: "Google Meet"
         },
-        names: "Dora & Gregorio"
+        names: "Dora & Gregorio",
+        photo: "https://via.placeholder.com/600x600?text=Foto+de+los+Novios"
     },
     api: {
         sheetWebhook: "https://script.google.com/macros/s/AKfycbxkpWVeOerWCwX0JECPFc3I3RwZ-GyiACxh0BaDlhNDzq8OC4DJVs4acDx0s30ZAulIJg/exec"

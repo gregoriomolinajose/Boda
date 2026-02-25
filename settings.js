@@ -3,6 +3,7 @@
  */
 
 let currentIconTargetId = null;
+let cropper = null;
 
 const ICON_LIST = [
     'fa-leaf', 'fa-heart', 'fa-champagne-glasses', 'fa-utensils', 'fa-music',
@@ -67,6 +68,12 @@ function populateSettingsForm() {
     document.getElementById('set-font-primary').value = APP_CONFIG.ui.fontPrimary || 'Montserrat';
     document.getElementById('set-font-script').value = APP_CONFIG.ui.fontScript || 'Great Vibes';
 
+    // Foto de los Novios
+    const photoPreview = document.getElementById('couple-photo-preview');
+    if (photoPreview && APP_CONFIG.wedding.photo) {
+        photoPreview.src = APP_CONFIG.wedding.photo;
+    }
+
     renderTimelineUI();
 
     // Sincronización de color en tiempo real para el builder
@@ -93,11 +100,76 @@ function populateSettingsForm() {
         };
     }
 
-    // Vincular todos los inputs para actualizar el preview en tiempo real
     const inputs = document.querySelectorAll('#settings-page input, #settings-page select');
     inputs.forEach(input => {
-        input.addEventListener('input', notifyPreview);
+        if (input.id !== 'photo-input') {
+            input.addEventListener('input', notifyPreview);
+        }
     });
+
+    // Eventos para la foto
+    const photoInput = document.getElementById('photo-input');
+    if (photoInput) {
+        photoInput.onchange = (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    openCropper(event.target.result);
+                };
+                reader.readAsDataURL(file);
+            }
+        };
+    }
+}
+
+function openCropper(imageSrc) {
+    const modal = document.getElementById('modal-cropper');
+    const image = document.getElementById('cropper-image');
+    image.src = imageSrc;
+    modal.style.display = 'flex';
+
+    if (cropper) cropper.destroy();
+
+    cropper = new Cropper(image, {
+        aspectRatio: 1,
+        viewMode: 1,
+        dragMode: 'move',
+        guides: true,
+        center: true,
+        highlight: false,
+        cropBoxMovable: true,
+        cropBoxResizable: true,
+        toggleDragModeOnDblclick: false,
+    });
+}
+
+function closeCropper() {
+    document.getElementById('modal-cropper').style.display = 'none';
+    if (cropper) {
+        cropper.destroy();
+        cropper = null;
+    }
+    // Reset input
+    document.getElementById('photo-input').value = '';
+}
+
+function applyCrop() {
+    if (!cropper) return;
+
+    const canvas = cropper.getCroppedCanvas({
+        width: 600,
+        height: 600
+    });
+
+    const croppedBase64 = canvas.toDataURL('image/jpeg', 0.8);
+
+    // Actualizar preview en settings
+    document.getElementById('couple-photo-preview').src = croppedBase64;
+    APP_CONFIG.wedding.photo = croppedBase64;
+
+    closeCropper();
+    notifyPreview();
 }
 
 function notifyPreview() {
@@ -114,7 +186,8 @@ function notifyPreview() {
             location: {
                 physical: document.getElementById('set-physical-location').value,
                 virtual: document.getElementById('set-virtual-location').value
-            }
+            },
+            photo: document.getElementById('couple-photo-preview').src
         },
         ui: {
             showCountdown: document.getElementById('set-show-countdown').checked,
