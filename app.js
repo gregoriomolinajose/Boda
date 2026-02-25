@@ -309,20 +309,24 @@
 
         // Toggle Contador
         const countdownSec = document.getElementById('countdown-section');
-        if (countdownSec && APP_CONFIG.ui.showCountdown === false) {
-            const timerContainer = document.querySelector('.countdown-container');
-            if (timerContainer) timerContainer.style.display = 'none';
+        if (countdownSec) {
+            const timer = document.getElementById('countdown');
+            if (timer) {
+                timer.style.display = (APP_CONFIG.ui.showCountdown !== false) ? 'flex' : 'none';
+            }
         }
 
         // Renderizar Timeline
         const timelineContainer = document.getElementById('timeline-container');
         if (timelineContainer && APP_CONFIG.timeline) {
             timelineContainer.innerHTML = '';
+            const iconColor = APP_CONFIG.ui.iconColor || 'var(--primary-olive)';
+
             APP_CONFIG.timeline.forEach(item => {
                 const row = document.createElement('div');
                 row.className = 'timeline-item animate-on-scroll';
                 row.innerHTML = `
-                    <div class="timeline-icon"><i class="fas ${item.icon}"></i></div>
+                    <div class="timeline-icon" style="background-color: ${iconColor}"><i class="fas ${item.icon}"></i></div>
                     <div class="timeline-content">
                         <div class="time">${item.time}</div>
                         <div class="event">${item.activity}</div>

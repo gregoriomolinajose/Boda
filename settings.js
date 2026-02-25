@@ -59,6 +59,7 @@ function populateSettingsForm() {
     document.getElementById('set-virtual-location').value = APP_CONFIG.wedding.location.virtual;
     document.getElementById('set-base-url').value = APP_CONFIG.ui.baseUrl;
     document.getElementById('set-webhook-url').value = APP_CONFIG.api.sheetWebhook;
+    document.getElementById('set-icon-color').value = APP_CONFIG.ui.iconColor || '#80a040';
 
     renderTimelineUI();
 }
@@ -79,12 +80,34 @@ function renderTimelineUI() {
             </button>
             <input type="time" class="set-timeline-time" value="${item.time}">
             <input type="text" class="set-timeline-activity" value="${item.activity}" placeholder="Actividad">
-            <div class="remove-item" onclick="removeTimelineItem(${index})">
-                <i class="fas fa-trash-alt"></i>
+            <div style="display: flex; gap: 10px;">
+                <div class="move-btn" onclick="moveTimelineItem(${index}, -1)" title="Subir">
+                    <i class="fas fa-chevron-up"></i>
+                </div>
+                <div class="move-btn" onclick="moveTimelineItem(${index}, 1)" title="Bajar">
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="remove-item" onclick="removeTimelineItem(${index})" title="Eliminar">
+                    <i class="fas fa-trash-alt"></i>
+                </div>
             </div>
         `;
         container.appendChild(row);
     });
+}
+
+function moveTimelineItem(index, direction) {
+    const timeline = APP_CONFIG.timeline || [];
+    const newIndex = index + direction;
+
+    if (newIndex < 0 || newIndex >= timeline.length) return;
+
+    // Intercambiar elementos
+    const temp = timeline[index];
+    timeline[index] = timeline[newIndex];
+    timeline[newIndex] = temp;
+
+    renderTimelineUI();
 }
 
 function addTimelineItem() {
@@ -94,8 +117,10 @@ function addTimelineItem() {
 }
 
 function removeTimelineItem(index) {
-    APP_CONFIG.timeline.splice(index, 1);
-    renderTimelineUI();
+    if (confirm('¿Estás seguro de que deseas eliminar esta actividad?')) {
+        APP_CONFIG.timeline.splice(index, 1);
+        renderTimelineUI();
+    }
 }
 
 function openIconPicker(targetId) {
@@ -135,13 +160,14 @@ function saveSettings() {
     APP_CONFIG.wedding.names = document.getElementById('set-wedding-names').value;
     APP_CONFIG.wedding.date = `${date} ${time}`;
     APP_CONFIG.ui.showCountdown = document.getElementById('set-show-countdown').checked;
+    APP_CONFIG.ui.iconColor = document.getElementById('set-icon-color').value;
 
     APP_CONFIG.wedding.location.physical = document.getElementById('set-physical-location').value;
     APP_CONFIG.wedding.location.virtual = document.getElementById('set-virtual-location').value;
     APP_CONFIG.ui.baseUrl = document.getElementById('set-base-url').value;
     APP_CONFIG.api.sheetWebhook = document.getElementById('set-webhook-url').value;
 
-    // Consolidar Timeline
+    // Consolidar Timeline (para capturar cambios en inputs de texto/hora)
     const items = document.querySelectorAll('.timeline-builder-item');
     const newTimeline = [];
     items.forEach(row => {
