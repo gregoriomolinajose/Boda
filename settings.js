@@ -80,16 +80,67 @@ function populateSettingsForm() {
                 const icon = btn.querySelector('i');
                 if (icon) icon.style.color = newColor;
             });
+            notifyPreview();
         };
     }
 
-    // Preview para colores principales (opcional si se quiere feedback visual en el panel)
+    // Preview para colores principales
     const primaryBluePicker = document.getElementById('set-primary-blue');
     if (primaryBluePicker) {
         primaryBluePicker.oninput = (e) => {
             document.documentElement.style.setProperty('--primary-blue', e.target.value);
+            notifyPreview();
         };
     }
+
+    // Vincular todos los inputs para actualizar el preview en tiempo real
+    const inputs = document.querySelectorAll('#settings-page input, #settings-page select');
+    inputs.forEach(input => {
+        input.addEventListener('input', notifyPreview);
+    });
+}
+
+function notifyPreview() {
+    const iframe = document.getElementById('preview-iframe');
+    if (!iframe || !iframe.contentWindow) return;
+
+    const date = document.getElementById('set-wedding-date-picker').value;
+    const time = document.getElementById('set-wedding-time-picker').value;
+
+    const configSnapshot = {
+        wedding: {
+            names: document.getElementById('set-wedding-names').value,
+            date: `${date} ${time}`,
+            location: {
+                physical: document.getElementById('set-physical-location').value,
+                virtual: document.getElementById('set-virtual-location').value
+            }
+        },
+        ui: {
+            showCountdown: document.getElementById('set-show-countdown').checked,
+            iconColor: document.getElementById('set-icon-color').value,
+            primaryBlue: document.getElementById('set-primary-blue').value,
+            primaryOlive: document.getElementById('set-primary-olive').value,
+            fontPrimary: document.getElementById('set-font-primary').value,
+            fontScript: document.getElementById('set-font-script').value
+        },
+        // Capturar el timeline actual
+        timeline: []
+    };
+
+    const timelineItems = document.querySelectorAll('.timeline-builder-item');
+    timelineItems.forEach(row => {
+        configSnapshot.timeline.push({
+            time: row.querySelector('.set-timeline-time').value,
+            activity: row.querySelector('.set-timeline-activity').value,
+            icon: row.querySelector('.icon-selector-btn').dataset.icon
+        });
+    });
+
+    iframe.contentWindow.postMessage({
+        type: 'UPDATE_CONFIG',
+        config: configSnapshot
+    }, '*');
 }
 
 function renderTimelineUI() {
@@ -147,9 +198,11 @@ function renderTimelineUI() {
                 APP_CONFIG.timeline = newTimeline;
                 // Re-renderizar para actualizar índices de eventos si es necesario
                 renderTimelineUI();
+                notifyPreview();
             }
         });
     }
+    notifyPreview();
 }
 
 function addTimelineItem() {
@@ -158,6 +211,7 @@ function addTimelineItem() {
     if (!APP_CONFIG.timeline) APP_CONFIG.timeline = [];
     APP_CONFIG.timeline.push({ time: "12:00", activity: "", icon: "fa-leaf" });
     renderTimelineUI();
+    notifyPreview();
 }
 
 function syncTimelineData() {
@@ -180,6 +234,7 @@ function removeTimelineItem(index) {
         syncTimelineData();
         APP_CONFIG.timeline.splice(index, 1);
         renderTimelineUI();
+        notifyPreview();
     }
 }
 

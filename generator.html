@@ -70,105 +70,121 @@
             </button>
         </div>
 
-        <div class="settings-container">
-            <div class="settings-section-title">
-                <i class="fas fa-info-circle"></i> Información General
-            </div>
-            <div class="settings-grid">
-                <div class="form-group">
-                    <label>Anfitriones</label>
-                    <input type="text" id="set-wedding-names" placeholder="Ej: Dora & Gregorio">
-                </div>
-                <div class="form-group">
-                    <label>Fecha del Evento</label>
-                    <input type="date" id="set-wedding-date-picker">
-                </div>
-                <div class="form-group">
-                    <label>Hora del Evento</label>
-                    <input type="time" id="set-wedding-time-picker">
-                </div>
-                <div class="form-group">
-                    <label style="display: flex; align-items: center; gap: 10px;">
-                        Mostrar Contador
-                        <label class="switch">
-                            <input type="checkbox" id="set-show-countdown">
-                            <span class="slider"></span>
-                        </label>
-                    </label>
-                </div>
-                <div class="form-group">
-                    <label>Ubicación Física</label>
-                    <input type="text" id="set-physical-location">
-                </div>
-                <div class="form-group">
-                    <label>Ubicación Virtual</label>
-                    <input type="text" id="set-virtual-location">
-                </div>
-                <div class="form-group">
-                    <label>URL Base</label>
-                    <input type="text" id="set-base-url">
-                </div>
-                <div class="form-group">
-                    <label>Webhook URL (Sheets)</label>
-                    <input type="text" id="set-webhook-url">
+        <div class="settings-content-wrapper">
+            <div class="settings-form-column">
+                <div class="settings-container">
+                    <div class="settings-section-title">
+                        <i class="fas fa-info-circle"></i> Información General
+                    </div>
+                    <div class="settings-grid">
+                        <div class="form-group">
+                            <label>Anfitriones</label>
+                            <input type="text" id="set-wedding-names" placeholder="Ej: Dora & Gregorio">
+                        </div>
+                        <div class="form-group">
+                            <label>Fecha del Evento</label>
+                            <input type="date" id="set-wedding-date-picker">
+                        </div>
+                        <div class="form-group">
+                            <label>Hora del Evento</label>
+                            <input type="time" id="set-wedding-time-picker">
+                        </div>
+                        <div class="form-group">
+                            <label style="display: flex; align-items: center; gap: 10px;">
+                                Mostrar Contador
+                                <label class="switch">
+                                    <input type="checkbox" id="set-show-countdown">
+                                    <span class="slider"></span>
+                                </label>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label>Ubicación Física</label>
+                            <input type="text" id="set-physical-location">
+                        </div>
+                        <div class="form-group">
+                            <label>Ubicación Virtual</label>
+                            <input type="text" id="set-virtual-location">
+                        </div>
+                        <div class="form-group">
+                            <label>URL Base</label>
+                            <input type="text" id="set-base-url">
+                        </div>
+                        <div class="form-group">
+                            <label>Webhook URL (Sheets)</label>
+                            <input type="text" id="set-webhook-url">
+                        </div>
+                    </div>
+
+                    <div class="settings-section-title">
+                        <i class="fas fa-palette"></i> Estilos y Colores
+                    </div>
+                    <div class="settings-grid">
+                        <div class="form-group">
+                            <label>Color Principal (Azul)</label>
+                            <input type="color" id="set-primary-blue" value="#93afc2">
+                        </div>
+                        <div class="form-group">
+                            <label>Color de Detalles (Olivo)</label>
+                            <input type="color" id="set-primary-olive" value="#6b705c">
+                        </div>
+                        <div class="form-group">
+                            <label>Color de Iconos (Timeline)</label>
+                            <input type="color" id="set-icon-color" value="#80a040">
+                        </div>
+                        <div class="form-group">
+                            <label>Tipografía Principal</label>
+                            <select id="set-font-primary" class="form-input" style="padding: 8px;">
+                                <option value="Montserrat">Montserrat (Moderna)</option>
+                                <option value="Playfair Display">Playfair Display (Serif Elegante)</option>
+                                <option value="Lora">Lora (Clásica)</option>
+                                <option value="Roboto">Roboto (Limpia)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Tipografía Script (Nombres)</label>
+                            <select id="set-font-script" class="form-input" style="padding: 8px;">
+                                <option value="Great Vibes">Great Vibes (Fluida)</option>
+                                <option value="Dancing Script">Dancing Script (Casual)</option>
+                                <option value="Alex Brush">Alex Brush (Clásica)</option>
+                                <option value="Pacifico">Pacifico (Retro)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="settings-section-title">
+                        <i class="fas fa-clock"></i> Itinerario (Timeline)
+                        <button class="btn btn-olive" style="margin-left: auto; padding: 5px 15px; font-size: 0.7rem;"
+                            onclick="addTimelineItem()">
+                            + Añadir Actividad
+                        </button>
+                    </div>
+
+                    <div id="timeline-builder-container">
+                        <!-- Se poblará dinámicamente -->
+                    </div>
+
+                    <div style="margin-top: 40px; display: flex; gap: 20px;">
+                        <button class="btn btn-olive" style="flex: 2; padding: 15px;" onclick="saveSettings()">
+                            Guardar Cambios
+                        </button>
+                        <button class="btn btn-danger" style="flex: 1; padding: 15px;" onclick="toggleSettings(false)">
+                            Cancelar
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            <div class="settings-section-title">
-                <i class="fas fa-palette"></i> Estilos y Colores
-            </div>
-            <div class="settings-grid">
-                <div class="form-group">
-                    <label>Color Principal (Azul)</label>
-                    <input type="color" id="set-primary-blue" value="#93afc2">
+            <!-- Columna de Vista Previa Móvil -->
+            <div class="settings-preview-column">
+                <div class="mobile-frame">
+                    <div class="mobile-header"></div>
+                    <iframe id="preview-iframe" src="index.html"></iframe>
+                    <div class="mobile-footer"></div>
                 </div>
-                <div class="form-group">
-                    <label>Color de Detalles (Olivo)</label>
-                    <input type="color" id="set-primary-olive" value="#6b705c">
-                </div>
-                <div class="form-group">
-                    <label>Color de Iconos (Timeline)</label>
-                    <input type="color" id="set-icon-color" value="#80a040">
-                </div>
-                <div class="form-group">
-                    <label>Tipografía Principal</label>
-                    <select id="set-font-primary" class="form-input" style="padding: 8px;">
-                        <option value="Montserrat">Montserrat (Moderna)</option>
-                        <option value="Playfair Display">Playfair Display (Serif Elegante)</option>
-                        <option value="Lora">Lora (Clásica)</option>
-                        <option value="Roboto">Roboto (Limpia)</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Tipografía Script (Nombres)</label>
-                    <select id="set-font-script" class="form-input" style="padding: 8px;">
-                        <option value="Great Vibes">Great Vibes (Fluida)</option>
-                        <option value="Dancing Script">Dancing Script (Casual)</option>
-                        <option value="Alex Brush">Alex Brush (Clásica)</option>
-                        <option value="Pacifico">Pacifico (Retro)</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="settings-section-title">
-                <i class="fas fa-clock"></i> Itinerario (Timeline)
-                <button class="btn btn-olive" style="margin-left: auto; padding: 5px 15px; font-size: 0.7rem;"
-                    onclick="addTimelineItem()">
-                    + Añadir Actividad
-                </button>
-            </div>
-
-            <div id="timeline-builder-container">
-                <!-- Se poblará dinámicamente -->
-            </div>
-
-            <div style="margin-top: 40px; display: flex; gap: 20px;">
-                <button class="btn btn-olive" style="flex: 2; padding: 15px;" onclick="saveSettings()">
-                    Guardar Cambios
-                </button>
-                <button class="btn btn-danger" style="flex: 1; padding: 15px;" onclick="toggleSettings(false)">
-                    Cancelar
-                </button>
+                <p style="text-align:center; color:#999; margin-top:15px; font-size:0.8rem;">
+                    <i class="fas fa-mobile-alt"></i> Vista Previa en Tiempo Real
+                </p>
             </div>
         </div>
     </div>

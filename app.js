@@ -398,5 +398,18 @@
         initSplashScreen();
         initUserActions();
         initEnhancements();
+
+        // Escuchar actualizaciones en tiempo real desde el generador (Preview)
+        window.addEventListener('message', (event) => {
+            if (event.data && event.data.type === 'UPDATE_CONFIG') {
+                const newConfig = event.data.config;
+                // Mezclar la nueva configuración con la actual
+                if (newConfig.wedding) Object.assign(APP_CONFIG.wedding, newConfig.wedding);
+                if (newConfig.ui) Object.assign(APP_CONFIG.ui, newConfig.ui);
+                if (newConfig.timeline) APP_CONFIG.timeline = newConfig.timeline;
+
+                renderDynamicContent();
+            }
+        });
     });
 })();
