@@ -271,6 +271,52 @@
         }
     };
 
+    /**
+     * Renderiza dinámicamente el contenido basado en la configuración
+     */
+    const renderDynamicContent = () => {
+        // Nombres
+        const nameEl = document.getElementById('wedding-names-main');
+        if (nameEl) nameEl.innerText = APP_CONFIG.wedding.names;
+
+        // Ubicación y Fecha (Texto)
+        const locEl = document.getElementById('wedding-location-physical');
+        if (locEl) locEl.innerText = APP_CONFIG.wedding.location.physical;
+
+        const dateEl = document.getElementById('wedding-date-display');
+        if (dateEl) {
+            const weddingDate = new Date(APP_CONFIG.wedding.date);
+            const options = { day: 'numeric', month: 'long', year: 'numeric' };
+            const timeOptions = { hour: 'numeric', minute: '2-digit', hour12: true };
+            dateEl.innerHTML = `${weddingDate.toLocaleDateString('es-ES', options)}<br>${weddingDate.toLocaleTimeString('es-ES', timeOptions)}`;
+        }
+
+        // Toggle Contador
+        const countdownSec = document.getElementById('countdown-section');
+        if (countdownSec && APP_CONFIG.ui.showCountdown === false) {
+            const timerContainer = document.querySelector('.countdown-container');
+            if (timerContainer) timerContainer.style.display = 'none';
+        }
+
+        // Renderizar Timeline
+        const timelineContainer = document.getElementById('timeline-container');
+        if (timelineContainer && APP_CONFIG.timeline) {
+            timelineContainer.innerHTML = '';
+            APP_CONFIG.timeline.forEach(item => {
+                const row = document.createElement('div');
+                row.className = 'timeline-item animate-on-scroll';
+                row.innerHTML = `
+                    <div class="timeline-icon"><i class="fas ${item.icon}"></i></div>
+                    <div class="timeline-content">
+                        <div class="time">${item.time}</div>
+                        <div class="event">${item.activity}</div>
+                    </div>
+                `;
+                timelineContainer.appendChild(row);
+            });
+        }
+    };
+
     // Arranque
     document.addEventListener('DOMContentLoaded', () => {
         // Cargar configuración persistente si existe
@@ -280,8 +326,10 @@
             Object.assign(APP_CONFIG.wedding, parsed.wedding);
             Object.assign(APP_CONFIG.ui, parsed.ui);
             Object.assign(APP_CONFIG.api, parsed.api);
+            APP_CONFIG.timeline = parsed.timeline || APP_CONFIG.timeline;
         }
 
+        renderDynamicContent();
         initCountdown();
         initParticles();
         initSplashScreen();

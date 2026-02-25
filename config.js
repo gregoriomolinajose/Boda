@@ -15,8 +15,15 @@ const APP_CONFIG = {
     },
     ui: {
         baseUrl: "https://boda-doraygregorio.vercel.app/",
-        musicVolume: 0.2
-    }
+        musicVolume: 0.2,
+        showCountdown: true
+    },
+    timeline: [
+        { time: "19:30", activity: "Recepción", icon: "fa-leaf" },
+        { time: "20:00", activity: "Ceremonia", icon: "fa-heart" },
+        { time: "20:30", activity: "Brindis", icon: "fa-champagne-glasses" },
+        { time: "21:00", activity: "Cena", icon: "fa-utensils" }
+    ]
 };
 
 // Exportar si se usa en un entorno de módulos, o dejar global para compatibilidad

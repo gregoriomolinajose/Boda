@@ -59,19 +59,40 @@
         </div>
     </div>
 
-    <!-- Modal Configuración -->
-    <div id="modal-settings" class="modal-overlay">
-        <div class="modal-content">
-            <span class="modal-close" onclick="closeSettingsModal()">&times;</span>
-            <h1>Configuración del Sistema</h1>
+    <!-- Sección de Configuración (Pantalla Completa) -->
+    <div id="settings-page">
+        <div class="settings-header">
+            <h1 style="margin:0; color:var(--primary-olive);">Configuración del Sistema</h1>
+            <button class="btn btn-primary" onclick="toggleSettings(false)">
+                <i class="fas fa-arrow-left"></i> Volver al Panel
+            </button>
+        </div>
+
+        <div class="settings-container">
+            <div class="settings-section-title">
+                <i class="fas fa-info-circle"></i> Información General
+            </div>
             <div class="settings-grid">
                 <div class="form-group">
-                    <label>Fecha de la Boda</label>
-                    <input type="text" id="set-wedding-date" placeholder="Month Day, Year HH:MM:SS">
+                    <label>Anfitriones</label>
+                    <input type="text" id="set-wedding-names" placeholder="Ej: Dora & Gregorio">
                 </div>
                 <div class="form-group">
-                    <label>Nombres de la Pareja</label>
-                    <input type="text" id="set-wedding-names">
+                    <label>Fecha de la Boda</label>
+                    <input type="date" id="set-wedding-date-picker">
+                </div>
+                <div class="form-group">
+                    <label>Hora de la Boda</label>
+                    <input type="time" id="set-wedding-time-picker">
+                </div>
+                <div class="form-group">
+                    <label style="display: flex; align-items: center; gap: 10px;">
+                        Mostrar Contador
+                        <label class="switch">
+                            <input type="checkbox" id="set-show-countdown">
+                            <span class="slider"></span>
+                        </label>
+                    </label>
                 </div>
                 <div class="form-group">
                     <label>Ubicación Física</label>
@@ -89,13 +110,39 @@
                     <label>Webhook URL (Sheets)</label>
                     <input type="text" id="set-webhook-url">
                 </div>
-                <div class="form-group">
-                    <label>Volumen Música (0-1)</label>
-                    <input type="number" id="set-music-volume" step="0.1" min="0" max="1">
-                </div>
             </div>
-            <button class="btn" style="background: var(--primary);" onclick="saveSettings()">Guardar
-                Configuración</button>
+
+            <div class="settings-section-title">
+                <i class="fas fa-clock"></i> Itinerario (Timeline)
+                <button class="btn btn-olive" style="margin-left: auto; padding: 5px 15px; font-size: 0.7rem;"
+                    onclick="addTimelineItem()">
+                    + Añadir Actividad
+                </button>
+            </div>
+
+            <div id="timeline-builder-container">
+                <!-- Se poblará dinámicamente -->
+            </div>
+
+            <div style="margin-top: 40px; display: flex; gap: 20px;">
+                <button class="btn btn-olive" style="flex: 2; padding: 15px;" onclick="saveSettings()">
+                    Guardar Cambios
+                </button>
+                <button class="btn btn-danger" style="flex: 1; padding: 15px;" onclick="toggleSettings(false)">
+                    Cancelar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Selector de Iconos -->
+    <div id="modal-icon-picker" class="modal-overlay" style="z-index: 5000;">
+        <div class="modal-content" style="max-width: 500px;">
+            <span class="modal-close" onclick="closeIconPicker()">&times;</span>
+            <h2 style="margin-bottom: 20px;">Seleccionar Icono</h2>
+            <div class="icon-picker-grid" id="icon-grid">
+                <!-- Iconos se cargarán aquí -->
+            </div>
         </div>
     </div>
 
@@ -132,8 +179,8 @@
                         style="margin: 0; padding: 10px 20px; font-size: 0.85rem; background: var(--olive);">
                         + Nueva Invitación
                     </button>
-                    <button class="btn" onclick="openSettingsModal()"
-                        style="margin: 0; padding: 10px 20px; font-size: 0.85rem; background: var(--primary);">
+                    <button class="btn btn-olive" onclick="toggleSettings(true)"
+                        style="margin: 0; padding: 10px 20px; font-size: 0.85rem;">
                         Configuración
                     </button>
                     <button class="refresh-btn" onclick="loadDashboard()">
@@ -184,7 +231,7 @@
     <script src="utils.js"></script>
     <script src="dashboard.js"></script>
     <script src="invitation-modal.js"></script>
-    <script src="settings-modal.js"></script>
+    <script src="settings.js"></script>
 
     <script>
         window.onload = () => {

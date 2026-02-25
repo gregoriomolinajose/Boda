@@ -108,7 +108,9 @@
         </button>
 
         <!-- === SECCIÓN 2: Detalles de la Boda y Countdown === -->
-        <main class="content-card snap-section reveal reveal-up" aria-label="Detalles de la celebración">
+        <main class="content-card snap-section reveal reveal-up" aria-label="Detalles de la celebración"
+            id="countdown-section">
+            <h1 class="hero-names elegant-script animate-on-scroll" id="wedding-names-main">Dora & Gregorio</h1>
             <p class="section-title animate-on-scroll">
                 <span id="guest-welcome" class="elegant-script guest-name-welcome"></span>
                 Estás invitado a
@@ -156,11 +158,11 @@
             <section class="details-container animate-on-scroll" aria-label="Lugar y fecha">
                 <div class="detail-box" id="location-box">
                     <h3>Dónde</h3>
-                    <p>Barolo 8C Chapalita<br>Zapopan, Jalisco</p>
+                    <p id="wedding-location-physical">Barolo 8C Chapalita<br>Zapopan, Jalisco</p>
                 </div>
                 <div class="detail-box">
                     <h3>Cuándo</h3>
-                    <p>13 de Marzo, 2026<br>7:30 p.m.</p>
+                    <p id="wedding-date-display">13 de Marzo, 2026<br>7:30 p.m.</p>
                 </div>
             </section>
 
@@ -178,35 +180,8 @@
                 </a>
             </nav>
 
-            <div class="timeline-container">
-                <div class="timeline-item animate-on-scroll">
-                    <div class="timeline-icon"><i class="fas fa-leaf"></i></div>
-                    <div class="timeline-content">
-                        <div class="time">7:30 p.m.</div>
-                        <div class="event">Recepción</div>
-                    </div>
-                </div>
-                <div class="timeline-item animate-on-scroll">
-                    <div class="timeline-icon"><i class="fas fa-heart"></i></div>
-                    <div class="timeline-content">
-                        <div class="time">8:00 p.m.</div>
-                        <div class="event">Ceremonia</div>
-                    </div>
-                </div>
-                <div class="timeline-item animate-on-scroll">
-                    <div class="timeline-icon"><i class="fas fa-champagne-glasses"></i></div>
-                    <div class="timeline-content">
-                        <div class="time">8:30 p.m.</div>
-                        <div class="event">Brindis</div>
-                    </div>
-                </div>
-                <div class="timeline-item animate-on-scroll">
-                    <div class="timeline-icon"><i class="fas fa-utensils"></i></div>
-                    <div class="timeline-content">
-                        <div class="time">9:00 p.m.</div>
-                        <div class="event">Cena</div>
-                    </div>
-                </div>
+            <div class="timeline-container" id="timeline-container">
+                <!-- Se poblará dinámicamente -->
             </div>
         </section>
 
