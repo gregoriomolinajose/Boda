@@ -1712,38 +1712,53 @@ td {
 }
 
 .remove-item {
-    color: #ff4757;
+    color: #e74c3c !important;
+    /* Rojo vibrante */
     cursor: pointer;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     display: flex;
     justify-content: center;
     align-items: center;
+    min-width: 40px;
+    height: 40px;
 }
 
 .move-btn {
-    color: var(--primary-olive);
+    color: var(--primary-olive) !important;
     cursor: pointer;
-    font-size: 1.1rem;
+    font-size: 1.3rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: transform 0.2s;
+    min-width: 40px;
+    height: 40px;
+    transition: all 0.2s;
 }
 
 .move-btn:hover {
     transform: scale(1.2);
+    color: var(--primary-blue) !important;
 }
 
 .timeline-builder-item {
     display: grid;
-    grid-template-columns: 80px 100px 1fr auto;
+    grid-template-columns: 60px 100px 1fr 140px;
+    /* Tamaño fijo para la columna de acciones */
     gap: 15px;
     align-items: center;
     padding: 15px;
-    background: #fcfcfc;
+    background: #ffffff;
     border-radius: 12px;
-    margin-bottom: 10px;
-    border: 1px solid #f0f0f0;
+    margin-bottom: 12px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.timeline-builder-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+    align-items: center;
 }
 
 .switch {

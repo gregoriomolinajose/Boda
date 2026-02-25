@@ -308,26 +308,27 @@
         }
 
         // Toggle Contador
-        const countdownSec = document.getElementById('countdown-section');
-        if (countdownSec) {
-            const timer = document.getElementById('countdown');
-            if (timer) {
-                timer.style.display = (APP_CONFIG.ui.showCountdown !== false) ? 'flex' : 'none';
-            }
+        const timer = document.getElementById('countdown');
+        if (timer) {
+            const shouldShow = APP_CONFIG.ui.showCountdown !== false;
+            timer.style.display = shouldShow ? 'flex' : 'none';
+            // También ocultar el texto decorativo si se apaga
+            const tagline = document.querySelector('.tagline-style');
+            if (tagline) tagline.style.display = shouldShow ? 'block' : 'none';
         }
 
         // Renderizar Timeline
         const timelineContainer = document.getElementById('timeline-container');
         if (timelineContainer && APP_CONFIG.timeline) {
             timelineContainer.innerHTML = '';
-            const iconColor = APP_CONFIG.ui.iconColor || 'var(--primary-olive)';
+            const iconColor = APP_CONFIG.ui.iconColor || '#80a040';
 
             APP_CONFIG.timeline.forEach(item => {
                 const row = document.createElement('div');
                 row.className = 'timeline-item animate-on-scroll';
                 row.innerHTML = `
                     <div class="timeline-icon" style="background-color: white; border: 2px solid ${iconColor}">
-                        <i class="fas ${item.icon}" style="color: ${iconColor}"></i>
+                        <i class="fa-solid ${item.icon}" style="color: ${iconColor}; font-weight: 900;"></i>
                     </div>
                     <div class="timeline-content">
                         <div class="time">${item.time}</div>

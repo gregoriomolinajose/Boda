@@ -80,7 +80,7 @@ function renderTimelineUI() {
             </button>
             <input type="time" class="set-timeline-time" value="${item.time}">
             <input type="text" class="set-timeline-activity" value="${item.activity}" placeholder="Actividad">
-            <div style="display: flex; gap: 10px;">
+            <div class="timeline-builder-actions">
                 <div class="move-btn" onclick="moveTimelineItem(${index}, -1)" title="Subir">
                     <i class="fas fa-chevron-up"></i>
                 </div>
