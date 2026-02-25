@@ -323,10 +323,17 @@
             if (el) el.innerText = APP_CONFIG.wedding.names;
         });
 
-        // Foto de los Novios
-        const photoEl = document.getElementById('wedding-photo-img');
-        if (photoEl) {
-            photoEl.src = APP_CONFIG.wedding.photo || 'https://via.placeholder.com/600x600?text=Novios';
+        // Foto del Anfitrión (Hero)
+        const heroImg = document.getElementById('hero-img-display');
+        if (heroImg) {
+            const photoUrl = APP_CONFIG.wedding.photo || '';
+            if (photoUrl && !photoUrl.includes('placeholder')) {
+                heroImg.style.backgroundImage = `url('${photoUrl}')`;
+                heroImg.style.backgroundSize = 'cover';
+            } else {
+                // Background por defecto si no hay foto
+                heroImg.style.backgroundImage = '';
+            }
         }
 
         // Ubicación (Texto)
