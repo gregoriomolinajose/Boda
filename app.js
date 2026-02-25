@@ -275,20 +275,36 @@
      * Renderiza dinámicamente el contenido basado en la configuración
      */
     const renderDynamicContent = () => {
-        // Nombres
-        const nameEl = document.getElementById('wedding-names-main');
-        if (nameEl) nameEl.innerText = APP_CONFIG.wedding.names;
+        // Nombres (múltiples lugares)
+        const hostElements = ['wedding-names-main', 'host-names-splash', 'host-names-hero', 'host-names-final'];
+        hostElements.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.innerText = APP_CONFIG.wedding.names;
+        });
 
-        // Ubicación y Fecha (Texto)
+        // Ubicación (Texto)
         const locEl = document.getElementById('wedding-location-physical');
         if (locEl) locEl.innerText = APP_CONFIG.wedding.location.physical;
 
+        // Fecha (Texto y Hero)
+        const weddingDate = new Date(APP_CONFIG.wedding.date);
+
+        // Formato para sección "Cuándo"
         const dateEl = document.getElementById('wedding-date-display');
         if (dateEl) {
-            const weddingDate = new Date(APP_CONFIG.wedding.date);
             const options = { day: 'numeric', month: 'long', year: 'numeric' };
             const timeOptions = { hour: 'numeric', minute: '2-digit', hour12: true };
             dateEl.innerHTML = `${weddingDate.toLocaleDateString('es-ES', options)}<br>${weddingDate.toLocaleTimeString('es-ES', timeOptions)}`;
+        }
+
+        // Formato para Hero (VIERNES | 13 MARZO | 2026)
+        const heroDateEl = document.getElementById('event-date-hero');
+        if (heroDateEl) {
+            const dayName = weddingDate.toLocaleDateString('es-ES', { weekday: 'long' }).toUpperCase();
+            const day = weddingDate.getDate();
+            const monthName = weddingDate.toLocaleDateString('es-ES', { month: 'long' }).toUpperCase();
+            const year = weddingDate.getFullYear();
+            heroDateEl.innerText = `${dayName} | ${day} ${monthName} | ${year}`;
         }
 
         // Toggle Contador

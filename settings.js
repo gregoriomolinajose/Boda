@@ -37,8 +37,16 @@ function populateSettingsForm() {
 
     // Fecha y Hora
     const weddingDateObj = new Date(APP_CONFIG.wedding.date);
-    const dateStr = weddingDateObj.toISOString().split('T')[0];
-    const timeStr = weddingDateObj.toTimeString().substring(0, 5);
+
+    // Extraer componentes en local time
+    const year = weddingDateObj.getFullYear();
+    const month = String(weddingDateObj.getMonth() + 1).padStart(2, '0');
+    const day = String(weddingDateObj.getDate()).padStart(2, '0');
+    const hours = String(weddingDateObj.getHours()).padStart(2, '0');
+    const minutes = String(weddingDateObj.getMinutes()).padStart(2, '0');
+
+    const dateStr = `${year}-${month}-${day}`;
+    const timeStr = `${hours}:${minutes}`;
 
     document.getElementById('set-wedding-date-picker').value = dateStr;
     document.getElementById('set-wedding-time-picker').value = timeStr;
