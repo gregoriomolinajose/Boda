@@ -278,7 +278,7 @@ function saveSettings() {
     APP_CONFIG.wedding.location.virtual = document.getElementById('set-virtual-location').value;
     APP_CONFIG.api.sheetWebhook = document.getElementById('set-webhook-url').value;
 
-    APP_CONFIG.ui = {
+    Object.assign(APP_CONFIG.ui, {
         baseUrl: document.getElementById('set-base-url').value,
         showCountdown: document.getElementById('set-show-countdown').checked,
         iconColor: document.getElementById('set-icon-color').value,
@@ -286,7 +286,7 @@ function saveSettings() {
         primaryOlive: document.getElementById('set-primary-olive').value,
         fontPrimary: document.getElementById('set-font-primary').value,
         fontScript: document.getElementById('set-font-script').value
-    };
+    });
 
     // Consolidar Timeline (para capturar cambios en inputs de texto/hora)
     const items = document.querySelectorAll('.timeline-builder-item');
@@ -306,3 +306,22 @@ function saveSettings() {
     Utils.showToast('toast-container', 'Configuración guardada correctamente.');
     toggleSettings(false);
 }
+
+// Cargar configuración al iniciar
+function loadSettings() {
+    const saved = localStorage.getItem('app_settings');
+    if (saved) {
+        try {
+            const parsed = JSON.parse(saved);
+            if (parsed.wedding) Object.assign(APP_CONFIG.wedding, parsed.wedding);
+            if (parsed.ui) Object.assign(APP_CONFIG.ui, parsed.ui);
+            if (parsed.api) Object.assign(APP_CONFIG.api, parsed.api);
+            if (parsed.timeline) APP_CONFIG.timeline = parsed.timeline;
+        } catch (e) {
+            console.error("Error al cargar configuración:", e);
+        }
+    }
+}
+
+// Iniciar carga
+loadSettings();
