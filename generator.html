@@ -166,8 +166,21 @@
                             </label>
                         </div>
                     </div>
+
                     <div class="settings-section-title">
-                        <i class="fas fa-truck-loading"></i> Logística y Detalles (Vestimenta y Regalos)
+                        <i class="fas fa-clock"></i> Itinerario (Timeline)
+                        <button class="btn btn-olive" style="margin-left: auto; padding: 5px 15px; font-size: 0.7rem;"
+                            onclick="addTimelineItem()">
+                            + Añadir Actividad
+                        </button>
+                    </div>
+
+                    <div id="timeline-builder-container">
+                        <!-- Se poblará dinámicamente -->
+                    </div>
+
+                    <div class="settings-section-title">
+                        <i class="fas fa-truck-loading"></i> Vestimenta y Regalos
                     </div>
                     <div class="settings-grid">
                         <!-- Código de Vestimenta -->
@@ -217,18 +230,6 @@
                                     placeholder="Lo más importante es tu presencia..."></textarea>
                             </div>
                         </div>
-                    </div>
-
-                    <div class="settings-section-title">
-                        <i class="fas fa-clock"></i> Itinerario (Timeline)
-                        <button class="btn btn-olive" style="margin-left: auto; padding: 5px 15px; font-size: 0.7rem;"
-                            onclick="addTimelineItem()">
-                            + Añadir Actividad
-                        </button>
-                    </div>
-
-                    <div id="timeline-builder-container">
-                        <!-- Se poblará dinámicamente -->
                     </div>
 
                     <div class="settings-section-title">

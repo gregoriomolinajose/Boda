@@ -362,8 +362,8 @@
 
         // Regalos
         const giftsSection = document.getElementById('gifts-section');
+        const gf = APP_CONFIG.wedding.gifts || {};
         if (giftsSection) {
-            const gf = APP_CONFIG.wedding.gifts || {};
             giftsSection.style.display = gf.show !== false ? 'block' : 'none';
 
             const gfTitle = document.getElementById('gifts-title');
@@ -371,6 +371,15 @@
 
             const gfDesc = document.getElementById('gifts-description');
             if (gfDesc) gfDesc.innerText = gf.description || "Lo más importante es tu presencia.";
+        }
+
+        // --- Regla: Ocultar sección completa si ambos están desactivados ---
+        const logisticsSection = document.getElementById('logistics-section');
+        if (logisticsSection) {
+            const dc = APP_CONFIG.wedding.dressCode || {};
+            const showDress = dc.show !== false;
+            const showGifts = gf.show !== false;
+            logisticsSection.style.display = (showDress || showGifts) ? 'block' : 'none';
         }
 
         // Foto del Anfitrión (Hero)
