@@ -61,14 +61,22 @@ export const Helpers = {
 
     /**
      * Formatea la fecha para el Hero (MAYÚSCULAS)
+     * Ej: VIERNES | 13 MARZO | 2026
      */
     formatHeroDate: (dateStr) => {
         if (!dateStr) return '';
-        const date = new Date(dateStr);
-        const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
-        const parts = date.toLocaleDateString('es-ES', options).toUpperCase().split(' ');
-        // Ej: VIERNES | 13 MARZO | 2026
-        return `${parts[0]} | ${parts[2]} ${parts[3]} | ${parts[5]}`;
+        try {
+            const date = new Date(dateStr);
+            const weekday = date.toLocaleDateString('es-ES', { weekday: 'long' }).toUpperCase();
+            const day = date.getDate();
+            const month = date.toLocaleDateString('es-ES', { month: 'long' }).toUpperCase();
+            const year = date.getFullYear();
+
+            return `${weekday} | ${day} ${month} | ${year}`;
+        } catch (e) {
+            console.error("Error formatting hero date:", e);
+            return dateStr;
+        }
     },
 
     /**
