@@ -250,8 +250,8 @@
         <section class="rsvp-section snap-section reveal reveal-in" id="wedding-rsvp-section"
             aria-label="Confirmación de asistencia">
             <div class="rsvp-container animate-on-scroll">
-                <h2 class="section-subtitle elegant-script">Confirmar Asistencia</h2>
-                <p class="animate-on-scroll mb-25 text-light-color">
+                <h2 class="section-subtitle elegant-script" id="rsvp-title">Confirmar Asistencia</h2>
+                <p class="animate-on-scroll mb-25 text-light-color" id="rsvp-description">
                     Por favor, confirma tu asistencia <br>
                     ¡Esperamos que estés!
                 </p>
@@ -266,13 +266,17 @@
 
 
                     <div id="rsvp-details" class="hidden-field">
-                        <label for="adults" class="sr-only">Cantidad de adultos</label>
-                        <input type="number" id="adults" placeholder="¿Cuántos adultos?" class="form-input" value="1"
-                            min="1">
+                        <div id="wrapper-adults">
+                            <label for="adults" class="sr-only">Cantidad de adultos</label>
+                            <input type="number" id="adults" placeholder="¿Cuántos adultos?" class="form-input"
+                                value="1" min="1">
+                        </div>
 
-                        <label for="kids" class="sr-only">Cantidad de niños</label>
-                        <input type="number" id="kids" placeholder="¿Cuántos niños?" class="form-input" value="0"
-                            min="0">
+                        <div id="wrapper-kids">
+                            <label for="kids" class="sr-only">Cantidad de niños</label>
+                            <input type="number" id="kids" placeholder="¿Cuántos niños?" class="form-input" value="0"
+                                min="0">
+                        </div>
 
                         <label for="allergies" class="sr-only">Alergias o dieta especial</label>
                         <textarea id="allergies" placeholder="Alergias o dieta especial" class="form-input"

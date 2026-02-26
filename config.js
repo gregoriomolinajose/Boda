@@ -37,6 +37,12 @@ const APP_CONFIG = {
                 text: "Ver Álbum",
                 url: "https://photos.app.goo.gl/LqatfysFetmxUcgK8"
             }
+        },
+        rsvp: {
+            title: "Confirmar Asistencia",
+            description: "Por favor, confirma tu asistencia ¡Esperamos que estés!",
+            showAdults: true,
+            showKids: true
         }
     },
     api: {

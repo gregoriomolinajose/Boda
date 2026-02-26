@@ -404,6 +404,19 @@
             btnAlbum.href = al.url || "#";
         }
 
+        // --- Configuración RSVP ---
+        const rsvp = APP_CONFIG.wedding.rsvp || {};
+        const rsvpTitle = document.getElementById('rsvp-title');
+        const rsvpDescription = document.getElementById('rsvp-description');
+        const wrapperAdults = document.getElementById('wrapper-adults');
+        const wrapperKids = document.getElementById('wrapper-kids');
+
+        if (rsvpTitle) rsvpTitle.innerText = rsvp.title || "Confirmar Asistencia";
+        if (rsvpDescription) rsvpDescription.innerText = rsvp.description || "";
+
+        if (wrapperAdults) wrapperAdults.style.display = rsvp.showAdults !== false ? 'block' : 'none';
+        if (wrapperKids) wrapperKids.style.display = rsvp.showKids !== false ? 'block' : 'none';
+
         // Foto del Anfitrión (Hero)
         const heroImg = document.getElementById('hero-img-display');
         if (heroImg) {

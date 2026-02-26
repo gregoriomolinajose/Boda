@@ -100,6 +100,13 @@ function populateSettingsForm() {
     const al = ga.albumButton || {};
     document.getElementById('set-album-show').checked = al.show !== false;
     document.getElementById('set-album-url').value = al.url || "";
+
+    // Configuración RSVP
+    const rv = APP_CONFIG.wedding.rsvp || {};
+    document.getElementById('set-rsvp-title').value = rv.title || "";
+    document.getElementById('set-rsvp-description').value = rv.description || "";
+    document.getElementById('set-rsvp-adults-show').checked = rv.showAdults !== false;
+    document.getElementById('set-rsvp-kids-show').checked = rv.showKids !== false;
     document.getElementById('set-album-show').checked = al.show !== false;
     document.getElementById('set-album-url').value = al.url || "";
 
@@ -314,6 +321,12 @@ function notifyPreview() {
                     show: document.getElementById('set-album-show').checked,
                     url: document.getElementById('set-album-url').value
                 }
+            },
+            rsvp: {
+                title: document.getElementById('set-rsvp-title').value,
+                description: document.getElementById('set-rsvp-description').value,
+                showAdults: document.getElementById('set-rsvp-adults-show').checked,
+                showKids: document.getElementById('set-rsvp-kids-show').checked
             }
         },
         ui: {
@@ -501,6 +514,12 @@ function saveSettings() {
             show: document.getElementById('set-album-show').checked,
             url: document.getElementById('set-album-url').value
         }
+    };
+    APP_CONFIG.wedding.rsvp = {
+        title: document.getElementById('set-rsvp-title').value,
+        description: document.getElementById('set-rsvp-description').value,
+        showAdults: document.getElementById('set-rsvp-adults-show').checked,
+        showKids: document.getElementById('set-rsvp-kids-show').checked
     };
 
     APP_CONFIG.wedding.location.physical = document.getElementById('set-physical-location').value;
