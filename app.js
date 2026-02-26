@@ -410,12 +410,14 @@
         const rsvpDescription = document.getElementById('rsvp-description');
         const wrapperAdults = document.getElementById('wrapper-adults');
         const wrapperKids = document.getElementById('wrapper-kids');
+        const wrapperAllergies = document.getElementById('wrapper-allergies');
 
         if (rsvpTitle) rsvpTitle.innerText = rsvp.title || "Confirmar Asistencia";
         if (rsvpDescription) rsvpDescription.innerText = rsvp.description || "";
 
         if (wrapperAdults) wrapperAdults.style.display = rsvp.showAdults !== false ? 'block' : 'none';
         if (wrapperKids) wrapperKids.style.display = rsvp.showKids !== false ? 'block' : 'none';
+        if (wrapperAllergies) wrapperAllergies.style.display = rsvp.showAllergies !== false ? 'block' : 'none';
 
         // Foto del Anfitrión (Hero)
         const heroImg = document.getElementById('hero-img-display');

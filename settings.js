@@ -107,6 +107,7 @@ function populateSettingsForm() {
     document.getElementById('set-rsvp-description').value = rv.description || "";
     document.getElementById('set-rsvp-adults-show').checked = rv.showAdults !== false;
     document.getElementById('set-rsvp-kids-show').checked = rv.showKids !== false;
+    document.getElementById('set-rsvp-allergies-show').checked = rv.showAllergies !== false;
     document.getElementById('set-album-show').checked = al.show !== false;
     document.getElementById('set-album-url').value = al.url || "";
 
@@ -326,7 +327,8 @@ function notifyPreview() {
                 title: document.getElementById('set-rsvp-title').value,
                 description: document.getElementById('set-rsvp-description').value,
                 showAdults: document.getElementById('set-rsvp-adults-show').checked,
-                showKids: document.getElementById('set-rsvp-kids-show').checked
+                showKids: document.getElementById('set-rsvp-kids-show').checked,
+                showAllergies: document.getElementById('set-rsvp-allergies-show').checked
             }
         },
         ui: {
@@ -519,7 +521,8 @@ function saveSettings() {
         title: document.getElementById('set-rsvp-title').value,
         description: document.getElementById('set-rsvp-description').value,
         showAdults: document.getElementById('set-rsvp-adults-show').checked,
-        showKids: document.getElementById('set-rsvp-kids-show').checked
+        showKids: document.getElementById('set-rsvp-kids-show').checked,
+        showAllergies: document.getElementById('set-rsvp-allergies-show').checked
     };
 
     APP_CONFIG.wedding.location.physical = document.getElementById('set-physical-location').value;

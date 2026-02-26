@@ -42,7 +42,8 @@ const APP_CONFIG = {
             title: "Confirmar Asistencia",
             description: "Por favor, confirma tu asistencia ¡Esperamos que estés!",
             showAdults: true,
-            showKids: true
+            showKids: true,
+            showAllergies: true
         }
     },
     api: {
