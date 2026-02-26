@@ -1,5 +1,5 @@
 /**
- * app.js - v1.4
+ * app.js - v1.5
  */
 import { Store } from './js/core/Store.js';
 import { Renderer } from './js/modules/Renderer.js';
@@ -36,13 +36,52 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const renderer = new Renderer(domElements);
 
+    // --- Lógica de Partículas (Ambient Particles) ---
+    const initParticles = () => {
+        const container = document.getElementById('particles-container');
+        if (!container) return;
+
+        // Limpiar contenedor por si se reinicia
+        container.innerHTML = '';
+
+        const state = store.getState();
+        const bgConfig = state.ui?.bgAnimation || { enabled: true, type: 'particles' };
+
+        if (bgConfig.enabled === false || bgConfig.type === 'none') {
+            return;
+        }
+
+        const particleCount = 20;
+        for (let i = 0; i < particleCount; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+
+            const size = Math.random() * 15 + 5;
+            const left = Math.random() * 100;
+            const duration = Math.random() * 20 + 10;
+            const delay = Math.random() * 20;
+
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${left}%`;
+            particle.style.animationDuration = `${duration}s`;
+            particle.style.animationDelay = `-${delay}s`;
+
+            container.appendChild(particle);
+        }
+    };
+
     // Reaccionar a cambios en el estado
     store.subscribe((state) => {
         renderer.render(state);
+        // Podríamos optimizar esto para que solo se llame si cambia bgAnimation,
+        // pero por simplicidad lo reiniciamos si es necesario.
+        initParticles();
     });
 
     // Renderizado inicial
     renderer.render(store.getState());
+    initParticles();
 
     // Escuchar actualizaciones desde el generador (postMessage)
     window.addEventListener('message', (event) => {

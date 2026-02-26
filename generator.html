@@ -400,6 +400,30 @@
                     </div>
 
                     <div class="settings-section-title">
+                        <i class="fas fa-magic"></i> Fondo y Ambiente
+                    </div>
+                    <div class="settings-grid">
+                        <div class="form-group">
+                            <label style="display: flex; align-items: center; gap: 10px;">
+                                Activar fondo animado
+                                <label class="switch">
+                                    <input type="checkbox" id="set-bg-anim-enabled" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </label>
+                            <p class="help-text" style="font-size: 0.75rem; color: #777; margin-top: 5px;">Habilita
+                                círculos suaves flotando en el fondo.</p>
+                        </div>
+                        <div class="form-group">
+                            <label>Tipo de Efecto</label>
+                            <select id="set-bg-anim-type" class="form-input" style="padding: 8px;">
+                                <option value="particles">Partículas Suaves</option>
+                                <option value="none">Sin animación</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="settings-section-title">
                         <i class="fas fa-palette"></i> Estilos y Colores
                     </div>
                     <div class="settings-grid">
@@ -591,12 +615,12 @@
     </div>
 
     <!-- Scripts Modulares -->
-    <script src="config.js?v=1.4"></script>
-    <script src="utils.js?v=1.4"></script>
-    <script src="dashboard.js?v=1.4"></script>
-    <script src="invitation-modal.js?v=1.4"></script>
+    <script src="config.js?v=1.5"></script>
+    <script src="utils.js?v=1.5"></script>
+    <script src="dashboard.js?v=1.5"></script>
+    <script src="invitation-modal.js?v=1.5"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
-    <script type="module" src="settings.js?v=1.4"></script>
+    <script type="module" src="settings.js?v=1.5"></script>
 
     <script>
         window.onload = () => {

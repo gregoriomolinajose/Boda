@@ -74,7 +74,11 @@ const APP_CONFIG = {
         primaryBlue: "#93afc2",
         primaryOlive: "#6b705c",
         fontPrimary: "Montserrat",
-        fontScript: "Great Vibes"
+        fontScript: "Great Vibes",
+        bgAnimation: {
+            enabled: true,
+            type: "particles"
+        }
     },
     timeline: [
         { time: "19:30", activity: "Recepción", icon: "fa-leaf" },

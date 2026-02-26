@@ -1,5 +1,5 @@
 /**
- * settings.js - v1.4
+ * settings.js - v1.5
  * Lógica para la configuración a pantalla completa y el timeline dinámico.
  */
 
@@ -71,6 +71,13 @@ function populateSettingsForm() {
     document.getElementById('set-icon-color').value = APP_CONFIG.ui.iconColor || '#80a040';
     document.getElementById('set-font-primary').value = APP_CONFIG.ui.fontPrimary || 'Montserrat';
     document.getElementById('set-font-script').value = APP_CONFIG.ui.fontScript || 'Great Vibes';
+
+    // Fondo Animado
+    const bgAnim = APP_CONFIG.ui.bgAnimation || { enabled: true, type: 'particles' };
+    const setBgEnabled = document.getElementById('set-bg-anim-enabled');
+    if (setBgEnabled) setBgEnabled.checked = bgAnim.enabled !== false;
+    const setBgType = document.getElementById('set-bg-anim-type');
+    if (setBgType) setBgType.value = bgAnim.type || 'particles';
 
     const hostMessage = document.getElementById('set-wedding-message');
     if (hostMessage) hostMessage.value = APP_CONFIG.wedding.message || "";
@@ -380,7 +387,11 @@ function notifyPreview() {
             primaryBlue: document.getElementById('set-primary-blue').value,
             primaryOlive: document.getElementById('set-primary-olive').value,
             fontPrimary: document.getElementById('set-font-primary').value,
-            fontScript: document.getElementById('set-font-script').value
+            fontScript: document.getElementById('set-font-script').value,
+            bgAnimation: {
+                enabled: document.getElementById('set-bg-anim-enabled').checked,
+                type: document.getElementById('set-bg-anim-type').value
+            }
         },
         // Capturar el timeline actual
         timeline: []
@@ -608,6 +619,13 @@ function saveSettings() {
     };
 
     APP_CONFIG.wedding.location.physical = document.getElementById('set-physical-location').value;
+    APP_CONFIG.wedding.location.virtual = document.getElementById('set-virtual-location').value;
+
+    // UI Styles
+    APP_CONFIG.ui.bgAnimation = {
+        enabled: document.getElementById('set-bg-anim-enabled').checked,
+        type: document.getElementById('set-bg-anim-type').value
+    };
     APP_CONFIG.wedding.location.virtual = document.getElementById('set-virtual-location').value;
     APP_CONFIG.api.sheetWebhook = document.getElementById('set-webhook-url').value;
 
