@@ -99,13 +99,10 @@ select {
     height: 100vh;
     width: 100%;
     scroll-snap-align: start;
+    scroll-snap-stop: always;
     flex-shrink: 0;
     background: transparent;
     position: relative;
-}
-
-scroll-snap-align: start;
-scroll-snap-stop: always;
 }
 
 /* -- Ambient Particles -- */
@@ -116,10 +113,9 @@ scroll-snap-stop: always;
     width: 100%;
     height: 100%;
     pointer-events: none;
-    z-index: 2;
+    z-index: 1;
     overflow: hidden;
     background-color: var(--bg-page);
-    /* El fondo real de la app */
 }
 
 .particle {
@@ -473,8 +469,8 @@ body.show-content #splash {
 /* Ajustar para cuando es una snap-section completa */
 main.content-card.snap-section {
     height: 100vh;
-    background: white;
-    /* Mantener blanco si es la sección completa, o transparent si queremos ver fondo */
+    background: rgba(255, 255, 255, 0.9);
+    /* Semi-transparente para ver partículas sutilmente */
     margin: 0;
 }
 

@@ -76,11 +76,17 @@ export class Store {
         if (saved) {
             try {
                 const parsed = JSON.parse(saved);
-                // Combinar profundamente para no perder valores por defecto en config.js
-                if (parsed.wedding) this.state.wedding = { ...this.state.wedding, ...parsed.wedding };
-                if (parsed.ui) this.state.ui = { ...this.state.ui, ...parsed.ui };
-                if (parsed.api) this.state.api = { ...this.state.api, ...parsed.api };
+                // Asegurar que la estructura base exista antes de asignar
+                if (!this.state.wedding) this.state.wedding = {};
+                if (!this.state.ui) this.state.ui = {};
+                if (!this.state.api) this.state.api = {};
+
+                if (parsed.wedding) Object.assign(this.state.wedding, parsed.wedding);
+                if (parsed.ui) Object.assign(this.state.ui, parsed.ui);
+                if (parsed.api) Object.assign(this.state.api, parsed.api);
                 if (parsed.timeline) this.state.timeline = parsed.timeline;
+
+                console.log("State loaded successfully from storage");
             } catch (e) {
                 console.error("Error loading state from storage:", e);
             }
