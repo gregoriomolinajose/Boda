@@ -28,12 +28,16 @@ export class Store {
      * @param {Object} newState 
      */
     setState(newState) {
-        this.state = { ...this.state, ...newState };
+        // Deep merge para proteger objetos anidados como 'wedding'
+        if (newState.wedding) this.state.wedding = { ...this.state.wedding, ...newState.wedding };
+        if (newState.ui) this.state.ui = { ...this.state.ui, ...newState.ui };
+        if (newState.api) this.state.api = { ...this.state.api, ...newState.api };
+        if (newState.timeline) this.state.timeline = newState.timeline;
+
         this.notify();
         this.saveToStorage();
 
         // Sincronización con la nube (Firestore)
-        // Usamos un ID fijo 'default' por ahora, o podrías usar uno dinámico
         this.saveToCloud('wedding_config');
     }
 
@@ -128,9 +132,12 @@ export class Store {
             if (docSnap.exists()) {
                 const cloudData = docSnap.data();
                 this.setState(cloudData);
-                // Si estamos en el generador, actualizar también el objeto global
+                // Si estamos en el generador, actualizar también el objeto global (deep merge)
                 if (window.APP_CONFIG) {
-                    Object.assign(window.APP_CONFIG, cloudData);
+                    if (cloudData.wedding) window.APP_CONFIG.wedding = { ...window.APP_CONFIG.wedding, ...cloudData.wedding };
+                    if (cloudData.ui) window.APP_CONFIG.ui = { ...window.APP_CONFIG.ui, ...cloudData.ui };
+                    if (cloudData.api) window.APP_CONFIG.api = { ...window.APP_CONFIG.api, ...cloudData.api };
+                    if (cloudData.timeline) window.APP_CONFIG.timeline = cloudData.timeline;
                 }
             }
         } catch (e) {

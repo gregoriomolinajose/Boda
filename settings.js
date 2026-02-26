@@ -1,5 +1,5 @@
 /**
- * settings.js - v1.9.1
+ * settings.js - v1.9.2
  * Lógica para la configuración a pantalla completa y el timeline dinámico.
  */
 import { Store } from './js/core/Store.js';
@@ -301,8 +301,8 @@ function applyCrop() {
         imageSmoothingQuality: 'high',
     });
 
-    // Calidad 0.7 para mayor compresión sin pérdida visual notable
-    const croppedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+    // Calidad 0.5 para asegurar que la imagen pese muy poco y entre siempre en Firestore (límite 1MB)
+    const croppedBase64 = canvas.toDataURL('image/jpeg', 0.5);
 
     // Actualizar preview en settings
     document.getElementById('couple-photo-preview').src = croppedBase64;
