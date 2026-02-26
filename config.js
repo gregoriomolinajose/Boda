@@ -77,7 +77,10 @@ const APP_CONFIG = {
         fontScript: "Great Vibes",
         bgAnimation: {
             enabled: true,
-            type: "particles"
+            type: "particles",
+            size: 15,
+            opacity: 0.15,
+            color: "#6b705c"
         }
     },
     timeline: [

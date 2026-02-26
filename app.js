@@ -1,5 +1,5 @@
 /**
- * app.js - v1.5
+ * app.js - v1.6
  */
 import { Store } from './js/core/Store.js';
 import { Renderer } from './js/modules/Renderer.js';
@@ -45,7 +45,13 @@ document.addEventListener('DOMContentLoaded', () => {
         container.innerHTML = '';
 
         const state = store.getState();
-        const bgConfig = state.ui?.bgAnimation || { enabled: true, type: 'particles' };
+        const bgConfig = state.ui?.bgAnimation || {
+            enabled: true,
+            type: 'particles',
+            size: 15,
+            opacity: 0.15,
+            color: '#6b705c'
+        };
 
         if (bgConfig.enabled === false || bgConfig.type === 'none') {
             return;
@@ -56,7 +62,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const particle = document.createElement('div');
             particle.className = 'particle';
 
-            const size = Math.random() * 15 + 5;
+            // Tamaño aleatorio basado en el máximo configurado
+            const maxSize = bgConfig.size || 15;
+            const size = Math.random() * (maxSize - 2) + 2;
+
             const left = Math.random() * 100;
             const duration = Math.random() * 20 + 10;
             const delay = Math.random() * 20;
@@ -64,6 +73,8 @@ document.addEventListener('DOMContentLoaded', () => {
             particle.style.width = `${size}px`;
             particle.style.height = `${size}px`;
             particle.style.left = `${left}%`;
+            particle.style.background = bgConfig.color || '#6b705c';
+            particle.style.opacity = bgConfig.opacity || 0.15;
             particle.style.animationDuration = `${duration}s`;
             particle.style.animationDelay = `-${delay}s`;
 

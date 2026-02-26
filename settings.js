@@ -1,5 +1,5 @@
 /**
- * settings.js - v1.5
+ * settings.js - v1.6
  * Lógica para la configuración a pantalla completa y el timeline dinámico.
  */
 
@@ -72,12 +72,17 @@ function populateSettingsForm() {
     document.getElementById('set-font-primary').value = APP_CONFIG.ui.fontPrimary || 'Montserrat';
     document.getElementById('set-font-script').value = APP_CONFIG.ui.fontScript || 'Great Vibes';
 
-    // Fondo Animado
-    const bgAnim = APP_CONFIG.ui.bgAnimation || { enabled: true, type: 'particles' };
+    const bgAnim = APP_CONFIG.ui.bgAnimation || { enabled: true, type: 'particles', size: 15, opacity: 0.15, color: '#6b705c' };
     const setBgEnabled = document.getElementById('set-bg-anim-enabled');
     if (setBgEnabled) setBgEnabled.checked = bgAnim.enabled !== false;
     const setBgType = document.getElementById('set-bg-anim-type');
     if (setBgType) setBgType.value = bgAnim.type || 'particles';
+    const setBgSize = document.getElementById('set-bg-anim-size');
+    if (setBgSize) setBgSize.value = bgAnim.size || 15;
+    const setBgOpacity = document.getElementById('set-bg-anim-opacity');
+    if (setBgOpacity) setBgOpacity.value = bgAnim.opacity || 0.15;
+    const setBgColor = document.getElementById('set-bg-anim-color');
+    if (setBgColor) setBgColor.value = bgAnim.color || '#6b705c';
 
     const hostMessage = document.getElementById('set-wedding-message');
     if (hostMessage) hostMessage.value = APP_CONFIG.wedding.message || "";
@@ -390,7 +395,10 @@ function notifyPreview() {
             fontScript: document.getElementById('set-font-script').value,
             bgAnimation: {
                 enabled: document.getElementById('set-bg-anim-enabled').checked,
-                type: document.getElementById('set-bg-anim-type').value
+                type: document.getElementById('set-bg-anim-type').value,
+                size: parseFloat(document.getElementById('set-bg-anim-size').value),
+                opacity: parseFloat(document.getElementById('set-bg-anim-opacity').value),
+                color: document.getElementById('set-bg-anim-color').value
             }
         },
         // Capturar el timeline actual
@@ -624,7 +632,10 @@ function saveSettings() {
     // UI Styles
     APP_CONFIG.ui.bgAnimation = {
         enabled: document.getElementById('set-bg-anim-enabled').checked,
-        type: document.getElementById('set-bg-anim-type').value
+        type: document.getElementById('set-bg-anim-type').value,
+        size: parseFloat(document.getElementById('set-bg-anim-size').value),
+        opacity: parseFloat(document.getElementById('set-bg-anim-opacity').value),
+        color: document.getElementById('set-bg-anim-color').value
     };
     APP_CONFIG.wedding.location.virtual = document.getElementById('set-virtual-location').value;
     APP_CONFIG.api.sheetWebhook = document.getElementById('set-webhook-url').value;

@@ -421,6 +421,20 @@
                                 <option value="none">Sin animación</option>
                             </select>
                         </div>
+                        <div class="form-group">
+                            <label>Tamaño de Partículas</label>
+                            <input type="range" id="set-bg-anim-size" min="2" max="50" value="15" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label>Opacidad</label>
+                            <input type="range" id="set-bg-anim-opacity" min="0" max="1" step="0.05" value="0.15"
+                                class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label>Color de Partículas</label>
+                            <input type="color" id="set-bg-anim-color" value="#6b705c" class="form-input"
+                                style="padding: 0; height: 40px;">
+                        </div>
                     </div>
 
                     <div class="settings-section-title">
@@ -615,12 +629,12 @@
     </div>
 
     <!-- Scripts Modulares -->
-    <script src="config.js?v=1.5"></script>
-    <script src="utils.js?v=1.5"></script>
-    <script src="dashboard.js?v=1.5"></script>
-    <script src="invitation-modal.js?v=1.5"></script>
+    <script src="config.js?v=1.6"></script>
+    <script src="utils.js?v=1.6"></script>
+    <script src="dashboard.js?v=1.6"></script>
+    <script src="invitation-modal.js?v=1.6"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
-    <script type="module" src="settings.js?v=1.5"></script>
+    <script type="module" src="settings.js?v=1.6"></script>
 
     <script>
         window.onload = () => {
