@@ -105,6 +105,12 @@ export class Store {
      */
     async saveToCloud(docId) {
         try {
+            // Protección extra: No guardar el placeholder en la nube nunca
+            if (this.state.wedding?.photo && (this.state.wedding.photo.includes('placehold.co') || this.state.wedding.photo.length < 100)) {
+                console.log("Store: Detectado placeholder, limpiando campo photo antes de subir a la nube.");
+                this.state.wedding.photo = "";
+            }
+
             const dataString = JSON.stringify(this.state);
             const sizeInBytes = new Blob([dataString]).size;
             const photoSize = this.state.wedding?.photo ? new Blob([this.state.wedding.photo]).size : 0;

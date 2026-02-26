@@ -1,5 +1,5 @@
 /**
- * app.js - v1.9.4
+ * app.js - v1.9.5
  */
 import { Store } from './js/core/Store.js';
 import { Renderer } from './js/modules/Renderer.js';
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Renderizado inicial asíncrono (Prioridad Cloud)
     const initCloudData = async () => {
         try {
-            await store.loadFromCloud('wedding_config_v1');
+            await store.loadFromCloud('wedding_config_v2');
             console.log("App iniciada con datos de la nube.");
         } catch (e) {
             console.warn("Fallo carga cloud, usando local:", e);
@@ -107,7 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Escuchar actualizaciones desde el generador (postMessage)
     window.addEventListener('message', (event) => {
         if (event.data.type === 'UPDATE_CONFIG') {
-            store.setState(event.data.config);
+            store.setState(event.data.config, true); // Forzar skipCloud en la invitación
         }
     });
 

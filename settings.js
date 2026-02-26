@@ -1,5 +1,5 @@
 /**
- * settings.js - v1.9.4
+ * settings.js - v1.9.5
  * Lógica para la configuración a pantalla completa y el timeline dinámico.
  */
 import { Store } from './js/core/Store.js';
@@ -699,8 +699,8 @@ async function initSettings() {
     loadSettings();
     // Prioridad: Cargar desde la nube si existe conexión
     try {
-        await store.loadFromCloud('wedding_config_v1');
-        console.log("Datos sincronizados con la nube (v1)");
+        await store.loadFromCloud('wedding_config_v2');
+        console.log("Datos sincronizados con la nube (v2)");
         populateSettingsForm(); // Repoblar después de cargar de la nube
     } catch (e) {
         console.warn("No se pudo conectar con Firestore, usando datos locales");

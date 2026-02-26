@@ -29,13 +29,10 @@ export class Renderer {
         // Foto del Anfitrión
         if (this.domElements.heroImg) {
             const photoUrl = wedding.photo || '';
-            console.log("Renderer: Aplicando foto", photoUrl ? `Existe (longitud ${photoUrl.length})` : "Vacío");
             if (photoUrl && !photoUrl.includes('placeholder') && !photoUrl.includes('placehold.co')) {
                 this.domElements.heroImg.style.backgroundImage = `url("${photoUrl}")`;
-                console.log("Renderer: backgroundImage aplicado.");
             } else {
                 this.domElements.heroImg.style.backgroundImage = '';
-                console.log("Renderer: backgroundImage limpiado (placeholder o vacío).");
             }
         }
 
