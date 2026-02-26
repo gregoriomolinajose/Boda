@@ -534,14 +534,30 @@
 
         // Escuchar actualizaciones en tiempo real desde el generador (Preview)
         window.addEventListener('message', (event) => {
-            if (event.data && event.data.type === 'UPDATE_CONFIG') {
-                const newConfig = event.data.config;
+            const data = event.data;
+            if (data && data.type === 'UPDATE_CONFIG') {
+                const newConfig = data.config;
                 // Mezclar la nueva configuración con la actual
                 if (newConfig.wedding) Object.assign(APP_CONFIG.wedding, newConfig.wedding);
                 if (newConfig.ui) Object.assign(APP_CONFIG.ui, newConfig.ui);
                 if (newConfig.timeline) APP_CONFIG.timeline = newConfig.timeline;
 
                 renderDynamicContent();
+            } else if (data && data.type === 'SIMULATE_RSVP') {
+                const state = data.state;
+                if (state === 'yes') {
+                    if (domElements.finalMsgYes) domElements.finalMsgYes.classList.remove('hidden-field');
+                    if (domElements.finalMsgNo) domElements.finalMsgNo.classList.add('hidden-field');
+                } else {
+                    if (domElements.finalMsgYes) domElements.finalMsgYes.classList.add('hidden-field');
+                    if (domElements.finalMsgNo) domElements.finalMsgNo.classList.remove('hidden-field');
+                }
+
+                // Scroll suave a la sección final
+                setTimeout(() => {
+                    const finalSection = document.getElementById('final-screen');
+                    if (finalSection) finalSection.scrollIntoView({ behavior: 'smooth' });
+                }, 100);
             }
         });
     });

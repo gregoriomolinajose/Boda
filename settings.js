@@ -376,6 +376,20 @@ function notifyPreview() {
     }, '*');
 }
 
+function simulatePreviewRsvp(state) {
+    const iframe = document.getElementById('preview-iframe');
+    if (!iframe || !iframe.contentWindow) return;
+
+    // Primero nos aseguramos de que toda la configuración esté sincronizada
+    notifyPreview();
+
+    // Enviamos el comando de simulación
+    iframe.contentWindow.postMessage({
+        type: 'SIMULATE_RSVP',
+        state: state // 'yes' o 'no'
+    }, '*');
+}
+
 function renderTimelineUI() {
     const container = document.getElementById('timeline-builder-container');
     if (!container) return;
