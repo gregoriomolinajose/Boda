@@ -329,6 +329,12 @@
             messageEl.innerText = APP_CONFIG.wedding.message || "";
         }
 
+        // Título del Evento (Motivo)
+        const subjectEl = document.getElementById('wedding-subject-display');
+        if (subjectEl) {
+            subjectEl.innerText = APP_CONFIG.wedding.subject || "Nuestra Boda";
+        }
+
         // Foto del Anfitrión (Hero)
         const heroImg = document.getElementById('hero-img-display');
         if (heroImg) {

@@ -71,6 +71,9 @@ function populateSettingsForm() {
     const hostMessage = document.getElementById('set-wedding-message');
     if (hostMessage) hostMessage.value = APP_CONFIG.wedding.message || "";
 
+    const hostSubject = document.getElementById('set-wedding-subject');
+    if (hostSubject) hostSubject.value = APP_CONFIG.wedding.subject || "Nuestra Boda";
+
     // Foto del Anfitrión
     const photoPreview = document.getElementById('couple-photo-preview');
     if (photoPreview && APP_CONFIG.wedding.photo) {
@@ -257,7 +260,8 @@ function notifyPreview() {
                 virtual: document.getElementById('set-virtual-location').value
             },
             photo: document.getElementById('couple-photo-preview').src,
-            message: document.getElementById('set-wedding-message').value
+            message: document.getElementById('set-wedding-message').value,
+            subject: document.getElementById('set-wedding-subject').value
         },
         ui: {
             showCountdown: document.getElementById('set-show-countdown').checked,
@@ -418,6 +422,7 @@ function saveSettings() {
     APP_CONFIG.wedding.names = document.getElementById('set-wedding-names').value;
     APP_CONFIG.wedding.date = `${date} ${time}`;
     APP_CONFIG.wedding.message = document.getElementById('set-wedding-message').value;
+    APP_CONFIG.wedding.subject = document.getElementById('set-wedding-subject').value;
     APP_CONFIG.wedding.location.physical = document.getElementById('set-physical-location').value;
     APP_CONFIG.wedding.location.virtual = document.getElementById('set-virtual-location').value;
     APP_CONFIG.api.sheetWebhook = document.getElementById('set-webhook-url').value;
