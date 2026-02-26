@@ -26,8 +26,9 @@ export class Store {
     /**
      * Actualiza una parte del estado de forma inmutable y notifica a los suscriptores.
      * @param {Object} newState 
+     * @param {Boolean} skipCloud Si es true, no sincroniza con la nube (útil durante la carga inicial).
      */
-    setState(newState) {
+    setState(newState, skipCloud = false) {
         // Deep merge para proteger objetos anidados como 'wedding'
         if (newState.wedding) this.state.wedding = { ...this.state.wedding, ...newState.wedding };
         if (newState.ui) this.state.ui = { ...this.state.ui, ...newState.ui };
@@ -38,7 +39,9 @@ export class Store {
         this.saveToStorage();
 
         // Sincronización con la nube (Firestore)
-        this.saveToCloud('wedding_config');
+        if (!skipCloud) {
+            this.saveToCloud('wedding_config_v1');
+        }
     }
 
     /**
@@ -104,21 +107,25 @@ export class Store {
         try {
             const dataString = JSON.stringify(this.state);
             const sizeInBytes = new Blob([dataString]).size;
+            const photoSize = this.state.wedding?.photo ? new Blob([this.state.wedding.photo]).size : 0;
 
-            // Límite de Firestore es 1MB por documento (~1,048,576 bytes)
-            if (sizeInBytes > 1000000) {
-                console.warn(`Estado demasiado grande para Firestore (${(sizeInBytes / 1024).toFixed(2)} KB). La sincronización cloud podría fallar.`);
-                // Opcional: Podríamos intentar guardar sin la foto si pesa mucho
-                // const stateCopy = JSON.parse(dataString);
-                // delete stateCopy.wedding.photo;
-                // ... guardar copia ligera ...
+            console.log(`Intentando guardar en Firestore (${docId}): Total=${(sizeInBytes / 1024).toFixed(2)} KB, Foto=${(photoSize / 1024).toFixed(2)} KB`);
+
+            // Límite estricto de Firestore: 1,048,576 bytes
+            if (sizeInBytes > 1040000) {
+                const msg = `⚠️ La foto es demasiado grande para la nube (${(photoSize / 1024).toFixed(2)} KB). Intenta recortarla más o usar una calidad menor. No se sincronizará hasta reducir el tamaño.`;
+                console.error(msg);
+                if (window.Utils) Utils.showToast('toast-container', msg);
+                else alert(msg);
+                return;
             }
 
             const docRef = doc(db, "configurations", docId);
             await setDoc(docRef, this.state);
-            console.log("Sincronización exitosa con Firestore");
+            console.log(`✅ Sincronización exitosa con Firestore (${docId})`);
         } catch (e) {
-            console.error("Error saving to Firestore:", e);
+            console.error("❌ Error al guardar en Firestore:", e);
+            alert("Error crítico al sincronizar con la nube. Revisa tu conexión.");
         }
     }
 
@@ -131,14 +138,20 @@ export class Store {
             const docSnap = await getDoc(docRef);
             if (docSnap.exists()) {
                 const cloudData = docSnap.data();
-                this.setState(cloudData);
-                // Si estamos en el generador, actualizar también el objeto global (deep merge)
+                console.log(`☁️ Datos recuperados de la nube (${docId}):`, !!cloudData.wedding?.photo ? "Con foto" : "Sin foto");
+
+                // Usar skipCloud=true para evitar el bucle de guardado inmediato
+                this.setState(cloudData, true);
+
+                // Sincronizar con el objeto global si existe
                 if (window.APP_CONFIG) {
                     if (cloudData.wedding) window.APP_CONFIG.wedding = { ...window.APP_CONFIG.wedding, ...cloudData.wedding };
                     if (cloudData.ui) window.APP_CONFIG.ui = { ...window.APP_CONFIG.ui, ...cloudData.ui };
                     if (cloudData.api) window.APP_CONFIG.api = { ...window.APP_CONFIG.api, ...cloudData.api };
                     if (cloudData.timeline) window.APP_CONFIG.timeline = cloudData.timeline;
                 }
+            } else {
+                console.log(`ℹ️ No hay datos previos en la nube (${docId}).`);
             }
         } catch (e) {
             console.error("Error loading from Firestore:", e);

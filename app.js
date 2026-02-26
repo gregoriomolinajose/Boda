@@ -1,5 +1,5 @@
 /**
- * app.js - v1.9.2
+ * app.js - v1.9.3
  */
 import { Store } from './js/core/Store.js';
 import { Renderer } from './js/modules/Renderer.js';
@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Renderizado inicial asíncrono (Prioridad Cloud)
     const initCloudData = async () => {
         try {
-            await store.loadFromCloud('wedding_config');
+            await store.loadFromCloud('wedding_config_v1');
             console.log("App iniciada con datos de la nube.");
         } catch (e) {
             console.warn("Fallo carga cloud, usando local:", e);

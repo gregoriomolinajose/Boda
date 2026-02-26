@@ -1,5 +1,5 @@
 /**
- * settings.js - v1.9.2
+ * settings.js - v1.9.3
  * Lógica para la configuración a pantalla completa y el timeline dinámico.
  */
 import { Store } from './js/core/Store.js';
@@ -668,19 +668,39 @@ function saveSettings() {
     });
     APP_CONFIG.timeline = newTimeline;
 
-    // Actualizar el Store reactivo (esto dispara el guardado en LocalStorage y Cloud/Firestore)
-    store.setState(APP_CONFIG);
+    // Indicador visual de guardado
+    const saveBtn = document.querySelector('.save-settings-btn');
+    const originalText = saveBtn ? saveBtn.innerHTML : '';
+    if (saveBtn) {
+        saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Guardando...';
+        saveBtn.disabled = true;
+    }
 
-    Utils.showToast('toast-container', 'Configuración guardada correctamente.');
-    toggleSettings(false);
+    // Actualizar el Store reactivo (esto dispara el guardado en LocalStorage y Cloud/Firestore)
+    // Usamos setTimeout para permitir que el DOM se actualice con el spinner antes de la tarea pesada
+    setTimeout(async () => {
+        try {
+            await store.setState(APP_CONFIG);
+            Utils.showToast('toast-container', 'Configuración guardada correctamente.');
+            toggleSettings(false);
+        } catch (e) {
+            console.error(e);
+            Utils.showToast('toast-container', 'Error al guardar.');
+        } finally {
+            if (saveBtn) {
+                saveBtn.innerHTML = originalText;
+                saveBtn.disabled = false;
+            }
+        }
+    }, 100);
 }
 
 async function initSettings() {
     loadSettings();
     // Prioridad: Cargar desde la nube si existe conexión
     try {
-        await store.loadFromCloud('wedding_config');
-        console.log("Datos sincronizados con la nube");
+        await store.loadFromCloud('wedding_config_v1');
+        console.log("Datos sincronizados con la nube (v1)");
         populateSettingsForm(); // Repoblar después de cargar de la nube
     } catch (e) {
         console.warn("No se pudo conectar con Firestore, usando datos locales");
