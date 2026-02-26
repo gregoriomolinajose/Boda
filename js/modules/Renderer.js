@@ -16,9 +16,15 @@ export class Renderer {
         const wedding = state.wedding || {};
         const ui = state.ui || {};
 
-        // Nombres en el Hero y Farewell
+        // --- Splash & Hero ---
+        if (this.domElements.hostNamesSplash) this.domElements.hostNamesSplash.innerText = wedding.names;
         if (this.domElements.heroNames) this.domElements.heroNames.innerText = wedding.names;
         if (this.domElements.hostNamesFinal) this.domElements.hostNamesFinal.innerText = wedding.names;
+
+        if (this.domElements.eventDateHero) this.domElements.eventDateHero.innerText = Helpers.formatHeroDate(wedding.date);
+        if (this.domElements.weddingSubject) this.domElements.weddingSubject.innerText = wedding.subject || "Nuestra Boda";
+        if (this.domElements.weddingMessage) this.domElements.weddingMessage.innerText = wedding.message || "";
+        if (this.domElements.guestWelcome) this.domElements.guestWelcome.innerText = wedding.demoGuestName || "";
 
         // Foto del Anfitrión
         if (this.domElements.heroImg) {
@@ -29,6 +35,10 @@ export class Renderer {
                 this.domElements.heroImg.style.backgroundImage = '';
             }
         }
+
+        // --- Details ---
+        if (this.domElements.locationPhysical) this.domElements.locationPhysical.innerText = wedding.location?.physical || "";
+        if (this.domElements.dateDisplay) this.domElements.dateDisplay.innerHTML = Helpers.formatDisplayDate(wedding.date);
 
         // --- RSVP Section ---
         const rsvp = wedding.rsvp || {};
@@ -42,12 +52,33 @@ export class Renderer {
         if (this.domElements.wrapperAllergies)
             this.domElements.wrapperAllergies.style.display = rsvp.showAllergies !== false ? 'block' : 'none';
 
+        // --- Final Messages ---
+        const conf = wedding.confirmation || {};
+        if (this.domElements.finalTitleYes) this.domElements.finalTitleYes.innerText = conf.yes?.title || "Te esperamos";
+        if (this.domElements.finalDescYes) this.domElements.finalDescYes.innerText = conf.yes?.description || "";
+        if (this.domElements.finalTitleNo) this.domElements.finalTitleNo.innerText = conf.no?.title || "¡Te extrañaremos!";
+        if (this.domElements.finalDescNo) this.domElements.finalDescNo.innerText = conf.no?.description || "";
+
         // --- Gifts Section ---
         const gf = wedding.gifts || {};
-        const giftsSection = document.getElementById('logistics-section'); // Contenedor padre
-        if (giftsSection) {
+        const logsSection = document.getElementById('logistics-section');
+        if (logsSection) {
             const dc = wedding.dressCode || {};
-            giftsSection.style.display = (dc.show !== false || gf.show !== false) ? 'block' : 'none';
+            logsSection.style.display = (dc.show !== false || gf.show !== false) ? 'block' : 'none';
+
+            // Update Dress Code labels
+            const dcTitle = document.getElementById('dress-code-title');
+            const dcDesc = document.getElementById('dress-code-description');
+            const dcTip = document.getElementById('dress-code-tip');
+            if (dcTitle) dcTitle.innerText = dc.title || "Código de vestimenta";
+            if (dcDesc) dcDesc.innerText = dc.description || "";
+            if (dcTip) dcTip.innerText = dc.tip || "";
+
+            // Update Gift labels
+            const gfTitle = document.getElementById('gifts-title');
+            const gfDesc = document.getElementById('gifts-description');
+            if (gfTitle) gfTitle.innerText = gf.title || "Regalos";
+            if (gfDesc) gfDesc.innerText = gf.description || "";
         }
 
         const btnRegistry = document.getElementById('btn-gift-registry');
@@ -68,7 +99,13 @@ export class Renderer {
         this.renderTimeline(state.timeline, ui.iconColor);
 
         // --- Countdown ---
-        this.initCountdown(wedding.date);
+        const countdownContainer = document.getElementById('countdown');
+        if (countdownContainer) {
+            countdownContainer.style.display = ui.showCountdown !== false ? 'flex' : 'none';
+            if (ui.showCountdown !== false) {
+                this.initCountdown(wedding.date);
+            }
+        }
     }
 
     /**

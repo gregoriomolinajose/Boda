@@ -1,5 +1,5 @@
 /**
- * settings.js - v1.1
+ * settings.js - v1.2
  * Lógica para la configuración a pantalla completa y el timeline dinámico.
  */
 

@@ -57,5 +57,30 @@ export const Helpers = {
      */
     isEmpty: (obj) => {
         return Object.keys(obj).length === 0;
+    },
+
+    /**
+     * Formatea la fecha para el Hero (MAYÚSCULAS)
+     */
+    formatHeroDate: (dateStr) => {
+        if (!dateStr) return '';
+        const date = new Date(dateStr);
+        const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+        const parts = date.toLocaleDateString('es-ES', options).toUpperCase().split(' ');
+        // Ej: VIERNES | 13 MARZO | 2026
+        return `${parts[0]} | ${parts[2]} ${parts[3]} | ${parts[5]}`;
+    },
+
+    /**
+     * Formatea la fecha para el Itinerario (Salto de línea)
+     */
+    formatDisplayDate: (dateStr) => {
+        if (!dateStr) return '';
+        const date = new Date(dateStr);
+        const day = date.getDate();
+        const month = date.toLocaleDateString('es-ES', { month: 'long' });
+        const year = date.getFullYear();
+        const time = date.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: true });
+        return `${day} de ${month}, ${year}<br>${time.toUpperCase()}`;
     }
 };
