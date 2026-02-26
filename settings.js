@@ -182,9 +182,17 @@ function closeCropper() {
 function applyCrop() {
     if (!cropper) return;
 
-    const canvas = cropper.getCroppedCanvas(); // Dinámico según selección
+    // Limitar dimensiones para evitar QuotaExceededError en localStorage
+    // 1024px es suficiente para una portada nítida
+    const canvas = cropper.getCroppedCanvas({
+        maxWidth: 1024,
+        maxHeight: 1280, // Proporción 4:5
+        imageSmoothingEnabled: true,
+        imageSmoothingQuality: 'high',
+    });
 
-    const croppedBase64 = canvas.toDataURL('image/jpeg', 0.8);
+    // Calidad 0.7 para mayor compresión sin pérdida visual notable
+    const croppedBase64 = canvas.toDataURL('image/jpeg', 0.7);
 
     // Actualizar preview en settings
     document.getElementById('couple-photo-preview').src = croppedBase64;
@@ -406,11 +414,19 @@ function saveSettings() {
     });
     APP_CONFIG.timeline = newTimeline;
 
-    // Guardar en localStorage
-    localStorage.setItem('app_settings', JSON.stringify(APP_CONFIG));
-
-    Utils.showToast('toast-container', 'Configuración guardada correctamente.');
-    toggleSettings(false);
+    // Guardar en localStorage con manejo de cuota
+    try {
+        localStorage.setItem('app_settings', JSON.stringify(APP_CONFIG));
+        Utils.showToast('toast-container', 'Configuración guardada correctamente.');
+        toggleSettings(false);
+    } catch (e) {
+        console.error("Error al guardar en localStorage:", e);
+        if (e.name === 'QuotaExceededError') {
+            alert('¡Error! La capacidad de almacenamiento del navegador está llena. Esto suele suceder si la foto es demasiado grande. Por favor, intenta usar una foto diferente o bórrala para poder guardar los demás cambios.');
+        } else {
+            alert('Hubo un problema al guardar la configuración. Por favor intenta de nuevo.');
+        }
+    }
 }
 
 // Cargar configuración al iniciar
