@@ -388,17 +388,15 @@
 
             if (btnRegistry) {
                 const reg = gf.registryButton || {};
-                btnRegistry.style.display = (reg.show !== false && reg.url) ? 'flex' : 'none';
+                btnRegistry.style.display = reg.show !== false ? 'flex' : 'none';
                 btnRegistry.href = reg.url || "#";
             }
 
             if (btnBank) {
                 const bank = gf.bankButton || {};
-                btnBank.style.display = (bank.show !== false && bank.details) ? 'flex' : 'none';
+                btnBank.style.display = bank.show !== false ? 'flex' : 'none';
                 if (bankContainer) {
-                    bankContainer.innerText = bank.details || "";
-                    // Resetear visibilidad por si acaso
-                    bankContainer.classList.add('hidden-field');
+                    bankContainer.innerText = bank.details || "Datos no disponibles";
                 }
             }
         }
