@@ -103,7 +103,7 @@ function populateSettingsForm() {
         };
     }
 
-    const inputs = document.querySelectorAll('#settings-page input, #settings-page select');
+    const inputs = document.querySelectorAll('#settings-page input, #settings-page select, #settings-page textarea');
     inputs.forEach(input => {
         if (input.id !== 'photo-input') {
             input.addEventListener('input', notifyPreview);
