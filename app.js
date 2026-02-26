@@ -324,9 +324,9 @@
         });
 
         // Mensaje de Bienvenida (Palabras del anfitrión)
-        const messageEl = document.querySelector('.message');
-        if (messageEl && APP_CONFIG.wedding.message) {
-            messageEl.innerText = APP_CONFIG.wedding.message;
+        const messageEl = document.getElementById('wedding-message-display');
+        if (messageEl) {
+            messageEl.innerText = APP_CONFIG.wedding.message || "";
         }
 
         // Foto del Anfitrión (Hero)
@@ -344,7 +344,17 @@
 
         // Ubicación (Texto)
         const locEl = document.getElementById('wedding-location-physical');
-        if (locEl) locEl.innerText = APP_CONFIG.wedding.location.physical;
+        if (locEl) locEl.innerText = APP_CONFIG.wedding.location.physical || "";
+
+        const virtEl = document.getElementById('wedding-location-virtual');
+        if (virtEl) {
+            if (APP_CONFIG.wedding.location.virtual) {
+                virtEl.innerText = APP_CONFIG.wedding.location.virtual;
+                virtEl.style.display = 'block';
+            } else {
+                virtEl.style.display = 'none';
+            }
+        }
 
         // Fecha (Texto y Hero)
         const weddingDate = new Date(APP_CONFIG.wedding.date);
