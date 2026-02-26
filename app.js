@@ -1,5 +1,5 @@
 /**
- * app.js - v1.2
+ * app.js - v1.3
  */
 import { Store } from './js/core/Store.js';
 import { Renderer } from './js/modules/Renderer.js';

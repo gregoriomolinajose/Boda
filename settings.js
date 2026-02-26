@@ -1,5 +1,5 @@
 /**
- * settings.js - v1.2
+ * settings.js - v1.3
  * Lógica para la configuración a pantalla completa y el timeline dinámico.
  */
 
@@ -133,8 +133,12 @@ function populateSettingsForm() {
 
     // Foto del Anfitrión
     const photoPreview = document.getElementById('couple-photo-preview');
-    if (photoPreview && APP_CONFIG.wedding.photo) {
-        photoPreview.src = APP_CONFIG.wedding.photo;
+    if (photoPreview) {
+        if (APP_CONFIG.wedding.photo) {
+            photoPreview.src = APP_CONFIG.wedding.photo;
+        } else {
+            photoPreview.src = "https://placehold.co/600x600?text=Subir+Foto";
+        }
     }
 
     renderTimelineUI();
@@ -545,6 +549,12 @@ function saveSettings() {
     APP_CONFIG.wedding.message = document.getElementById('set-wedding-message').value;
     APP_CONFIG.wedding.subject = document.getElementById('set-wedding-subject').value;
     APP_CONFIG.wedding.demoGuestName = document.getElementById('set-demo-guest-name').value;
+
+    // IMPORTANTE: Asegurar que la foto se capture del preview actual
+    const currentPhoto = document.getElementById('couple-photo-preview').src;
+    if (currentPhoto && !currentPhoto.includes('placeholder')) {
+        APP_CONFIG.wedding.photo = currentPhoto;
+    }
 
     // Logística y Detalles
     APP_CONFIG.wedding.dressCode = {
