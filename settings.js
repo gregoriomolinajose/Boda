@@ -1,5 +1,5 @@
 /**
- * settings.js - v1.9.3
+ * settings.js - v1.9.4
  * Lógica para la configuración a pantalla completa y el timeline dinámico.
  */
 import { Store } from './js/core/Store.js';
