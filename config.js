@@ -11,7 +11,18 @@ const APP_CONFIG = {
         names: "Dora & Gregorio",
         message: "Nos encantaría que seas parte de este momento tan especial para nosotros. Un brindis íntimo para celebrar nuestra unión civil.",
         subject: "Nuestra Boda",
-        photo: "https://via.placeholder.com/600x600?text=Foto+de+los+Novios"
+        photo: "https://via.placeholder.com/600x600?text=Foto+de+los+Novios",
+        dressCode: {
+            show: true,
+            title: "Código de vestimenta",
+            description: "Formal Cocktail",
+            tip: "¡Luce tu mejor look!"
+        },
+        gifts: {
+            show: true,
+            title: "Regalos",
+            description: "Lo más importante es tu presencia."
+        }
     },
     api: {
         sheetWebhook: "https://script.google.com/macros/s/AKfycbxkpWVeOerWCwX0JECPFc3I3RwZ-GyiACxh0BaDlhNDzq8OC4DJVs4acDx0s30ZAulIJg/exec"

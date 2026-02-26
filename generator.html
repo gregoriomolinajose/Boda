@@ -167,6 +167,59 @@
                         </div>
                     </div>
                     <div class="settings-section-title">
+                        <i class="fas fa-truck-loading"></i> Logística y Detalles (Vestimenta y Regalos)
+                    </div>
+                    <div class="settings-grid">
+                        <!-- Código de Vestimenta -->
+                        <div class="form-group"
+                            style="grid-column: span 2; border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 5px;">
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <label style="margin: 0; font-weight: bold;">Código de Vestimenta</label>
+                                <label class="switch">
+                                    <input type="checkbox" id="set-dress-code-show" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="settings-grid" style="padding: 0;">
+                                <div class="form-group">
+                                    <label>Título</label>
+                                    <input type="text" id="set-dress-code-title" placeholder="Código de vestimenta">
+                                </div>
+                                <div class="form-group">
+                                    <label>Descripción</label>
+                                    <input type="text" id="set-dress-code-description" placeholder="Formal Cocktail">
+                                </div>
+                                <div class="form-group" style="grid-column: span 2;">
+                                    <label>Tip (Recomendación)</label>
+                                    <input type="text" id="set-dress-code-tip" placeholder="¡Luce tu mejor look!">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Regalos -->
+                        <div class="form-group" style="grid-column: span 2;">
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <label style="margin: 0; font-weight: bold;">Regalos</label>
+                                <label class="switch">
+                                    <input type="checkbox" id="set-gifts-show" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>Título</label>
+                                <input type="text" id="set-gifts-title" placeholder="Regalos">
+                            </div>
+                            <div class="form-group" style="margin-top: 5px;">
+                                <label>Descripción / Mensaje</label>
+                                <textarea id="set-gifts-description" class="form-input" rows="2"
+                                    placeholder="Lo más importante es tu presencia..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section-title">
                         <i class="fas fa-clock"></i> Itinerario (Timeline)
                         <button class="btn btn-olive" style="margin-left: auto; padding: 5px 15px; font-size: 0.7rem;"
                             onclick="addTimelineItem()">

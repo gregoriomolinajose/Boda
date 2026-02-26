@@ -343,6 +343,36 @@
             subjectEl.innerText = APP_CONFIG.wedding.subject || "Nuestra Boda";
         }
 
+        // --- Logística y Detalles ---
+        // Código de Vestimenta
+        const dressCodeSection = document.getElementById('dress-code-section');
+        if (dressCodeSection) {
+            const dc = APP_CONFIG.wedding.dressCode || {};
+            dressCodeSection.style.display = dc.show !== false ? 'flex' : 'none';
+
+            const dcTitle = document.getElementById('dress-code-title');
+            if (dcTitle) dcTitle.innerText = dc.title || "Código de vestimenta";
+
+            const dcDesc = document.getElementById('dress-code-description');
+            if (dcDesc) dcDesc.innerText = dc.description || "Formal Cocktail";
+
+            const dcTip = document.getElementById('dress-code-tip');
+            if (dcTip) dcTip.innerText = dc.tip || "¡Luce tu mejor Look!";
+        }
+
+        // Regalos
+        const giftsSection = document.getElementById('gifts-section');
+        if (giftsSection) {
+            const gf = APP_CONFIG.wedding.gifts || {};
+            giftsSection.style.display = gf.show !== false ? 'block' : 'none';
+
+            const gfTitle = document.getElementById('gifts-title');
+            if (gfTitle) gfTitle.innerText = gf.title || "Regalos";
+
+            const gfDesc = document.getElementById('gifts-description');
+            if (gfDesc) gfDesc.innerText = gf.description || "Lo más importante es tu presencia.";
+        }
+
         // Foto del Anfitrión (Hero)
         const heroImg = document.getElementById('hero-img-display');
         if (heroImg) {

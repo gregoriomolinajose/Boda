@@ -77,6 +77,18 @@ function populateSettingsForm() {
     const demoGuest = document.getElementById('set-demo-guest-name');
     if (demoGuest) demoGuest.value = APP_CONFIG.wedding.demoGuestName || "";
 
+    // Logística y Detalles
+    const dc = APP_CONFIG.wedding.dressCode || {};
+    document.getElementById('set-dress-code-show').checked = dc.show !== false;
+    document.getElementById('set-dress-code-title').value = dc.title || "";
+    document.getElementById('set-dress-code-description').value = dc.description || "";
+    document.getElementById('set-dress-code-tip').value = dc.tip || "";
+
+    const gf = APP_CONFIG.wedding.gifts || {};
+    document.getElementById('set-gifts-show').checked = gf.show !== false;
+    document.getElementById('set-gifts-title').value = gf.title || "";
+    document.getElementById('set-gifts-description').value = gf.description || "";
+
     // Foto del Anfitrión
     const photoPreview = document.getElementById('couple-photo-preview');
     if (photoPreview && APP_CONFIG.wedding.photo) {
@@ -265,7 +277,18 @@ function notifyPreview() {
             photo: document.getElementById('couple-photo-preview').src,
             message: document.getElementById('set-wedding-message').value,
             subject: document.getElementById('set-wedding-subject').value,
-            demoGuestName: document.getElementById('set-demo-guest-name').value
+            demoGuestName: document.getElementById('set-demo-guest-name').value,
+            dressCode: {
+                show: document.getElementById('set-dress-code-show').checked,
+                title: document.getElementById('set-dress-code-title').value,
+                description: document.getElementById('set-dress-code-description').value,
+                tip: document.getElementById('set-dress-code-tip').value
+            },
+            gifts: {
+                show: document.getElementById('set-gifts-show').checked,
+                title: document.getElementById('set-gifts-title').value,
+                description: document.getElementById('set-gifts-description').value
+            }
         },
         ui: {
             showCountdown: document.getElementById('set-show-countdown').checked,
@@ -428,6 +451,20 @@ function saveSettings() {
     APP_CONFIG.wedding.message = document.getElementById('set-wedding-message').value;
     APP_CONFIG.wedding.subject = document.getElementById('set-wedding-subject').value;
     APP_CONFIG.wedding.demoGuestName = document.getElementById('set-demo-guest-name').value;
+
+    // Logística y Detalles
+    APP_CONFIG.wedding.dressCode = {
+        show: document.getElementById('set-dress-code-show').checked,
+        title: document.getElementById('set-dress-code-title').value,
+        description: document.getElementById('set-dress-code-description').value,
+        tip: document.getElementById('set-dress-code-tip').value
+    };
+    APP_CONFIG.wedding.gifts = {
+        show: document.getElementById('set-gifts-show').checked,
+        title: document.getElementById('set-gifts-title').value,
+        description: document.getElementById('set-gifts-description').value
+    };
+
     APP_CONFIG.wedding.location.physical = document.getElementById('set-physical-location').value;
     APP_CONFIG.wedding.location.virtual = document.getElementById('set-virtual-location').value;
     APP_CONFIG.api.sheetWebhook = document.getElementById('set-webhook-url').value;
