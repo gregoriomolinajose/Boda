@@ -1,5 +1,5 @@
 /**
- * settings.js - v1.6
+ * settings.js - v1.8
  * Lógica para la configuración a pantalla completa y el timeline dinámico.
  */
 
@@ -571,8 +571,10 @@ function saveSettings() {
 
     // IMPORTANTE: Asegurar que la foto se capture del preview actual
     const currentPhoto = document.getElementById('couple-photo-preview').src;
-    if (currentPhoto && !currentPhoto.includes('placeholder')) {
+    if (currentPhoto && !currentPhoto.includes('placeholder') && !currentPhoto.includes('placehold.co')) {
         APP_CONFIG.wedding.photo = currentPhoto;
+    } else {
+        APP_CONFIG.wedding.photo = ""; // O mantener el placeholder
     }
 
     // Logística y Detalles
