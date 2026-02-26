@@ -1,3 +1,6 @@
+import { doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { db } from "./Firebase.js";
+
 /**
  * Store.js - Módulo de gestión de estado reactivo (Patrón Observer).
  */
@@ -25,11 +28,13 @@ export class Store {
      * @param {Object} newState 
      */
     setState(newState) {
-        // Deep merge simple para objetos anidados conocidos si es necesario, 
-        // o reemplazo por niveles.
         this.state = { ...this.state, ...newState };
         this.notify();
         this.saveToStorage();
+
+        // Sincronización con la nube (Firestore)
+        // Usamos un ID fijo 'default' por ahora, o podrías usar uno dinámico
+        this.saveToCloud('wedding_config');
     }
 
     /**
@@ -71,6 +76,33 @@ export class Store {
             } catch (e) {
                 console.error("Error loading state from storage:", e);
             }
+        }
+    }
+
+    /**
+     * Sincroniza el estado actual con Firestore.
+     */
+    async saveToCloud(docId) {
+        try {
+            const docRef = doc(db, "configurations", docId);
+            await setDoc(docRef, this.state);
+        } catch (e) {
+            console.error("Error saving to Firestore:", e);
+        }
+    }
+
+    /**
+     * Carga el estado desde Firestore.
+     */
+    async loadFromCloud(docId) {
+        try {
+            const docRef = doc(db, "configurations", docId);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                this.setState(docSnap.data());
+            }
+        } catch (e) {
+            console.error("Error loading from Firestore:", e);
         }
     }
 }

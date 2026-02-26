@@ -1,6 +1,9 @@
 /**
+ * settings.js - v1.1
  * Lógica para la configuración a pantalla completa y el timeline dinámico.
  */
+
+window.toggleSettings = (s) => console.log('Settings loading...'); // Placeholder inicial
 
 let currentIconTargetId = null;
 let cropper = null;
@@ -31,6 +34,7 @@ function toggleSettings(show) {
         document.body.style.overflow = 'auto';
     }
 }
+window.toggleSettings = toggleSettings;
 
 function populateSettingsForm() {
     // Anfitriones
@@ -290,12 +294,13 @@ function applyCrop() {
 
 function deletePhoto() {
     if (confirm('¿Estás seguro de que deseas eliminar la foto de los novios?')) {
-        const placeholder = "https://via.placeholder.com/600x600?text=Subir+Foto";
+        const placeholder = "https://placehold.co/600x600?text=Subir+Foto";
         APP_CONFIG.wedding.photo = placeholder;
         document.getElementById('couple-photo-preview').src = placeholder;
         notifyPreview();
     }
 }
+window.deletePhoto = deletePhoto;
 
 function notifyPreview() {
     const iframe = document.getElementById('preview-iframe');
@@ -651,3 +656,21 @@ function loadSettings() {
 
 // Iniciar carga
 loadSettings();
+
+// Exponer funciones necesarias al ámbito global (window) porque generator.html usa onclick inline
+window.saveSettings = saveSettings;
+window.reEditPhoto = reEditPhoto;
+window.addTimelineItem = addTimelineItem;
+window.removeTimelineItem = removeTimelineItem;
+window.openIconPicker = openIconPicker;
+window.toggleRatioMenu = toggleRatioMenu;
+window.setCropRatio = setCropRatio;
+window.closeCropper = closeCropper;
+window.applyCrop = applyCrop;
+window.closeIconPicker = closeIconPicker;
+window.simulatePreviewRsvp = simulatePreviewRsvp;
+window.populateSettingsForm = populateSettingsForm;
+window.renderTimelineUI = renderTimelineUI;
+window.syncTimelineData = syncTimelineData;
+window.notifyPreview = notifyPreview;
+window.toggleSettings = toggleSettings;

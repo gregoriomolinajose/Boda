@@ -11,7 +11,7 @@ const APP_CONFIG = {
         names: "Dora & Gregorio",
         message: "Nos encantaría que seas parte de este momento tan especial para nosotros. Un brindis íntimo para celebrar nuestra unión civil.",
         subject: "Nuestra Boda",
-        photo: "https://via.placeholder.com/600x600?text=Foto+de+los+Novios",
+        photo: "https://placehold.co/600x600?text=Foto+de+los+Novios",
         dressCode: {
             show: true,
             title: "Código de vestimenta",
