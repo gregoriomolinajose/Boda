@@ -108,6 +108,14 @@ function populateSettingsForm() {
     document.getElementById('set-rsvp-adults-show').checked = rv.showAdults !== false;
     document.getElementById('set-rsvp-kids-show').checked = rv.showKids !== false;
     document.getElementById('set-rsvp-allergies-show').checked = rv.showAllergies !== false;
+
+    // Configuración Mensajes Finales
+    const cf = APP_CONFIG.wedding.confirmation || {};
+    document.getElementById('set-final-title-yes').value = (cf.yes && cf.yes.title) || "";
+    document.getElementById('set-final-desc-yes').value = (cf.yes && cf.yes.description) || "";
+    document.getElementById('set-final-title-no').value = (cf.no && cf.no.title) || "";
+    document.getElementById('set-final-desc-no').value = (cf.no && cf.no.description) || "";
+
     document.getElementById('set-album-show').checked = al.show !== false;
     document.getElementById('set-album-url').value = al.url || "";
 
@@ -329,6 +337,16 @@ function notifyPreview() {
                 showAdults: document.getElementById('set-rsvp-adults-show').checked,
                 showKids: document.getElementById('set-rsvp-kids-show').checked,
                 showAllergies: document.getElementById('set-rsvp-allergies-show').checked
+            },
+            confirmation: {
+                yes: {
+                    title: document.getElementById('set-final-title-yes').value,
+                    description: document.getElementById('set-final-desc-yes').value
+                },
+                no: {
+                    title: document.getElementById('set-final-title-no').value,
+                    description: document.getElementById('set-final-desc-no').value
+                }
             }
         },
         ui: {
@@ -523,6 +541,17 @@ function saveSettings() {
         showAdults: document.getElementById('set-rsvp-adults-show').checked,
         showKids: document.getElementById('set-rsvp-kids-show').checked,
         showAllergies: document.getElementById('set-rsvp-allergies-show').checked
+    };
+
+    APP_CONFIG.wedding.confirmation = {
+        yes: {
+            title: document.getElementById('set-final-title-yes').value,
+            description: document.getElementById('set-final-desc-yes').value
+        },
+        no: {
+            title: document.getElementById('set-final-title-no').value,
+            description: document.getElementById('set-final-desc-no').value
+        }
     };
 
     APP_CONFIG.wedding.location.physical = document.getElementById('set-physical-location').value;

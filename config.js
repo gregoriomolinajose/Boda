@@ -41,9 +41,18 @@ const APP_CONFIG = {
         rsvp: {
             title: "Confirmar Asistencia",
             description: "Por favor, confirma tu asistencia ¡Esperamos que estés!",
-            showAdults: true,
             showKids: true,
             showAllergies: true
+        },
+        confirmation: {
+            yes: {
+                title: "Te esperamos",
+                description: ""
+            },
+            no: {
+                title: "¡Te extrañaremos!",
+                description: "Valoramos mucho tu cariño y, aunque nos encantaría celebrar juntos, entendemos que a veces los tiempos no coinciden. Gracias por acompañarnos siempre."
+            }
         }
     },
     api: {

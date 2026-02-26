@@ -419,6 +419,18 @@
         if (wrapperKids) wrapperKids.style.display = rsvp.showKids !== false ? 'block' : 'none';
         if (wrapperAllergies) wrapperAllergies.style.display = rsvp.showAllergies !== false ? 'block' : 'none';
 
+        // --- Mensajes Finales (Confirmación/Despedida) ---
+        const conf = APP_CONFIG.wedding.confirmation || {};
+        const titleYes = document.getElementById('final-title-yes');
+        const descYes = document.getElementById('final-desc-yes');
+        const titleNo = document.getElementById('final-title-no');
+        const descNo = document.getElementById('final-desc-no');
+
+        if (titleYes) titleYes.innerText = (conf.yes && conf.yes.title) || "Te esperamos";
+        if (descYes) descYes.innerText = (conf.yes && conf.yes.description) || "";
+        if (titleNo) titleNo.innerText = (conf.no && conf.no.title) || "¡Te extrañaremos!";
+        if (descNo) descNo.innerText = (conf.no && conf.no.description) || "";
+
         // Foto del Anfitrión (Hero)
         const heroImg = document.getElementById('hero-img-display');
         if (heroImg) {
