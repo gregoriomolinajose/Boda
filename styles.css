@@ -426,7 +426,7 @@ body.show-content #splash {
     justify-content: flex-end;
     /* Alineado al fondo */
     align-items: center;
-    background: rgba(0, 0, 0, 0.2);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0.8) 100%);
     padding-bottom: 90px;
     /* Espacio para el indicador de scroll */
 }
