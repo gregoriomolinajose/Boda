@@ -1,7 +1,11 @@
 /**
- * settings.js - v1.8
+ * settings.js - v1.9
  * Lógica para la configuración a pantalla completa y el timeline dinámico.
  */
+import { Store } from './js/core/Store.js';
+
+// Inicializar el Store reactivo
+const store = new Store(APP_CONFIG);
 
 window.toggleSettings = (s) => console.log('Settings loading...'); // Placeholder inicial
 
@@ -664,39 +668,27 @@ function saveSettings() {
     });
     APP_CONFIG.timeline = newTimeline;
 
-    // Guardar en localStorage con manejo de cuota
+    // Actualizar el Store reactivo (esto dispara el guardado en LocalStorage y Cloud/Firestore)
+    store.setState(APP_CONFIG);
+
+    Utils.showToast('toast-container', 'Configuración guardada correctamente.');
+    toggleSettings(false);
+}
+
+async function initSettings() {
+    loadSettings();
+    // Prioridad: Cargar desde la nube si existe conexión
     try {
-        localStorage.setItem('app_settings', JSON.stringify(APP_CONFIG));
-        Utils.showToast('toast-container', 'Configuración guardada correctamente.');
-        toggleSettings(false);
+        await store.loadFromCloud('wedding_config');
+        console.log("Datos sincronizados con la nube");
+        populateSettingsForm(); // Repoblar después de cargar de la nube
     } catch (e) {
-        console.error("Error al guardar en localStorage:", e);
-        if (e.name === 'QuotaExceededError') {
-            alert('¡Error! La capacidad de almacenamiento del navegador está llena. Esto suele suceder si la foto es demasiado grande. Por favor, intenta usar una foto diferente o bórrala para poder guardar los demás cambios.');
-        } else {
-            alert('Hubo un problema al guardar la configuración. Por favor intenta de nuevo.');
-        }
+        console.warn("No se pudo conectar con Firestore, usando datos locales");
     }
 }
 
-// Cargar configuración al iniciar
-function loadSettings() {
-    const saved = localStorage.getItem('app_settings');
-    if (saved) {
-        try {
-            const parsed = JSON.parse(saved);
-            if (parsed.wedding) Object.assign(APP_CONFIG.wedding, parsed.wedding);
-            if (parsed.ui) Object.assign(APP_CONFIG.ui, parsed.ui);
-            if (parsed.api) Object.assign(APP_CONFIG.api, parsed.api);
-            if (parsed.timeline) APP_CONFIG.timeline = parsed.timeline;
-        } catch (e) {
-            console.error("Error al cargar configuración:", e);
-        }
-    }
-}
-
-// Iniciar carga
-loadSettings();
+// Iniciar carga con soporte cloud
+initSettings();
 
 // Exponer funciones necesarias al ámbito global (window) porque generator.html usa onclick inline
 window.saveSettings = saveSettings;

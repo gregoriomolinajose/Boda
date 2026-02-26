@@ -113,7 +113,12 @@ export class Store {
             const docRef = doc(db, "configurations", docId);
             const docSnap = await getDoc(docRef);
             if (docSnap.exists()) {
-                this.setState(docSnap.data());
+                const cloudData = docSnap.data();
+                this.setState(cloudData);
+                // Si estamos en el generador, actualizar también el objeto global
+                if (window.APP_CONFIG) {
+                    Object.assign(window.APP_CONFIG, cloudData);
+                }
             }
         } catch (e) {
             console.error("Error loading from Firestore:", e);
