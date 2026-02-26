@@ -61,6 +61,9 @@ export class Store {
             localStorage.setItem(this.storageKey, JSON.stringify(this.state));
         } catch (e) {
             console.error("Error saving state to storage:", e);
+            if (e.name === 'QuotaExceededError') {
+                console.warn("LocalStorage quota exceeded, photo might be too large.");
+            }
         }
     }
 
@@ -72,7 +75,12 @@ export class Store {
         const saved = localStorage.getItem(this.storageKey);
         if (saved) {
             try {
-                this.state = { ...this.state, ...JSON.parse(saved) };
+                const parsed = JSON.parse(saved);
+                // Combinar profundamente para no perder valores por defecto en config.js
+                if (parsed.wedding) this.state.wedding = { ...this.state.wedding, ...parsed.wedding };
+                if (parsed.ui) this.state.ui = { ...this.state.ui, ...parsed.ui };
+                if (parsed.api) this.state.api = { ...this.state.api, ...parsed.api };
+                if (parsed.timeline) this.state.timeline = parsed.timeline;
             } catch (e) {
                 console.error("Error loading state from storage:", e);
             }
