@@ -9,6 +9,7 @@ const APP_CONFIG = {
             virtual: "Google Meet"
         },
         names: "Dora & Gregorio",
+        message: "Nos encantaría que seas parte de este momento tan especial para nosotros. Un brindis íntimo para celebrar nuestra unión civil.",
         photo: "https://via.placeholder.com/600x600?text=Foto+de+los+Novios"
     },
     api: {

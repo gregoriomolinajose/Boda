@@ -323,6 +323,12 @@
             if (el) el.innerText = APP_CONFIG.wedding.names;
         });
 
+        // Mensaje de Bienvenida (Palabras del anfitrión)
+        const messageEl = document.querySelector('.message');
+        if (messageEl && APP_CONFIG.wedding.message) {
+            messageEl.innerText = APP_CONFIG.wedding.message;
+        }
+
         // Foto del Anfitrión (Hero)
         const heroImg = document.getElementById('hero-img-display');
         if (heroImg) {

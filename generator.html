@@ -75,7 +75,30 @@
             <div class="settings-form-column">
                 <div class="settings-container">
                     <div class="settings-section-title">
-                        <i class="fas fa-info-circle"></i> Información General
+                        <i class="fas fa-calendar-alt"></i> Información del Evento
+                    </div>
+
+                    <div class="photo-upload-container"
+                        style="border-top: 1px dashed #ddd; border-radius: 12px; margin-bottom: 20px;">
+                        <div class="photo-preview-box" id="couple-photo-preview-box">
+                            <img id="couple-photo-preview" src="https://via.placeholder.com/600x600?text=Subir+Foto"
+                                alt="Foto Novios" style="max-width: 100%; border-radius: 8px;">
+                        </div>
+                        <div class="photo-upload-controls"
+                            style="margin-top: 15px; display: flex; flex-direction: column; gap: 10px;">
+                            <div style="display: flex; gap: 10px;">
+                                <label for="photo-input" class="btn btn-primary"
+                                    style="margin: 0; flex: 1; text-align: center;">
+                                    <i class="fas fa-upload"></i> Seleccionar Foto
+                                </label>
+                                <button class="btn btn-danger" onclick="deletePhoto()" style="margin: 0; flex: 1;">
+                                    <i class="fas fa-trash-alt"></i> Eliminar Foto
+                                </button>
+                            </div>
+                            <input type="file" id="photo-input" accept="image/*" style="display: none;">
+                            <p class="help-text" style="font-size: 0.75rem; color: #777;">JPG o PNG. Se recomienda
+                                formato vertical 4:5.</p>
+                        </div>
                     </div>
                     <div class="settings-grid">
                         <div class="form-group">
@@ -89,15 +112,6 @@
                         <div class="form-group">
                             <label>Hora del Evento</label>
                             <input type="time" id="set-wedding-time-picker">
-                        </div>
-                        <div class="form-group">
-                            <label style="display: flex; align-items: center; gap: 10px;">
-                                Mostrar Contador
-                                <label class="switch">
-                                    <input type="checkbox" id="set-show-countdown">
-                                    <span class="slider"></span>
-                                </label>
-                            </label>
                         </div>
                         <div class="form-group">
                             <label>Ubicación Física</label>
@@ -115,6 +129,37 @@
                             <label>Webhook URL (Sheets)</label>
                             <input type="text" id="set-webhook-url">
                         </div>
+                    </div>
+
+                    <div class="settings-section-title">
+                        <i class="fas fa-comment-dots"></i> Palabras del anfitrión (Detalle del evento y contador)
+                    </div>
+                    <div class="settings-grid">
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label>Mensaje de Bienvenida (Detalle del Evento)</label>
+                            <textarea id="set-wedding-message" class="form-input" rows="3"
+                                placeholder="Ej: Nos encantaría que seas parte de este momento tan especial..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label style="display: flex; align-items: center; gap: 10px;">
+                                Activador del contador
+                                <label class="switch">
+                                    <input type="checkbox" id="set-show-countdown">
+                                    <span class="slider"></span>
+                                </label>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="settings-section-title">
+                        <i class="fas fa-clock"></i> Itinerario (Timeline)
+                        <button class="btn btn-olive" style="margin-left: auto; padding: 5px 15px; font-size: 0.7rem;"
+                            onclick="addTimelineItem()">
+                            + Añadir Actividad
+                        </button>
+                    </div>
+
+                    <div id="timeline-builder-container">
+                        <!-- Se poblará dinámicamente -->
                     </div>
 
                     <div class="settings-section-title">
@@ -151,43 +196,6 @@
                                 <option value="Pacifico">Pacifico (Retro)</option>
                             </select>
                         </div>
-                    </div>
-
-                    <div class="settings-section-title">
-                        <i class="fas fa-camera"></i> Foto del Anfitrión
-                    </div>
-                    <div class="photo-upload-container">
-                        <div class="photo-preview-box" id="couple-photo-preview-box">
-                            <img id="couple-photo-preview" src="https://via.placeholder.com/600x600?text=Subir+Foto"
-                                alt="Foto Novios" style="max-width: 100%; border-radius: 8px;">
-                        </div>
-                        <div class="photo-upload-controls"
-                            style="margin-top: 15px; display: flex; flex-direction: column; gap: 10px;">
-                            <div style="display: flex; gap: 10px;">
-                                <label for="photo-input" class="btn btn-primary"
-                                    style="margin: 0; flex: 1; text-align: center;">
-                                    <i class="fas fa-upload"></i> Seleccionar Foto
-                                </label>
-                                <button class="btn btn-danger" onclick="deletePhoto()" style="margin: 0; flex: 1;">
-                                    <i class="fas fa-trash-alt"></i> Eliminar Foto
-                                </button>
-                            </div>
-                            <input type="file" id="photo-input" accept="image/*" style="display: none;">
-                            <p class="help-text" style="font-size: 0.75rem; color: #777;">JPG o PNG. Se recomienda
-                                formato cuadrado.</p>
-                        </div>
-                    </div>
-
-                    <div class="settings-section-title">
-                        <i class="fas fa-clock"></i> Itinerario (Timeline)
-                        <button class="btn btn-olive" style="margin-left: auto; padding: 5px 15px; font-size: 0.7rem;"
-                            onclick="addTimelineItem()">
-                            + Añadir Actividad
-                        </button>
-                    </div>
-
-                    <div id="timeline-builder-container">
-                        <!-- Se poblará dinámicamente -->
                     </div>
 
                     <div style="margin-top: 40px; display: flex; gap: 20px;">

@@ -68,7 +68,10 @@ function populateSettingsForm() {
     document.getElementById('set-font-primary').value = APP_CONFIG.ui.fontPrimary || 'Montserrat';
     document.getElementById('set-font-script').value = APP_CONFIG.ui.fontScript || 'Great Vibes';
 
-    // Foto de los Novios
+    const hostMessage = document.getElementById('set-wedding-message');
+    if (hostMessage) hostMessage.value = APP_CONFIG.wedding.message || "";
+
+    // Foto del Anfitrión
     const photoPreview = document.getElementById('couple-photo-preview');
     if (photoPreview && APP_CONFIG.wedding.photo) {
         photoPreview.src = APP_CONFIG.wedding.photo;
@@ -215,7 +218,8 @@ function notifyPreview() {
                 physical: document.getElementById('set-physical-location').value,
                 virtual: document.getElementById('set-virtual-location').value
             },
-            photo: document.getElementById('couple-photo-preview').src
+            photo: document.getElementById('couple-photo-preview').src,
+            message: document.getElementById('set-wedding-message').value
         },
         ui: {
             showCountdown: document.getElementById('set-show-countdown').checked,
@@ -375,6 +379,7 @@ function saveSettings() {
     // Actualizar objeto APP_CONFIG
     APP_CONFIG.wedding.names = document.getElementById('set-wedding-names').value;
     APP_CONFIG.wedding.date = `${date} ${time}`;
+    APP_CONFIG.wedding.message = document.getElementById('set-wedding-message').value;
     APP_CONFIG.wedding.location.physical = document.getElementById('set-physical-location').value;
     APP_CONFIG.wedding.location.virtual = document.getElementById('set-virtual-location').value;
     APP_CONFIG.api.sheetWebhook = document.getElementById('set-webhook-url').value;
