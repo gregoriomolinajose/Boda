@@ -423,9 +423,12 @@ body.show-content #splash {
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-end;
+    /* Alineado al fondo */
     align-items: center;
     background: rgba(0, 0, 0, 0.2);
+    padding-bottom: 90px;
+    /* Espacio para el indicador de scroll */
 }
 
 .hero-names {
