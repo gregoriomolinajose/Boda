@@ -382,6 +382,28 @@
             logisticsSection.style.display = (showDress || showGifts) ? 'block' : 'none';
         }
 
+        // --- Galería y Álbum ---
+        const gallery = APP_CONFIG.wedding.gallery || {};
+        const galleryTitle = document.getElementById('gallery-title');
+        const galleryDescription = document.getElementById('gallery-description');
+        const btnUpload = document.getElementById('btn-upload-photos');
+        const btnAlbum = document.getElementById('btn-view-album');
+
+        if (galleryTitle) galleryTitle.innerText = gallery.title || "! Captura los Mejores Momentos !";
+        if (galleryDescription) galleryDescription.innerText = gallery.description || "";
+
+        if (btnUpload) {
+            const up = gallery.uploadButton || {};
+            btnUpload.style.display = up.show !== false ? 'flex' : 'none';
+            btnUpload.href = up.url || "#";
+        }
+
+        if (btnAlbum) {
+            const al = gallery.albumButton || {};
+            btnAlbum.style.display = al.show !== false ? 'flex' : 'none';
+            btnAlbum.href = al.url || "#";
+        }
+
         // Foto del Anfitrión (Hero)
         const heroImg = document.getElementById('hero-img-display');
         if (heroImg) {

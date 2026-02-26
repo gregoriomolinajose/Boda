@@ -233,6 +233,50 @@
                     </div>
 
                     <div class="settings-section-title">
+                        <i class="fas fa-images"></i> Galería y Álbum
+                    </div>
+                    <div class="settings-grid">
+                        <!-- Título y Descripción -->
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label>Título de la Sección</label>
+                            <input type="text" id="set-gallery-title" placeholder="¡Captura los Mejores Momentos!">
+                        </div>
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label>Descripción / Invitación</label>
+                            <textarea id="set-gallery-description" class="form-input" rows="2"
+                                placeholder="Queremos revivir este día tan especial..."></textarea>
+                        </div>
+
+                        <!-- Botón Subir Fotos -->
+                        <div class="form-group">
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <label style="margin: 0; font-weight: bold;">Botón "Subir Fotos"</label>
+                                <label class="switch">
+                                    <input type="checkbox" id="set-upload-show" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <label>Enlace (URL)</label>
+                            <input type="text" id="set-upload-url" placeholder="https://photos.app.goo.gl/...">
+                        </div>
+
+                        <!-- Botón Ver Álbum -->
+                        <div class="form-group">
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <label style="margin: 0; font-weight: bold;">Botón "Ver Álbum"</label>
+                                <label class="switch">
+                                    <input type="checkbox" id="set-album-show" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <label>Enlace (URL)</label>
+                            <input type="text" id="set-album-url" placeholder="https://photos.app.goo.gl/...">
+                        </div>
+                    </div>
+
+                    <div class="settings-section-title">
                         <i class="fas fa-palette"></i> Estilos y Colores
                     </div>
                     <div class="settings-grid">

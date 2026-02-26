@@ -22,6 +22,21 @@ const APP_CONFIG = {
             show: true,
             title: "Regalos",
             description: "Lo más importante es tu presencia."
+        },
+        gallery: {
+            show: true,
+            title: "! Captura los Mejores Momentos !",
+            description: "Queremos revivir este día tan especial a través de tus ojos. Ayúdanos a crear un álbum lleno de recuerdos inolvidables subiendo tus fotos.",
+            uploadButton: {
+                show: true,
+                text: "Subir Fotos",
+                url: "https://photos.app.goo.gl/LqatfysFetmxUcgK8"
+            },
+            albumButton: {
+                show: true,
+                text: "Ver Álbum",
+                url: "https://photos.app.goo.gl/LqatfysFetmxUcgK8"
+            }
         }
     },
     api: {

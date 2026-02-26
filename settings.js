@@ -89,6 +89,20 @@ function populateSettingsForm() {
     document.getElementById('set-gifts-title').value = gf.title || "";
     document.getElementById('set-gifts-description').value = gf.description || "";
 
+    const ga = APP_CONFIG.wedding.gallery || {};
+    document.getElementById('set-gallery-title').value = ga.title || "";
+    document.getElementById('set-gallery-description').value = ga.description || "";
+
+    const up = ga.uploadButton || {};
+    document.getElementById('set-upload-show').checked = up.show !== false;
+    document.getElementById('set-upload-url').value = up.url || "";
+
+    const al = ga.albumButton || {};
+    document.getElementById('set-album-show').checked = al.show !== false;
+    document.getElementById('set-album-url').value = al.url || "";
+    document.getElementById('set-album-show').checked = al.show !== false;
+    document.getElementById('set-album-url').value = al.url || "";
+
     // Foto del Anfitrión
     const photoPreview = document.getElementById('couple-photo-preview');
     if (photoPreview && APP_CONFIG.wedding.photo) {
@@ -288,6 +302,18 @@ function notifyPreview() {
                 show: document.getElementById('set-gifts-show').checked,
                 title: document.getElementById('set-gifts-title').value,
                 description: document.getElementById('set-gifts-description').value
+            },
+            gallery: {
+                title: document.getElementById('set-gallery-title').value,
+                description: document.getElementById('set-gallery-description').value,
+                uploadButton: {
+                    show: document.getElementById('set-upload-show').checked,
+                    url: document.getElementById('set-upload-url').value
+                },
+                albumButton: {
+                    show: document.getElementById('set-album-show').checked,
+                    url: document.getElementById('set-album-url').value
+                }
             }
         },
         ui: {
@@ -463,6 +489,18 @@ function saveSettings() {
         show: document.getElementById('set-gifts-show').checked,
         title: document.getElementById('set-gifts-title').value,
         description: document.getElementById('set-gifts-description').value
+    };
+    APP_CONFIG.wedding.gallery = {
+        title: document.getElementById('set-gallery-title').value,
+        description: document.getElementById('set-gallery-description').value,
+        uploadButton: {
+            show: document.getElementById('set-upload-show').checked,
+            url: document.getElementById('set-upload-url').value
+        },
+        albumButton: {
+            show: document.getElementById('set-album-show').checked,
+            url: document.getElementById('set-album-url').value
+        }
     };
 
     APP_CONFIG.wedding.location.physical = document.getElementById('set-physical-location').value;
