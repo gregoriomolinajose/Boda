@@ -126,6 +126,14 @@ function populateSettingsForm() {
     }
 }
 
+function reEditPhoto() {
+    if (APP_CONFIG.wedding.photo && !APP_CONFIG.wedding.photo.includes('placeholder')) {
+        openCropper(APP_CONFIG.wedding.photo);
+    } else {
+        Utils.showToast('toast-container', 'Sube una foto primero para poder editarla.');
+    }
+}
+
 function openCropper(imageSrc) {
     const modal = document.getElementById('modal-cropper');
     const image = document.getElementById('cropper-image');
@@ -144,7 +152,29 @@ function openCropper(imageSrc) {
         cropBoxMovable: true,
         cropBoxResizable: true,
         toggleDragModeOnDblclick: false,
+        zoom: function (e) {
+            // Sincronizar slider cuando se hace zoom con scroll/gestos
+            const slider = document.getElementById('cropper-zoom-slider');
+            if (slider) {
+                // El zoom de cropper suele ir de 0.1 a 10. Mapeamos a 0-1 aproximado.
+                // Usamos logaritmo para que se sienta más natural.
+                const ratio = Math.log(e.detail.ratio) / Math.log(10) + 0.1;
+                slider.value = Math.max(0, Math.min(1, ratio));
+            }
+        }
     });
+
+    // Control de Slider de Zoom
+    const zoomSlider = document.getElementById('cropper-zoom-slider');
+    if (zoomSlider) {
+        zoomSlider.value = 0; // Reset
+        zoomSlider.oninput = (e) => {
+            if (!cropper) return;
+            // Mapeo inverso: de 0-1 a 1-10 de escala
+            const zoomLevel = Math.pow(10, parseFloat(e.target.value) - 0.1);
+            cropper.zoomTo(zoomLevel);
+        };
+    }
 
     // Resetear menu de ratios
     document.getElementById('ratio-options').classList.remove('active');
