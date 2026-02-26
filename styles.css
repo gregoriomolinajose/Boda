@@ -677,7 +677,7 @@ body.show-content #splash {
     /* Reducción agresiva */
     width: 100%;
     max-width: 500px;
-    margin: 20px auto;
+    margin: 0 auto;
 }
 
 .dress-code-icon {
@@ -722,11 +722,12 @@ body.show-content #splash {
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 40px;
     width: 100%;
 }
 
 .info-block {
-    margin-top: 30px;
+    margin-top: 0;
     width: 100%;
 }
 
