@@ -1,5 +1,5 @@
 /**
- * app.js - v1.8
+ * app.js - v1.9.1
  */
 import { Store } from './js/core/Store.js';
 import { Renderer } from './js/modules/Renderer.js';
@@ -85,14 +85,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // Reaccionar a cambios en el estado
     store.subscribe((state) => {
         renderer.render(state);
-        // Podríamos optimizar esto para que solo se llame si cambia bgAnimation,
-        // pero por simplicidad lo reiniciamos si es necesario.
         initParticles();
     });
 
-    // Renderizado inicial
-    renderer.render(store.getState());
-    initParticles();
+    // Renderizado inicial asíncrono (Prioridad Cloud)
+    const initCloudData = async () => {
+        try {
+            await store.loadFromCloud('wedding_config');
+            console.log("App iniciada con datos de la nube.");
+        } catch (e) {
+            console.warn("Fallo carga cloud, usando local:", e);
+        }
+        // El render se dispara por el constructor (local) o por loadFromCloud (cloud)
+        // pero aseguramos un render final aquí por si acaso.
+        renderer.render(store.getState());
+        initParticles();
+    };
+
+    initCloudData();
 
     // Escuchar actualizaciones desde el generador (postMessage)
     window.addEventListener('message', (event) => {

@@ -98,8 +98,21 @@ export class Store {
      */
     async saveToCloud(docId) {
         try {
+            const dataString = JSON.stringify(this.state);
+            const sizeInBytes = new Blob([dataString]).size;
+
+            // Límite de Firestore es 1MB por documento (~1,048,576 bytes)
+            if (sizeInBytes > 1000000) {
+                console.warn(`Estado demasiado grande para Firestore (${(sizeInBytes / 1024).toFixed(2)} KB). La sincronización cloud podría fallar.`);
+                // Opcional: Podríamos intentar guardar sin la foto si pesa mucho
+                // const stateCopy = JSON.parse(dataString);
+                // delete stateCopy.wedding.photo;
+                // ... guardar copia ligera ...
+            }
+
             const docRef = doc(db, "configurations", docId);
             await setDoc(docRef, this.state);
+            console.log("Sincronización exitosa con Firestore");
         } catch (e) {
             console.error("Error saving to Firestore:", e);
         }
