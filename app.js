@@ -323,6 +323,14 @@
             if (el) el.innerText = APP_CONFIG.wedding.names;
         });
 
+        // Nombre del Invitado (Solo para Demo en Preview)
+        const guestNameEl = document.getElementById('guest-welcome');
+        if (guestNameEl && APP_CONFIG.wedding.demoGuestName) {
+            guestNameEl.innerText = APP_CONFIG.wedding.demoGuestName;
+        } else if (guestNameEl && GUEST_DATA.name && GUEST_DATA.name !== 'Invitado') {
+            guestNameEl.innerText = GUEST_DATA.name;
+        }
+
         // Mensaje de Bienvenida (Palabras del anfitrión)
         const messageEl = document.getElementById('wedding-message-display');
         if (messageEl) {
