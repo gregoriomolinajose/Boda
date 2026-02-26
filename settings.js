@@ -89,6 +89,14 @@ function populateSettingsForm() {
     document.getElementById('set-gifts-title').value = gf.title || "";
     document.getElementById('set-gifts-description').value = gf.description || "";
 
+    const rb = gf.registryButton || {};
+    document.getElementById('set-registry-show').checked = rb.show !== false;
+    document.getElementById('set-registry-url').value = rb.url || "";
+
+    const bb = gf.bankButton || {};
+    document.getElementById('set-bank-show').checked = bb.show !== false;
+    document.getElementById('set-bank-details').value = bb.details || "";
+
     const ga = APP_CONFIG.wedding.gallery || {};
     document.getElementById('set-gallery-title').value = ga.title || "";
     document.getElementById('set-gallery-description').value = ga.description || "";
@@ -317,7 +325,15 @@ function notifyPreview() {
             gifts: {
                 show: document.getElementById('set-gifts-show').checked,
                 title: document.getElementById('set-gifts-title').value,
-                description: document.getElementById('set-gifts-description').value
+                description: document.getElementById('set-gifts-description').value,
+                registryButton: {
+                    show: document.getElementById('set-registry-show').checked,
+                    url: document.getElementById('set-registry-url').value
+                },
+                bankButton: {
+                    show: document.getElementById('set-bank-show').checked,
+                    details: document.getElementById('set-bank-details').value
+                }
             },
             gallery: {
                 title: document.getElementById('set-gallery-title').value,
@@ -535,7 +551,15 @@ function saveSettings() {
     APP_CONFIG.wedding.gifts = {
         show: document.getElementById('set-gifts-show').checked,
         title: document.getElementById('set-gifts-title').value,
-        description: document.getElementById('set-gifts-description').value
+        description: document.getElementById('set-gifts-description').value,
+        registryButton: {
+            show: document.getElementById('set-registry-show').checked,
+            url: document.getElementById('set-registry-url').value
+        },
+        bankButton: {
+            show: document.getElementById('set-bank-show').checked,
+            details: document.getElementById('set-bank-details').value
+        }
     };
     APP_CONFIG.wedding.gallery = {
         title: document.getElementById('set-gallery-title').value,

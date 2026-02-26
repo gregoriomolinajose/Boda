@@ -232,6 +232,15 @@
                 });
             });
         }
+
+        // --- Datos Bancarios Toggle ---
+        const btnBank = document.getElementById('btn-bank-details');
+        const bankContainer = document.getElementById('bank-details-container');
+        if (btnBank && bankContainer) {
+            btnBank.addEventListener('click', () => {
+                bankContainer.classList.toggle('hidden-field');
+            });
+        }
     };
 
     /**
@@ -371,6 +380,27 @@
 
             const gfDesc = document.getElementById('gifts-description');
             if (gfDesc) gfDesc.innerText = gf.description || "Lo más importante es tu presencia.";
+
+            // --- Botones de Regalos ---
+            const btnRegistry = document.getElementById('btn-gift-registry');
+            const btnBank = document.getElementById('btn-bank-details');
+            const bankContainer = document.getElementById('bank-details-container');
+
+            if (btnRegistry) {
+                const reg = gf.registryButton || {};
+                btnRegistry.style.display = (reg.show !== false && reg.url) ? 'flex' : 'none';
+                btnRegistry.href = reg.url || "#";
+            }
+
+            if (btnBank) {
+                const bank = gf.bankButton || {};
+                btnBank.style.display = (bank.show !== false && bank.details) ? 'flex' : 'none';
+                if (bankContainer) {
+                    bankContainer.innerText = bank.details || "";
+                    // Resetear visibilidad por si acaso
+                    bankContainer.classList.add('hidden-field');
+                }
+            }
         }
 
         // --- Regla: Ocultar sección completa si ambos están desactivados ---

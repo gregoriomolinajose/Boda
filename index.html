@@ -208,6 +208,25 @@
                 <div class="info-block stagger-item gift-block" id="gifts-section">
                     <h2 class="section-subtitle elegant-script" id="gifts-title">Regalos</h2>
                     <p class="message" id="gifts-description">Lo más importante es tu presencia.</p>
+
+                    <div class="gift-actions"
+                        style="display: flex; flex-direction: column; gap: 10px; width: 100%; margin-top: 15px;">
+                        <a href="#" id="btn-gift-registry" class="action-card action-card--small" target="_blank"
+                            rel="noopener noreferrer" style="display: none; justify-content: center;">
+                            <i class="fas fa-gift" aria-hidden="true"></i>
+                            <span>Mesa de Regalos</span>
+                        </a>
+                        <button id="btn-bank-details" class="action-card action-card--small outline"
+                            style="display: none; justify-content: center; width: 100%; cursor: pointer;">
+                            <i class="fas fa-university" aria-hidden="true"></i>
+                            <span>Datos Bancarios</span>
+                        </button>
+                    </div>
+
+                    <div id="bank-details-container" class="hidden-field"
+                        style="margin-top: 15px; padding: 15px; background: rgba(0,0,0,0.03); border-radius: 15px; font-size: 0.9rem; text-align: left; line-height: 1.5; color: var(--text-dark);">
+                        <!-- Los datos bancarios se renderizan aquí -->
+                    </div>
                 </div>
             </div>
         </section>

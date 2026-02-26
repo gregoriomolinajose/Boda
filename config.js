@@ -21,7 +21,15 @@ const APP_CONFIG = {
         gifts: {
             show: true,
             title: "Regalos",
-            description: "Lo más importante es tu presencia."
+            description: "Lo más importante es tu presencia.",
+            registryButton: {
+                show: true,
+                url: ""
+            },
+            bankButton: {
+                show: true,
+                details: ""
+            }
         },
         gallery: {
             show: true,
