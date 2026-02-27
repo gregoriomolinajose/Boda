@@ -1,4 +1,6 @@
-import { doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import {
+    doc, setDoc, getDoc, collection, getDocs, deleteDoc, updateDoc, query, orderBy, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 import { db } from "./Firebase.js";
 
 /**
@@ -161,6 +163,95 @@ export class Store {
             }
         } catch (e) {
             console.error("Error loading from Firestore:", e);
+        }
+    }
+
+    // ==========================================
+    // SECCIÓN DE INVITADOS (NUEVO)
+    // ==========================================
+
+    /**
+     * Obtiene la lista completa de invitados desde Firestore.
+     */
+    async getGuests() {
+        try {
+            const guestsCol = collection(db, "guests");
+            const q = query(guestsCol, orderBy("timestamp", "desc"));
+            const snapshot = await getDocs(q);
+            return snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data(),
+                // Mapeo legacy para compatibilidad con el Dashboard
+                ID: doc.id,
+                Invitado: doc.data().guest,
+                Asistencia: doc.data().attendance,
+                Adultos: doc.data().adults,
+                Niños: doc.data().kids,
+                'Fecha/Hora': doc.data().timestamp?.toDate() || new Date(),
+                'Estado de la liga': doc.data().active ?? true,
+                Link: doc.data().link
+            }));
+        } catch (e) {
+            console.error("Error al obtener invitados:", e);
+            return [];
+        }
+    }
+
+    /**
+     * Guarda o actualiza un invitado.
+     */
+    async saveGuest(guestData) {
+        try {
+            const guestId = guestData.id || Math.random().toString(36).substring(2, 6).toUpperCase();
+            const docRef = doc(db, "guests", guestId);
+
+            // Preparar datos para Firestore
+            const cleanData = {
+                guest: guestData.guest || "",
+                attendance: guestData.attendance || "Pendiente",
+                adults: parseInt(guestData.adults) || 1,
+                kids: parseInt(guestData.kids) || 0,
+                allergies: guestData.allergies || "N/A",
+                type: guestData.type || "f",
+                link: guestData.link || "",
+                active: guestData.active ?? true,
+                timestamp: serverTimestamp()
+            };
+
+            await setDoc(docRef, cleanData, { merge: true });
+            console.log(`✅ Invitado ${guestId} guardado con éxito.`);
+            return guestId;
+        } catch (e) {
+            console.error("Error al guardar invitado:", e);
+            throw e;
+        }
+    }
+
+    /**
+     * Elimina un invitado permanentemente.
+     */
+    async deleteGuest(guestId) {
+        try {
+            const docRef = doc(db, "guests", guestId);
+            await deleteDoc(docRef);
+            console.log(`✅ Invitado ${guestId} eliminado.`);
+        } catch (e) {
+            console.error("Error al eliminar invitado:", e);
+            throw e;
+        }
+    }
+
+    /**
+     * Activa o desactiva una invitación.
+     */
+    async toggleGuestStatus(guestId, isActive) {
+        try {
+            const docRef = doc(db, "guests", guestId);
+            await updateDoc(docRef, { active: isActive });
+            console.log(`✅ Estado de invitado ${guestId} cambiado a ${isActive}.`);
+        } catch (e) {
+            console.error("Error al cambiar estado:", e);
+            throw e;
         }
     }
 }

@@ -6,6 +6,7 @@ import { Store } from './js/core/Store.js';
 
 // Inicializar el Store reactivo
 const store = new Store(APP_CONFIG);
+window.store = store;
 
 window.toggleSettings = (s) => console.log('Settings loading...'); // Placeholder inicial
 

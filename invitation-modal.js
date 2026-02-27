@@ -76,8 +76,7 @@ function generateInvitationLink() {
     btn.disabled = true;
 
     const data = {
-        id: uuid,
-        action: isEditing ? 'update' : 'create',
+        id: isEditing ? editId : uuid,
         guest: baseName,
         attendance: isEditing ? undefined : 'Pendiente',
         adults: adults,
@@ -88,13 +87,14 @@ function generateInvitationLink() {
         active: isEditing ? undefined : true
     };
 
-    fetch(APP_CONFIG.api.sheetWebhook, {
-        method: 'POST',
-        mode: 'no-cors',
-        cache: 'no-cache',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify(data)
-    }).then(() => {
+    if (!window.store) {
+        console.error('Store not initialized');
+        btn.disabled = false;
+        btn.innerText = originalText;
+        return;
+    }
+
+    window.store.saveGuest(data).then(() => {
         Utils.showToast('toast-container', isEditing ? '¡Invitación actualizada!' : '¡Invitación registrada con éxito!');
         if (typeof loadDashboard === 'function') loadDashboard();
 
@@ -104,7 +104,7 @@ function generateInvitationLink() {
         }, 1000);
     }).catch(err => {
         console.error('Error al guardar:', err);
-        Utils.showToast('toast-container', 'Error al conectar con la lista', 'error');
+        Utils.showToast('toast-container', 'Error al conectar con la base de datos', 'error');
         btn.innerText = originalText;
         btn.disabled = false;
     });

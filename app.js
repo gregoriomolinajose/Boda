@@ -145,19 +145,12 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             try {
-                const webhookUrl = state.api?.sheetWebhook;
-                if (!webhookUrl) throw new Error("Webhook URL not found");
-
-                await fetch(webhookUrl, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    cache: 'no-cache',
-                    headers: { 'Content-Type': 'text/plain' },
-                    body: JSON.stringify(formData)
-                });
+                await store.saveGuest(formData);
 
                 // Mostrar pantalla final
-                document.getElementById('wedding-rsvp-section').style.display = 'none';
+                const rsvpSection = document.getElementById('wedding-rsvp-section');
+                if (rsvpSection) rsvpSection.style.display = 'none';
+
                 const finalScreen = document.getElementById('final-screen');
                 if (finalScreen) {
                     finalScreen.style.display = 'flex';

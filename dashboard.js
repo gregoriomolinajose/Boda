@@ -12,6 +12,7 @@ async function loadDashboard() {
     const loading = document.getElementById('loading');
     const refreshIcon = document.getElementById('refresh-icon');
 
+    // Usar cache de localStorage para carga inmediata
     const cachedData = localStorage.getItem('rsvp_cache');
     if (cachedData) {
         allData = JSON.parse(cachedData);
@@ -22,18 +23,19 @@ async function loadDashboard() {
     if (refreshIcon) refreshIcon.classList.add('spin');
 
     try {
-        const fetchUrl = APP_CONFIG.api.sheetWebhook + (APP_CONFIG.api.sheetWebhook.includes('?') ? '&' : '?') + 't=' + new Date().getTime();
-        const response = await fetch(fetchUrl);
-        const text = await response.text();
-
-        let result = JSON.parse(text);
-        if (result.result === 'success') {
-            allData = result.data;
-            localStorage.setItem('rsvp_cache', JSON.stringify(allData));
-            filterDashboard();
+        if (!window.store) {
+            console.error('Store not initialized');
+            return;
         }
+
+        // Obtener datos desde Firestore
+        allData = await window.store.getGuests();
+
+        localStorage.setItem('rsvp_cache', JSON.stringify(allData));
+        filterDashboard();
     } catch (err) {
-        console.error('Error fetch:', err);
+        console.error('Error loading dashboard from Firestore:', err);
+        Utils.showToast('toast-container', 'Error al conectar con la base de datos', 'error');
     } finally {
         if (loading) loading.style.display = 'none';
         if (refreshIcon) refreshIcon.classList.remove('spin');
@@ -227,22 +229,10 @@ function renderStats() {
 async function toggleActivation(id, currentStatus) {
     if (!confirm(`¿Estás seguro de que deseas ${currentStatus ? 'desactivar' : 'activar'} esta invitación?`)) return;
 
-    const data = {
-        id: id,
-        action: currentStatus ? 'deactivate' : 'activate',
-        active: !currentStatus
-    };
-
     Utils.showToast('toast-container', currentStatus ? 'Desactivando...' : 'Activando...', 'info');
 
     try {
-        await fetch(APP_CONFIG.api.sheetWebhook, {
-            method: 'POST',
-            mode: 'no-cors',
-            cache: 'no-cache',
-            headers: { 'Content-Type': 'text/plain' },
-            body: JSON.stringify(data)
-        });
+        await window.store.toggleGuestStatus(id, !currentStatus);
         Utils.showToast('toast-container', `Invitación ${currentStatus ? 'desactivada' : 'activada'} correctamente`);
         loadDashboard();
     } catch (err) {
@@ -257,13 +247,7 @@ async function deleteInvitation(id) {
     Utils.showToast('toast-container', 'Eliminando...', 'info');
 
     try {
-        await fetch(APP_CONFIG.api.sheetWebhook, {
-            method: 'POST',
-            mode: 'no-cors',
-            cache: 'no-cache',
-            headers: { 'Content-Type': 'text/plain' },
-            body: JSON.stringify({ id: id, action: 'delete' })
-        });
+        await window.store.deleteGuest(id);
         Utils.showToast('toast-container', 'Invitación eliminada permanentemente');
         loadDashboard();
     } catch (err) {
