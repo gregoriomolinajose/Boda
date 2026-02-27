@@ -73,11 +73,25 @@ const Utils = {
      */
     formatSheetDate: function (fullDate) {
         if (!fullDate) return '-';
-        const parts = fullDate.split(/[ T]/);
-        if (parts.length >= 1) {
-            const d = parts[0].split(/[/-]/);
-            return d.length === 3 ? (d[0].length === 4 ? `${d[2]}/${d[1]} ${parts[1]?.substring(0, 5) || ''}` : `${d[0]}/${d[1]} ${parts[1]?.substring(0, 5) || ''}`) : parts[0];
+
+        // Si ya es un objeto Date (Nuevo Firestore)
+        if (fullDate instanceof Date) {
+            const d = fullDate.getDate().toString().padStart(2, '0');
+            const m = (fullDate.getMonth() + 1).toString().padStart(2, '0');
+            const h = fullDate.getHours().toString().padStart(2, '0');
+            const min = fullDate.getMinutes().toString().padStart(2, '0');
+            return `${d}/${m} ${h}:${min}`;
         }
+
+        // Si es string (Legacy Sheets o fallback)
+        if (typeof fullDate === 'string' && fullDate.includes) {
+            const parts = fullDate.split(/[ T]/);
+            if (parts.length >= 1) {
+                const d = parts[0].split(/[/-]/);
+                return d.length === 3 ? (d[0].length === 4 ? `${d[2]}/${d[1]} ${parts[1]?.substring(0, 5) || ''}` : `${d[0]}/${d[1]} ${parts[1]?.substring(0, 5) || ''}`) : parts[0];
+            }
+        }
+
         return fullDate;
     }
 };
