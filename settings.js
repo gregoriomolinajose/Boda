@@ -697,7 +697,7 @@ function saveSettings() {
 }
 
 async function initSettings() {
-    loadSettings();
+    populateSettingsForm();
     // Prioridad: Cargar desde la nube si existe conexión
     try {
         await store.loadFromCloud('wedding_config_v2');
