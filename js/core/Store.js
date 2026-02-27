@@ -32,9 +32,10 @@ export class Store {
      */
     setState(newState, skipCloud = false) {
         // Deep merge para proteger objetos anidados como 'wedding'
-        if (newState.wedding) this.state.wedding = { ...this.state.wedding, ...newState.wedding };
-        if (newState.ui) this.state.ui = { ...this.state.ui, ...newState.ui };
-        if (newState.api) this.state.api = { ...this.state.api, ...newState.api };
+        // Si el estado base no existe, inicializarlo como objeto vacío antes de spread
+        if (newState.wedding) this.state.wedding = { ...(this.state.wedding || {}), ...newState.wedding };
+        if (newState.ui) this.state.ui = { ...(this.state.ui || {}), ...newState.ui };
+        if (newState.api) this.state.api = { ...(this.state.api || {}), ...newState.api };
         if (newState.timeline) this.state.timeline = newState.timeline;
 
         this.notify();

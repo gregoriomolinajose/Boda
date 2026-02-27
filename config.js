@@ -92,6 +92,7 @@ const APP_CONFIG = {
 };
 
 // Exportar si se usa en un entorno de módulos, o dejar global para compatibilidad
+window.APP_CONFIG = APP_CONFIG;
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = APP_CONFIG;
 }

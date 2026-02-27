@@ -17,9 +17,9 @@ export class Renderer {
         const ui = state.ui || {};
 
         // --- Splash & Hero ---
-        if (this.domElements.hostNamesSplash) this.domElements.hostNamesSplash.innerText = wedding.names;
-        if (this.domElements.heroNames) this.domElements.heroNames.innerText = wedding.names;
-        if (this.domElements.hostNamesFinal) this.domElements.hostNamesFinal.innerText = wedding.names;
+        if (this.domElements.hostNamesSplash) this.domElements.hostNamesSplash.innerText = wedding.names || "";
+        if (this.domElements.heroNames) this.domElements.heroNames.innerText = wedding.names || "";
+        if (this.domElements.hostNamesFinal) this.domElements.hostNamesFinal.innerText = wedding.names || "";
 
         if (this.domElements.eventDateHero) this.domElements.eventDateHero.innerText = Helpers.formatHeroDate(wedding.date);
         if (this.domElements.weddingSubject) this.domElements.weddingSubject.innerText = wedding.subject || "Nuestra Boda";

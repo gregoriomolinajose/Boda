@@ -9,7 +9,8 @@ import { Helpers } from './js/utils/Helpers.js';
  * Módulo principal de la Landing Page de Boda Dora & Gregorio
  */
 document.addEventListener('DOMContentLoaded', () => {
-    // Inicializar Store con configuración global (asumiendo config.js carga APP_CONFIG)
+    // Inicializar Store con configuración global
+    // Se usa window.APP_CONFIG que se expone explícitamente en config.js
     const store = new Store(window.APP_CONFIG || {});
 
     const domElements = {
