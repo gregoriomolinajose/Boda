@@ -9,9 +9,12 @@ import { Helpers } from './js/utils/Helpers.js';
  * Módulo principal de la Landing Page de Boda Dora & Gregorio
  */
 document.addEventListener('DOMContentLoaded', () => {
-    // Inicializar Store con configuración global
-    // Se usa window.APP_CONFIG que se expone explícitamente en config.js
-    const store = new Store(window.APP_CONFIG || {});
+    // Obtener ID del evento desde la URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const eventId = urlParams.get('event') || 'default';
+
+    // Inicializar Store con configuración global y ID de evento
+    const store = new Store(window.APP_CONFIG || {}, eventId);
 
     const domElements = {
         hostNamesSplash: document.getElementById('host-names-splash'),

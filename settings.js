@@ -4,8 +4,12 @@
  */
 import { Store } from './js/core/Store.js';
 
-// Inicializar el Store reactivo
-const store = new Store(APP_CONFIG);
+// Obtener ID del evento desde la URL
+const urlParams = new URLSearchParams(window.location.search);
+const eventId = urlParams.get('event') || 'default';
+
+// Inicializar el Store reactivo con el ID del evento
+const store = new Store(APP_CONFIG, eventId);
 window.store = store;
 
 window.toggleSettings = (s) => console.log('Settings loading...'); // Placeholder inicial

@@ -7,16 +7,16 @@ import { db } from "./Firebase.js";
  * Store.js - Módulo de gestión de estado reactivo (Patrón Observer).
  */
 export class Store {
-    constructor(initialState = {}, storageKey = 'app_settings') {
+    constructor(initialState = {}, eventId = 'default', storageKey = 'app_settings') {
         this.state = initialState;
-        this.storageKey = storageKey;
+        this.eventId = eventId;
+        this.storageKey = `${storageKey}_${eventId}`;
         this.subscribers = [];
         this.loadFromStorage();
     }
 
     /**
      * Suscribe una función para reaccionar a cambios en el estado.
-     * @param {Function} callback 
      */
     subscribe(callback) {
         this.subscribers.push(callback);
@@ -27,12 +27,8 @@ export class Store {
 
     /**
      * Actualiza una parte del estado de forma inmutable y notifica a los suscriptores.
-     * @param {Object} newState 
-     * @param {Boolean} skipCloud Si es true, no sincroniza con la nube (útil durante la carga inicial).
      */
     setState(newState, skipCloud = false) {
-        // Deep merge para proteger objetos anidados como 'wedding'
-        // Si el estado base no existe, inicializarlo como objeto vacío antes de spread
         if (newState.wedding) this.state.wedding = { ...(this.state.wedding || {}), ...newState.wedding };
         if (newState.ui) this.state.ui = { ...(this.state.ui || {}), ...newState.ui };
         if (newState.api) this.state.api = { ...(this.state.api || {}), ...newState.api };
@@ -41,52 +37,32 @@ export class Store {
         this.notify();
         this.saveToStorage();
 
-        // Sincronización con la nube (Firestore)
         if (!skipCloud) {
-            this.saveToCloud('wedding_config_v2');
+            this.saveToCloud();
         }
     }
 
-    /**
-     * Obtiene el estado actual.
-     */
     getState() {
         return this.state;
     }
 
-    /**
-     * Notifica a todos los suscriptores.
-     * @private
-     */
     notify() {
         this.subscribers.forEach(callback => callback(this.state));
     }
 
-    /**
-     * Guarda el estado en LocalStorage.
-     * @private
-     */
     saveToStorage() {
         try {
             localStorage.setItem(this.storageKey, JSON.stringify(this.state));
         } catch (e) {
             console.error("Error saving state to storage:", e);
-            if (e.name === 'QuotaExceededError') {
-                console.warn("LocalStorage quota exceeded, photo might be too large.");
-            }
         }
     }
 
-    /**
-     * Carga el estado desde LocalStorage.
-     * @private
-     */
     loadFromStorage() {
         const saved = localStorage.getItem(this.storageKey);
         if (saved) {
             try {
                 const parsed = JSON.parse(saved);
-                // Asegurar que la estructura base exista antes de asignar
                 if (!this.state.wedding) this.state.wedding = {};
                 if (!this.state.ui) this.state.ui = {};
                 if (!this.state.api) this.state.api = {};
@@ -95,8 +71,6 @@ export class Store {
                 if (parsed.ui) Object.assign(this.state.ui, parsed.ui);
                 if (parsed.api) Object.assign(this.state.api, parsed.api);
                 if (parsed.timeline) this.state.timeline = parsed.timeline;
-
-                console.log("State loaded successfully from storage");
             } catch (e) {
                 console.error("Error loading state from storage:", e);
             }
@@ -104,52 +78,45 @@ export class Store {
     }
 
     /**
-     * Sincroniza el estado actual con Firestore.
+     * Sincroniza el estado actual con Firestore en el documento del evento.
      */
-    async saveToCloud(docId) {
+    async saveToCloud() {
         try {
-            // Protección extra: No guardar el placeholder en la nube nunca
             if (this.state.wedding?.photo && (this.state.wedding.photo.includes('placehold.co') || this.state.wedding.photo.length < 100)) {
-                console.log("Store: Detectado placeholder, limpiando campo photo antes de subir a la nube.");
                 this.state.wedding.photo = "";
             }
 
             const dataString = JSON.stringify(this.state);
             const sizeInBytes = new Blob([dataString]).size;
-            const photoSize = this.state.wedding?.photo ? new Blob([this.state.wedding.photo]).size : 0;
 
-            console.log(`Intentando guardar en Firestore (${docId}): Total=${(sizeInBytes / 1024).toFixed(2)} KB, Foto=${(photoSize / 1024).toFixed(2)} KB`);
-
-            // Límite estricto de Firestore: 1,048,576 bytes
             if (sizeInBytes > 1040000) {
-                const msg = `⚠️ La foto es demasiado grande para la nube (${(photoSize / 1024).toFixed(2)} KB). Intenta recortarla más o usar una calidad menor. No se sincronizará hasta reducir el tamaño.`;
-                console.error(msg);
-                if (window.Utils) Utils.showToast('toast-container', msg);
-                else alert(msg);
+                console.error("⚠️ Estado demasiado grande para Firestore");
                 return;
             }
 
-            const docRef = doc(db, "configurations", docId);
-            await setDoc(docRef, this.state);
-            console.log(`✅ Sincronización exitosa con Firestore (${docId})`);
+            const docRef = doc(db, "events", this.eventId);
+            await setDoc(docRef, {
+                ...this.state,
+                updatedAt: serverTimestamp(),
+                eventId: this.eventId,
+                eventName: this.state.wedding?.names || 'Evento sin nombre'
+            }, { merge: true });
+
+            console.log(`✅ Sincronización exitosa: events/${this.eventId}`);
         } catch (e) {
             console.error("❌ Error al guardar en Firestore:", e);
-            alert("Error crítico al sincronizar con la nube. Revisa tu conexión.");
         }
     }
 
     /**
-     * Carga el estado desde Firestore.
+     * Carga el estado desde el documento del evento en Firestore.
      */
-    async loadFromCloud(docId) {
+    async loadFromCloud() {
         try {
-            const docRef = doc(db, "configurations", docId);
+            const docRef = doc(db, "events", this.eventId);
             const docSnap = await getDoc(docRef);
             if (docSnap.exists()) {
                 const cloudData = docSnap.data();
-                console.log(`☁️ Datos recuperados de la nube (${docId}):`, !!cloudData.wedding?.photo ? "Con foto" : "Sin foto");
-
-                // Usar skipCloud=true para evitar el bucle de guardado inmediato
                 this.setState(cloudData, true);
 
                 // Sincronizar con el objeto global si existe
@@ -159,30 +126,24 @@ export class Store {
                     if (cloudData.api) window.APP_CONFIG.api = { ...window.APP_CONFIG.api, ...cloudData.api };
                     if (cloudData.timeline) window.APP_CONFIG.timeline = cloudData.timeline;
                 }
-            } else {
-                console.log(`ℹ️ No hay datos previos en la nube (${docId}).`);
             }
         } catch (e) {
-            console.error("Error loading from Firestore:", e);
+            console.error("Error loading event from Firestore:", e);
         }
     }
 
     // ==========================================
-    // SECCIÓN DE INVITADOS (NUEVO)
+    // SECCIÓN DE INVITADOS (Dinamizada por eventId)
     // ==========================================
 
-    /**
-     * Obtiene la lista completa de invitados desde Firestore.
-     */
     async getGuests() {
         try {
-            const guestsCol = collection(db, "guests");
+            const guestsCol = collection(db, "events", this.eventId, "guests");
             const q = query(guestsCol, orderBy("timestamp", "desc"));
             const snapshot = await getDocs(q);
             return snapshot.docs.map(doc => ({
                 id: doc.id,
                 ...doc.data(),
-                // Mapeo legacy para compatibilidad con el Dashboard
                 ID: doc.id,
                 Invitado: doc.data().guest,
                 Asistencia: doc.data().attendance,
@@ -198,15 +159,11 @@ export class Store {
         }
     }
 
-    /**
-     * Guarda o actualiza un invitado.
-     */
     async saveGuest(guestData) {
         try {
             const guestId = guestData.id || Math.random().toString(36).substring(2, 6).toUpperCase();
-            const docRef = doc(db, "guests", guestId);
+            const docRef = doc(db, "events", this.eventId, "guests", guestId);
 
-            // Preparar datos para Firestore
             const cleanData = {
                 guest: guestData.guest || "",
                 attendance: guestData.attendance || "Pendiente",
@@ -220,7 +177,6 @@ export class Store {
             };
 
             await setDoc(docRef, cleanData, { merge: true });
-            console.log(`✅ Invitado ${guestId} guardado con éxito.`);
             return guestId;
         } catch (e) {
             console.error("Error al guardar invitado:", e);
@@ -228,30 +184,70 @@ export class Store {
         }
     }
 
-    /**
-     * Elimina un invitado permanentemente.
-     */
     async deleteGuest(guestId) {
         try {
-            const docRef = doc(db, "guests", guestId);
+            const docRef = doc(db, "events", this.eventId, "guests", guestId);
             await deleteDoc(docRef);
-            console.log(`✅ Invitado ${guestId} eliminado.`);
         } catch (e) {
             console.error("Error al eliminar invitado:", e);
             throw e;
         }
     }
 
-    /**
-     * Activa o desactiva una invitación.
-     */
     async toggleGuestStatus(guestId, isActive) {
         try {
-            const docRef = doc(db, "guests", guestId);
+            const docRef = doc(db, "events", this.eventId, "guests", guestId);
             await updateDoc(docRef, { active: isActive });
-            console.log(`✅ Estado de invitado ${guestId} cambiado a ${isActive}.`);
         } catch (e) {
             console.error("Error al cambiar estado:", e);
+            throw e;
+        }
+    }
+
+    // ==========================================
+    // MÉTODOS ESTÁTICOS PARA EL PORTAL
+    // ==========================================
+
+    /**
+     * Lista todos los eventos registrados.
+     */
+    static async getEvents() {
+        try {
+            const eventsCol = collection(db, "events");
+            const snapshot = await getDocs(eventsCol);
+            return snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+        } catch (e) {
+            console.error("Error al obtener eventos:", e);
+            return [];
+        }
+    }
+
+    /**
+     * Genera un nuevo evento inicial en la base de datos.
+     */
+    static async createEvent(id, name, type = 'wedding') {
+        try {
+            const docRef = doc(db, "events", id);
+            const initialConfig = {
+                eventId: id,
+                eventName: name,
+                type: type,
+                wedding: {
+                    names: name,
+                    subject: "Nuestra Boda",
+                    date: "March 13, 2026 19:30:00",
+                    location: { physical: "Barolo 8C Chapalita" }
+                },
+                ui: { showCountdown: true },
+                createdAt: serverTimestamp()
+            };
+            await setDoc(docRef, initialConfig);
+            return id;
+        } catch (e) {
+            console.error("Error al crear evento:", e);
             throw e;
         }
     }

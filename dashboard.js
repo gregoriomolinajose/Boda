@@ -11,9 +11,10 @@ let sortOrder = 'desc';
 async function loadDashboard() {
     const loading = document.getElementById('loading');
     const refreshIcon = document.getElementById('refresh-icon');
+    const eventId = window.store?.eventId || 'default';
 
-    // Usar cache de localStorage para carga inmediata
-    const cachedData = localStorage.getItem('rsvp_cache');
+    // Usar cache de localStorage para carga inmediata (específico por evento)
+    const cachedData = localStorage.getItem(`rsvp_cache_${eventId}`);
     if (cachedData) {
         allData = JSON.parse(cachedData);
         filterDashboard();
@@ -31,7 +32,9 @@ async function loadDashboard() {
         // Obtener datos desde Firestore
         allData = await window.store.getGuests();
 
-        localStorage.setItem('rsvp_cache', JSON.stringify(allData));
+        // Guardar en cache especifico por evento
+        const eventId = window.store?.eventId || 'default';
+        localStorage.setItem(`rsvp_cache_${eventId}`, JSON.stringify(allData));
         filterDashboard();
     } catch (err) {
         console.error('Error loading dashboard from Firestore:', err);
