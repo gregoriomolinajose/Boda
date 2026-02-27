@@ -535,7 +535,16 @@
                     <p style="font-size: 0.8rem; color: #999; margin: 5px 0 0 0;" id="wedding-subtitle">Cargando
                         datos...</p>
                 </div>
-                <div style="display: flex; gap: 10px;">
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <a href="portal.html" class="btn btn-outline"
+                        style="text-decoration: none; font-size: 0.8rem; background: white; color: var(--primary-blue); border: 1px solid var(--primary-blue); padding: 8px 12px; border-radius: 8px;">
+                        <i class="fas fa-th-large"></i> Portal
+                    </a>
+                    <button class="btn"
+                        style="background: transparent; border: 1px solid #ddd; color: #777; padding: 8px 12px; font-size: 0.8rem;"
+                        onclick="handleLogout()" title="Cerrar Sesión">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
                     <button class="btn" onclick="openInvitationModal()"
                         style="margin: 0; padding: 10px 20px; font-size: 0.85rem; background: var(--olive);">
                         + Nueva Invitación
@@ -544,7 +553,8 @@
                         style="margin: 0; padding: 10px 20px; font-size: 0.85rem;">
                         Configuración
                     </button>
-                    <button class="btn btn-olive" onclick="loadDashboard()">
+                    <button class="btn btn-olive" id="refresh-dashboard-btn" onclick="loadDashboard()"
+                        style="padding: 10px;">
                         <svg id="refresh-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M23 4v6h-6"></path>

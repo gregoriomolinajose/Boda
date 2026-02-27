@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión | Bellfy</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .login-body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 50px 40px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-logo {
+            font-family: 'Great Vibes', cursive;
+            font-size: 4rem;
+            color: var(--primary-blue);
+            margin-bottom: 10px;
+        }
+
+        .login-subtitle {
+            font-size: 1rem;
+            color: var(--text-light);
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .google-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            background: white;
+            color: #444;
+            border: 1px solid #ddd;
+            padding: 15px 25px;
+            border-radius: 15px;
+            font-weight: 600;
+            width: 100%;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            margin-top: 20px;
+        }
+
+        .google-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary-blue);
+        }
+
+        .google-btn img {
+            width: 20px;
+        }
+
+        .login-footer {
+            margin-top: 40px;
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-blue);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+    </style>
+</head>
+
+<body class="login-body">
+
+    <div class="login-card">
+        <div class="login-logo">Bellfy</div>
+        <div class="login-subtitle">Portal de Eventos</div>
+
+        <p style="color: #666; margin-bottom: 30px; font-size: 0.9rem;">
+            Accede para gestionar tus invitaciones y eventos.
+        </p>
+
+        <button class="google-btn" onclick="handleGoogleLogin()">
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google Logo">
+            Continuar con Google
+        </button>
+
+        <div class="login-footer">
+            &copy; 2026 Bellfy Invitaciones Digitales
+        </div>
+    </div>
+
+    <div class="loading-overlay" id="loading">
+        <div class="spinner"></div>
+        <p style="margin-top: 15px; color: var(--primary-blue); font-weight: 600;">Verificando...</p>
+    </div>
+
+    <script type="module">
+        import { Auth } from './js/core/Auth.js';
+
+        // Redirigir si ya tiene sesión activa
+        Auth.onSessionChange((user) => {
+            if (user) {
+                window.location.href = 'portal.html';
+            }
+        });
+
+        window.handleGoogleLogin = async () => {
+            const loading = document.getElementById('loading');
+            loading.style.display = 'flex';
+
+            try {
+                await Auth.loginWithGoogle();
+                // onAuthStateChanged se encargará de la redirección
+            } catch (err) {
+                loading.style.display = 'none';
+                alert("Error al iniciar sesión con Google. Por favor intenta de nuevo.");
+            }
+        };
+    </script>
+</body>
+
+</html>

@@ -198,7 +198,11 @@
 </head>
 
 <body class="portal-body">
-    <header class="portal-header">
+    <header class="portal-header" style="position: relative;">
+        <button onclick="Auth.logout()" class="portal-btn btn-outline"
+            style="position: absolute; top: 20px; right: 20px; width: auto; padding: 10px 15px;">
+            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+        </button>
         <h1>Mis Eventos</h1>
         <p class="section-title">Plataforma de Invitaciones Digitales</p>
     </header>
@@ -252,6 +256,10 @@
     <script src="config.js"></script>
     <script type="module">
         import { Store } from './js/core/Store.js';
+        import { Auth } from './js/core/Auth.js';
+
+        // Proteger página
+        Auth.requireAuth();
 
         async function initPortal() {
             const grid = document.getElementById('event-grid');

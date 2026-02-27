@@ -3,14 +3,20 @@
  * Lógica para la configuración a pantalla completa y el timeline dinámico.
  */
 import { Store } from './js/core/Store.js';
+import { Auth } from './js/core/Auth.js';
 
-// Obtener ID del evento desde la URL
+// Proteger página
+Auth.requireAuth();
+
+// Inicializar el Store reactivo con el ID del evento
 const urlParams = new URLSearchParams(window.location.search);
 const eventId = urlParams.get('event') || 'default';
 
-// Inicializar el Store reactivo con el ID del evento
 const store = new Store(APP_CONFIG, eventId);
 window.store = store;
+
+// Exportar logout globalmente
+window.handleLogout = () => Auth.logout();
 
 window.toggleSettings = (s) => console.log('Settings loading...'); // Placeholder inicial
 
