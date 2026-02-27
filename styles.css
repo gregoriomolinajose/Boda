@@ -720,10 +720,11 @@ body.show-content #splash {
 /* -- Bloque Código de Vestimenta (Con Divisor) -- */
 .dress-code-wrapper {
     display: flex;
+    flex-direction: column;
+    /* Stacked on mobile */
     align-items: center;
     justify-content: center;
-    gap: 10px;
-    /* Reducción agresiva */
+    gap: 15px;
     width: 100%;
     max-width: 500px;
     margin: 0 auto;
@@ -741,11 +742,11 @@ body.show-content #splash {
 }
 
 .vertical-divider {
+    display: none;
+    /* Hidden on mobile */
     width: 1px;
     height: 140px;
-    /* Ajustado al nuevo tamaño de la imagen */
     background: #000;
-    /* Tinta negra */
     opacity: 0.8;
 }
 
@@ -1103,23 +1104,27 @@ body.show-content #splash {
 
     .dress-code-wrapper {
         flex: 1;
-        flex-direction: column;
+        flex-direction: row;
+        /* Side-by-side on desktop */
         align-items: center;
-        text-align: center;
+        text-align: left;
+        gap: 20px;
     }
 
     .dress-code-icon {
-        width: 200px;
-        margin-right: 0;
-        margin-bottom: 20px;
+        width: 160px;
+        margin-right: -20px;
+        margin-bottom: 0;
     }
 
     .vertical-divider {
-        display: none;
+        display: block;
+        /* Visible on desktop */
+        margin: 0 20px;
     }
 
     .dress-code-text {
-        text-align: center;
+        text-align: left;
     }
 
     .dress-code-text .section-subtitle--small {

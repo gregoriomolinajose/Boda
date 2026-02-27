@@ -76,7 +76,7 @@ export class Renderer {
         const logsSection = document.getElementById('logistics-section');
         if (logsSection) {
             const dc = wedding.dressCode || {};
-            logsSection.style.display = (dc.show !== false || gf.show !== false) ? 'block' : 'none';
+            logsSection.style.display = (dc.show !== false || gf.show !== false) ? 'flex' : 'none';
 
             // Update Dress Code labels
             const dcTitle = document.getElementById('dress-code-title');
