@@ -67,7 +67,7 @@ const APP_CONFIG = {
         sheetWebhook: "https://script.google.com/macros/s/AKfycbxkpWVeOerWCwX0JECPFc3I3RwZ-GyiACxh0BaDlhNDzq8OC4DJVs4acDx0s30ZAulIJg/exec"
     },
     ui: {
-        baseUrl: "https://boda-doraygregorio.vercel.app/",
+        baseUrl: window.location.origin + "/",
         musicVolume: 0.2,
         showCountdown: true,
         iconColor: "#80a040",

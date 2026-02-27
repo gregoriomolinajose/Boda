@@ -61,7 +61,8 @@ function generateInvitationLink() {
 
     // Usar base URL de la configuración
     const baseUrl = APP_CONFIG.ui.baseUrl;
-    const params = `?n=${encodeURIComponent(baseName)}&u=${uuid}&ca=${adults}&cc=${kids}&t=${invitationType}`;
+    const eventId = window.store?.eventId || 'default';
+    const params = `?event=${eventId}&n=${encodeURIComponent(baseName)}&u=${uuid}&ca=${adults}&cc=${kids}&t=${invitationType}`;
     const fullUrl = baseUrl + params;
 
     const linkDisplay = document.getElementById('link-display');
