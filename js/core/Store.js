@@ -40,7 +40,7 @@ export class Store {
 
         // Sincronización con la nube (Firestore)
         if (!skipCloud) {
-            this.saveToCloud('wedding_config_v1');
+            this.saveToCloud('wedding_config_v2');
         }
     }
 
