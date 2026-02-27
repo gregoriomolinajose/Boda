@@ -52,6 +52,18 @@ export class Renderer {
         if (this.domElements.wrapperAllergies)
             this.domElements.wrapperAllergies.style.display = rsvp.showAllergies !== false ? 'block' : 'none';
 
+        // --- Populate RSVP fields from URL data if available ---
+        const inputAdults = document.getElementById('adults');
+        const inputKids = document.getElementById('kids');
+        if (inputAdults && wedding.adultsCount && !inputAdults.dataset.initialized) {
+            inputAdults.value = wedding.adultsCount;
+            inputAdults.dataset.initialized = "true";
+        }
+        if (inputKids && wedding.kidsCount !== undefined && !inputKids.dataset.initialized) {
+            inputKids.value = wedding.kidsCount;
+            inputKids.dataset.initialized = "true";
+        }
+
         // --- Final Messages ---
         const conf = wedding.confirmation || {};
         if (this.domElements.finalTitleYes) this.domElements.finalTitleYes.innerText = conf.yes?.title || "Te esperamos";

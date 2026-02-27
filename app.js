@@ -96,13 +96,103 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (e) {
             console.warn("Fallo carga cloud, usando local:", e);
         }
-        // El render se dispara por el constructor (local) o por loadFromCloud (cloud)
-        // pero aseguramos un render final aquí por si acaso.
+
+        // --- Lógica de Personalización (URL Params) ---
+        const urlParams = new URLSearchParams(window.location.search);
+        const guestData = {
+            wedding: {
+                demoGuestName: urlParams.get('n') || "",
+                guestUuid: urlParams.get('u') || "",
+                adultsCount: parseInt(urlParams.get('ca')) || 0,
+                kidsCount: parseInt(urlParams.get('cc')) || 0,
+                invType: urlParams.get('t') || 'f'
+            }
+        };
+
+        // Si hay nombre en la URL, priorizarlo sobre el demoGuestName del store
+        if (guestData.wedding.demoGuestName) {
+            store.setState(guestData, true); // skipCloud=true para no sobrescribir la config global
+        }
+
         renderer.render(store.getState());
         initParticles();
     };
 
     initCloudData();
+
+    // --- Lógica de RSVP ---
+    const initRSVP = () => {
+        const form = document.getElementById('wedding-rsvp');
+        if (!form) return;
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = form.querySelector('button[type="submit"]');
+            const originalText = btn.innerText;
+
+            btn.innerText = 'Enviando...';
+            btn.disabled = true;
+
+            const state = store.getState();
+            const formData = {
+                id: state.wedding?.guestUuid || 'UNKNOWN',
+                action: 'confirm',
+                guest: state.wedding?.demoGuestName || 'Invitado Desconocido',
+                attendance: document.getElementById('attendance').value === 'yes' ? 'Confirma' : 'Declina',
+                adults: document.getElementById('adults')?.value || 0,
+                kids: document.getElementById('kids')?.value || 0,
+                allergies: document.getElementById('allergies')?.value || 'N/A'
+            };
+
+            try {
+                const webhookUrl = state.api?.sheetWebhook;
+                if (!webhookUrl) throw new Error("Webhook URL not found");
+
+                await fetch(webhookUrl, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    cache: 'no-cache',
+                    headers: { 'Content-Type': 'text/plain' },
+                    body: JSON.stringify(formData)
+                });
+
+                // Mostrar pantalla final
+                document.getElementById('wedding-rsvp-section').style.display = 'none';
+                const finalScreen = document.getElementById('final-screen');
+                if (finalScreen) {
+                    finalScreen.style.display = 'flex';
+                    finalScreen.scrollIntoView({ behavior: 'smooth' });
+
+                    // Mostrar mensaje correspondiente
+                    if (formData.attendance === 'Confirma') {
+                        document.getElementById('final-msg-yes').style.display = 'block';
+                        document.getElementById('final-msg-no').style.display = 'none';
+                    } else {
+                        document.getElementById('final-msg-yes').style.display = 'none';
+                        document.getElementById('final-msg-no').style.display = 'block';
+                    }
+                }
+
+                Helpers.showToast('toast-container', '¡Asistencia confirmada!');
+            } catch (err) {
+                console.error("Error al enviar RSVP:", err);
+                Helpers.showToast('toast-container', 'Error al enviar confirmación', 'error');
+                btn.innerText = originalText;
+                btn.disabled = false;
+            }
+        });
+
+        // Mostrar/ocultar detalles según asistencia
+        const attendanceSelect = document.getElementById('attendance');
+        const details = document.getElementById('rsvp-details');
+        if (attendanceSelect && details) {
+            attendanceSelect.addEventListener('change', (e) => {
+                details.style.display = e.target.value === 'yes' ? 'block' : 'none';
+            });
+        }
+    };
+
+    initRSVP();
 
     // Escuchar actualizaciones desde el generador (postMessage)
     window.addEventListener('message', (event) => {
