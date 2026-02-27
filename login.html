@@ -132,19 +132,27 @@
 
     <div class="login-card">
         <div class="login-logo">Bellfy</div>
-        <div class="login-subtitle">Acceso & Registro</div>
 
-        <p style="color: #666; margin-bottom: 30px; font-size: 0.9rem;">
-            Entra con tu cuenta de Google para gestionar tus eventos o crear uno nuevo.
+        <div style="display: flex; gap: 5px; background: #eee; padding: 5px; border-radius: 12px; margin-bottom: 30px;">
+            <button id="tab-login" class="tab-btn active" onclick="switchMode('login')"
+                style="flex:1; padding: 10px; border:none; background:white; border-radius:8px; cursor:pointer; font-weight:600; font-family:'Montserrat';">Entrar</button>
+            <button id="tab-register" class="tab-btn" onclick="switchMode('register')"
+                style="flex:1; padding: 10px; border:none; background:transparent; border-radius:8px; cursor:pointer; font-weight:600; font-family:'Montserrat'; color:#777;">Registrar</button>
+        </div>
+
+        <h2 id="login-title" style="font-size: 1.2rem; margin-bottom: 15px; color: var(--text-dark);">¡Te damos la
+            bienvenida!</h2>
+        <p id="login-desc" style="color: #666; margin-bottom: 30px; font-size: 0.9rem;">
+            Entra con tu cuenta de Google para gestionar tus eventos.
         </p>
 
         <button class="google-btn" onclick="handleGoogleLogin()">
             <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google Logo">
-            Continuar con Google
+            <span id="google-btn-text">Entrar con Google</span>
         </button>
 
-        <p style="font-size: 0.75rem; color: #aaa; margin-top: 25px;">
-            <i class="fas fa-info-circle"></i> Al continuar, tu perfil se creará automáticamente si es tu primera vez.
+        <p id="register-info" style="font-size: 0.75rem; color: #aaa; margin-top: 25px; display: none;">
+            <i class="fas fa-info-circle"></i> Tu perfil se creará automáticamente en un par de segundos.
         </p>
 
         <div class="login-footer">
@@ -159,6 +167,38 @@
 
     <script type="module">
         import { Auth } from './js/core/Auth.js';
+
+        let currentMode = 'login';
+
+        window.switchMode = (mode) => {
+            currentMode = mode;
+            const tabLogin = document.getElementById('tab-login');
+            const tabRegister = document.getElementById('tab-register');
+            const title = document.getElementById('login-title');
+            const desc = document.getElementById('login-desc');
+            const btnText = document.getElementById('google-btn-text');
+            const regInfo = document.getElementById('register-info');
+
+            if (mode === 'login') {
+                tabLogin.style.background = 'white';
+                tabLogin.style.color = 'inherit';
+                tabRegister.style.background = 'transparent';
+                tabRegister.style.color = '#777';
+                title.innerText = '¡Te damos la bienvenida!';
+                desc.innerText = 'Entra con tu cuenta de Google para gestionar tus eventos.';
+                btnText.innerText = 'Entrar con Google';
+                regInfo.style.display = 'none';
+            } else {
+                tabRegister.style.background = 'white';
+                tabRegister.style.color = 'inherit';
+                tabLogin.style.background = 'transparent';
+                tabLogin.style.color = '#777';
+                title.innerText = 'Crea tu cuenta';
+                desc.innerText = 'Regístrate en segundos y comienza a organizar tus eventos.';
+                btnText.innerText = 'Registrarme con Google';
+                regInfo.style.display = 'block';
+            }
+        };
 
         // Redirigir si ya tiene sesión activa
         Auth.onSessionChange((user) => {
