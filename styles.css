@@ -470,11 +470,12 @@ body.show-content #splash {
 }
 
 /* Ajustar para cuando es una snap-section completa */
-main.content-card.snap-section {
+.content-card.snap-section {
     height: 100vh;
     background: rgba(255, 255, 255, 0.9);
     /* Semi-transparente para ver partículas sutilmente */
     margin: 0;
+    width: 100%;
 }
 
 .section-title {
@@ -770,10 +771,10 @@ main.content-card.snap-section {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 60px;
+    gap: 30px;
+    /* Reducido de 60px para evitar desbordes en móviles */
     width: 100%;
-    min-height: 100%;
-    /* Ocupar el espacio disponible para centrar mejor */
+    height: 100%;
 }
 
 .info-block {
