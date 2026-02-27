@@ -544,7 +544,7 @@
                         style="margin: 0; padding: 10px 20px; font-size: 0.85rem;">
                         Configuración
                     </button>
-                    <button class="refresh-btn" onclick="loadDashboard()">
+                    <button class="btn btn-olive" onclick="loadDashboard()">
                         <svg id="refresh-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M23 4v6h-6"></path>
@@ -552,6 +552,12 @@
                         </svg>
                         Actualizar
                     </button>
+                    <button class="btn btn-olive" onclick="document.getElementById('bulk-import-input').click()"
+                        style="background: #27ae60; border-color: #27ae60;">
+                        <i class="fas fa-file-csv"></i> Importar CSV
+                    </button>
+                    <input type="file" id="bulk-import-input" accept=".csv" style="display: none;"
+                        onchange="handleBulkImport(event)">
                 </div>
             </div>
 
