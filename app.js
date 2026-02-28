@@ -149,7 +149,16 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             try {
-                await store.saveGuest(formData);
+                // Si estamos en el simulador (iframe) o no hay eventId en URL, no intentar guardar en la base de datos real
+                const urlParams = new URL(window.location.href).searchParams;
+                const isPreview = window !== window.parent || !urlParams.get('eventId');
+
+                if (!isPreview) {
+                    await store.saveGuest(formData);
+                } else {
+                    console.log("Simulación de RSVP exitosa en vista previa. (No guardado en DB)");
+                    await new Promise(resolve => setTimeout(resolve, 800)); // Simulando latencia de red
+                }
 
                 // Mostrar pantalla final
                 const rsvpSection = document.getElementById('wedding-rsvp-section');
