@@ -508,11 +508,9 @@ function renderTimelineUI() {
             </button>
             <input type="time" class="set-timeline-time" value="${item.time}">
             <input type="text" class="set-timeline-activity" value="${item.activity}" placeholder="Actividad">
-            <div class="timeline-builder-actions">
-                <div class="remove-item" onclick="removeTimelineItem(${index})" title="Eliminar">
-                    <i class="fas fa-trash-alt"></i>
-                </div>
-            </div>
+            <button class="remove-item" onclick="removeTimelineItem(${index}); return false;" aria-label="Eliminar" title="Eliminar actividad">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
         `;
         container.appendChild(row);
     });
