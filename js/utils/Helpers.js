@@ -60,6 +60,33 @@ export const Helpers = {
     },
 
     /**
+     * Realiza una copia profunda (Deep Merge) de dos objetos.
+     * Útil para preservar sub-propiedades como wedding.rsvp.* al mezclar configuraciones.
+     */
+    deepMerge: (target, source) => {
+        const isObject = (obj) => obj && typeof obj === 'object' && !Array.isArray(obj);
+
+        if (!isObject(target) || !isObject(source)) {
+            return source;
+        }
+
+        Object.keys(source).forEach(key => {
+            const targetValue = target[key];
+            const sourceValue = source[key];
+
+            if (Array.isArray(targetValue) && Array.isArray(sourceValue)) {
+                target[key] = sourceValue; // Los arreglos se sobreescriben por defecto
+            } else if (isObject(targetValue) && isObject(sourceValue)) {
+                target[key] = Helpers.deepMerge(Object.assign({}, targetValue), sourceValue);
+            } else {
+                target[key] = sourceValue;
+            }
+        });
+
+        return target;
+    },
+
+    /**
      * Formatea la fecha para el Hero (MAYÚSCULAS)
      * Ej: VIERNES | 13 MARZO | 2026
      */
