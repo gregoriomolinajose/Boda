@@ -120,7 +120,10 @@ function renderTable() {
         const tr = document.createElement('tr');
         const statusClean = (row.Asistencia || 'Pendiente').toLowerCase().trim();
         const statusClass = statusClean === 'confirma' ? 'confirma' : (statusClean === 'declina' ? 'declina' : 'pendiente');
-        const invitationLink = row['Link'] || row.link || '';
+        const baseUrl = window.APP_CONFIG?.ui?.baseUrl || window.location.origin + "/";
+        const currentEventId = window.store?.eventId || 'default';
+        const params = `?event=${currentEventId}&n=${encodeURIComponent(row.Invitado || '')}&u=${row.ID}&ca=${row.Adultos || 0}&cc=${row.Niños || 0}&t=${row.type || row.Tipo || 'f'}`;
+        const invitationLink = baseUrl + params;
         const rowIndex = allData.length - allData.findIndex(item => item === row);
         const isActive = (row['Estado de la liga'] || 'TRUE').toString().toUpperCase() === 'TRUE';
         const dateDisplay = Utils.formatSheetDate(row['Fecha/Hora']);
