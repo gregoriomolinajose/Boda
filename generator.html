@@ -511,16 +511,16 @@
     <header class="app-header"
         style="background: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 15px rgba(0,0,0,0.05); margin-bottom: 30px; position: sticky; top: 0; z-index: 100;">
         <div class="app-brand"
-            style="font-family: 'Great Vibes', cursive; font-size: 2.2rem; color: var(--primary-blue); line-height: 1;">
+            style="font-family: 'Great Vibes', cursive; font-size: 2.2rem; margin:0; padding:0; line-height: 1; color: #5a7d9a;">
             Bellfy</div>
         <div class="app-nav" style="display: flex; gap: 15px; align-items: center;">
             <a href="portal.html" class="btn"
-                style="text-decoration: none; font-size: 0.85rem; background: var(--primary-olive-light); color: var(--primary-olive); padding: 8px 16px; border-radius: 8px; font-weight: 600; display: flex; align-items: center; gap: 8px; border: none; transition: transform 0.2s;">
-                <i class="fas fa-th-large"></i> Mis Eventos
+                style="text-decoration: none; font-size: 0.85rem; background: #e9ecef; color: #495057; padding: 8px 16px; border-radius: 8px; font-weight: 600; display: flex; align-items: center; gap: 8px; border: none; transition: transform 0.2s;">
+                <i class="fas fa-th-large" style="color: #495057;"></i> Mis Eventos
             </a>
             <button onclick="handleLogout()" class="btn"
-                style="background: transparent; border: none; color: #888; cursor: pointer; font-size: 1.2rem; padding: 8px; transition: color 0.2s;"
-                title="Cerrar Sesión" onmouseover="this.style.color='#ff4757'" onmouseout="this.style.color='#888'">
+                style="background: transparent; border: none; color: #495057; cursor: pointer; font-size: 1.2rem; padding: 8px; transition: color 0.2s;"
+                title="Cerrar Sesión" onmouseover="this.style.color='#dc3545'" onmouseout="this.style.color='#495057'">
                 <i class="fas fa-sign-out-alt"></i>
             </button>
         </div>
@@ -541,7 +541,7 @@
                 <span class="stat-value" id="stat-ratio-declined">0 / 0</span>
                 <span class="stat-label">Invitaciones Rechazadas</span>
             </div>
-            <div class="stat-card" style="border-bottom: 3px solid var(--primary-blue);">
+            <div class="stat-card" style="border-bottom: 3px solid #5a7d9a;">
                 <span class="stat-value" id="stat-ratio-accepted">0 / 0</span>
                 <span class="stat-label">Invitaciones Aceptadas</span>
             </div>
@@ -551,26 +551,26 @@
             <div class="dashboard-header"
                 style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
                 <div>
-                    <h2 style="font-size: 1.5rem; margin: 0; color: var(--text-dark);">Panel de Invitados</h2>
-                    <p style="font-size: 0.85rem; color: #777; margin: 5px 0 0 0;" id="wedding-subtitle">Cargando
+                    <h2 style="font-size: 1.5rem; margin: 0; color: #343a40;">Panel de Invitados</h2>
+                    <p style="font-size: 0.85rem; color: #6c757d; margin: 5px 0 0 0;" id="wedding-subtitle">Cargando
                         datos...</p>
                 </div>
                 <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
                     <button class="btn" onclick="openInvitationModal()"
-                        style="background: var(--primary-blue); color: white; border: none; padding: 10px 20px; font-size: 0.9rem; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); font-weight: 600; display: flex; align-items: center; gap: 8px; transition: transform 0.2s, box-shadow 0.2s;">
+                        style="background: #5a7d9a; color: white; border: none; padding: 10px 20px; font-size: 0.9rem; border-radius: 8px; box-shadow: 0 4px 10px rgba(90, 125, 154, 0.2); font-weight: 600; display: flex; align-items: center; gap: 8px;">
                         <i class="fas fa-plus"></i> Nueva Invitación
                     </button>
                     <button class="btn" onclick="toggleSettings(true)"
-                        style="background: white; color: var(--text-dark); border: 1px solid #ddd; padding: 10px 20px; font-size: 0.9rem; border-radius: 8px; font-weight: 600; display: flex; align-items: center; gap: 8px; transition: background 0.2s;">
-                        <i class="fas fa-cog"></i> Ajustes
+                        style="background: white; color: #343a40; border: 1px solid #ced4da; padding: 10px 20px; font-size: 0.9rem; border-radius: 8px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-cog" style="color: #6c757d;"></i> Ajustes
                     </button>
                     <button class="btn" id="refresh-dashboard-btn" onclick="loadDashboard()"
-                        style="background: white; color: #666; border: 1px solid #ddd; padding: 10px; border-radius: 8px; display: flex; align-items: center; justify-content: center; transition: color 0.2s;"
+                        style="background: white; color: #343a40; border: 1px solid #ced4da; padding: 10px; border-radius: 8px; display: flex; align-items: center; justify-content: center;"
                         title="Actualizar Datos">
-                        <i class="fas fa-sync-alt" id="refresh-icon"></i>
+                        <i class="fas fa-sync-alt" id="refresh-icon" style="color: #6c757d;"></i>
                     </button>
                     <button class="btn btn-olive" onclick="document.getElementById('bulk-import-input').click()"
-                        style="background: #27ae60; border-color: #27ae60;">
+                        style="background: #28a745; color: white; border: none; padding: 10px 20px; font-size: 0.9rem; border-radius: 8px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
                         <i class="fas fa-file-csv"></i> Importar CSV
                     </button>
                     <input type="file" id="bulk-import-input" accept=".csv" style="display: none;"
