@@ -195,6 +195,15 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('message', (event) => {
         if (event.data.type === 'UPDATE_CONFIG') {
             store.setState(event.data.config, true); // Forzar skipCloud en la invitación
+
+            // Re-vincular el observador para elementos dinámicamente re-renderizados (como el Itinerario)
+            setTimeout(() => {
+                if (window.revealObserver) {
+                    document.querySelectorAll('.reveal, .animate-on-scroll, .logistics-grid').forEach(el => {
+                        window.revealObserver.observe(el);
+                    });
+                }
+            }, 100);
         }
     });
 
@@ -207,7 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
             rootMargin: "0px 0px -50px 0px"
         };
 
-        const revealObserver = new IntersectionObserver((entries) => {
+        window.revealObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('active');
@@ -225,7 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Observar elementos con clase reveal o animate-on-scroll
         document.querySelectorAll('.reveal, .animate-on-scroll, .logistics-grid').forEach(el => {
-            revealObserver.observe(el);
+            window.revealObserver.observe(el);
         });
     };
 
