@@ -8,6 +8,9 @@ import { Auth } from './js/core/Auth.js';
 // Proteger página
 Auth.requireAuth();
 
+// Exponer logout al scope global
+window.handleLogout = () => Auth.logout();
+
 // Inicializar el Store reactivo con el ID del evento
 const urlParams = new URLSearchParams(window.location.search);
 const eventId = urlParams.get('event') || 'default';
