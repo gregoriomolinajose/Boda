@@ -1344,7 +1344,7 @@ body.show-content #splash {
 }
 
 .hidden-field {
-    display: none !important;
+    display: none;
 }
 
 /* -- Selector de Modalidad Estilizado (Radios) -- */
