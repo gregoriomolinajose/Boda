@@ -10,7 +10,6 @@ function openSettingsModal() {
     document.getElementById('set-physical-location').value = APP_CONFIG.wedding.location.physical;
     document.getElementById('set-virtual-location').value = APP_CONFIG.wedding.location.virtual;
     document.getElementById('set-base-url').value = APP_CONFIG.ui.baseUrl;
-    document.getElementById('set-webhook-url').value = APP_CONFIG.api.sheetWebhook;
     document.getElementById('set-music-volume').value = APP_CONFIG.ui.musicVolume;
 
     if (modal) modal.style.display = 'flex';
@@ -28,7 +27,6 @@ function saveSettings() {
     APP_CONFIG.wedding.location.physical = document.getElementById('set-physical-location').value;
     APP_CONFIG.wedding.location.virtual = document.getElementById('set-virtual-location').value;
     APP_CONFIG.ui.baseUrl = document.getElementById('set-base-url').value;
-    APP_CONFIG.api.sheetWebhook = document.getElementById('set-webhook-url').value;
     APP_CONFIG.ui.musicVolume = parseFloat(document.getElementById('set-music-volume').value);
 
     // Guardar en localStorage para persistencia local

@@ -81,7 +81,6 @@ function populateSettingsForm() {
     document.getElementById('set-physical-location').value = APP_CONFIG.wedding.location.physical;
     document.getElementById('set-virtual-location').value = APP_CONFIG.wedding.location.virtual;
     document.getElementById('set-base-url').value = APP_CONFIG.ui.baseUrl;
-    document.getElementById('set-webhook-url').value = APP_CONFIG.api.sheetWebhook;
 
     // Estilos y Colores
     document.getElementById('set-primary-blue').value = APP_CONFIG.ui.primaryBlue || '#93afc2';
@@ -674,7 +673,6 @@ function saveSettings() {
         color: document.getElementById('set-bg-anim-color').value
     };
     APP_CONFIG.wedding.location.virtual = document.getElementById('set-virtual-location').value;
-    APP_CONFIG.api.sheetWebhook = document.getElementById('set-webhook-url').value;
 
     Object.assign(APP_CONFIG.ui, {
         baseUrl: document.getElementById('set-base-url').value,
