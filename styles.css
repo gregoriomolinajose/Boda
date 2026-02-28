@@ -1928,6 +1928,7 @@ td {
     min-width: 0;
     /* Permite que el input se encoja si es necesario */
     width: 100%;
+    text-align: right;
 }
 
 .timeline-builder-actions {
