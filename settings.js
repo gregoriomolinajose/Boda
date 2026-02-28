@@ -27,14 +27,31 @@ let currentIconTargetId = null;
 let cropper = null;
 
 const ICON_LIST = [
-    'fa-leaf', 'fa-heart', 'fa-champagne-glasses', 'fa-utensils', 'fa-music',
-    'fa-camera', 'fa-rings-wedding', 'fa-church', 'fa-glass-cheers', 'fa-cake-candles',
-    'fa-dove', 'fa-gift', 'fa-envelope', 'fa-map-location-dot', 'fa-clock',
-    'fa-star', 'fa-moon', 'fa-sun', 'fa-cloud', 'fa-umbrella',
+    // Boda & Amor (20)
+    'fa-heart', 'fa-rings-wedding', 'fa-church', 'fa-champagne-glasses', 'fa-dove',
+    'fa-gift', 'fa-envelope-open-text', 'fa-cake-candles', 'fa-camera-retro', 'fa-music',
+    'fa-gem', 'fa-crown', 'fa-kiss-wink-heart', 'fa-hand-holding-heart', 'fa-heart-pulse',
+    'fa-comments', 'fa-images', 'fa-video', 'fa-bell', 'fa-star',
+    // Evento & Fiesta (20)
+    'fa-glass-cheers', 'fa-wine-glass', 'fa-martini-glass', 'fa-beer-mug-empty', 'fa-utensils',
+    'fa-mug-hot', 'fa-coffee', 'fa-pizza-slice', 'fa-burger', 'fa-ice-cream',
+    'fa-microphone-alt', 'fa-guitar', 'fa-compact-disc', 'fa-headphones', 'fa-volume-up',
+    'fa-sparkles', 'fa-wand-magic-sparkles', 'fa-fire', 'fa-masks-theater', 'fa-ticket-alt',
+    // Naturaleza & Ubicación (20)
+    'fa-leaf', 'fa-tree', 'fa-seedling', 'fa-flower', 'fa-sun',
+    'fa-moon', 'fa-cloud', 'fa-umbrella', 'fa-snowflake', 'fa-water',
+    'fa-map-location-dot', 'fa-location-dot', 'fa-compass', 'fa-earth-americas', 'fa-route',
+    'fa-building', 'fa-house', 'fa-hotel', 'fa-campground', 'fa-monument',
+    // Transporte & Viajes (20)
     'fa-car', 'fa-plane', 'fa-bus', 'fa-train', 'fa-ship',
-    'fa-wine-glass', 'fa-martini-glass', 'fa-beer-mug-empty', 'fa-coffee', 'fa-mug-hot',
-    'fa-dance', 'fa-users', 'fa-user-friends', 'fa-microphone', 'fa-sparkles',
-    'fa-award', 'fa-crown', 'fa-gem', 'fa-anchor', 'fa-key'
+    'fa-motorcycle', 'fa-bicycle', 'fa-taxi', 'fa-helicopter', 'fa-rocket',
+    'fa-suitcase-rolling', 'fa-passport', 'fa-ticket', 'fa-plane-departure', 'fa-plane-arrival',
+    'fa-anchor', 'fa-gas-pump', 'fa-charging-station', 'fa-parking', 'fa-road',
+    // Logística & Varios (20)
+    'fa-clock', 'fa-calendar-alt', 'fa-calendar-check', 'fa-hourglass-half', 'fa-stopwatch',
+    'fa-users', 'fa-user-friends', 'fa-user-tie', 'fa-child', 'fa-baby',
+    'fa-shirt', 'fa-socks', 'fa-shoe-prints', 'fa-hat-wizard', 'fa-glasses',
+    'fa-camera', 'fa-key', 'fa-lock', 'fa-wallet', 'fa-credit-card'
 ];
 
 function toggleSettings(show) {
@@ -80,7 +97,6 @@ function populateSettingsForm() {
     // Otros
     document.getElementById('set-physical-location').value = APP_CONFIG.wedding.location.physical;
     document.getElementById('set-virtual-location').value = APP_CONFIG.wedding.location.virtual;
-    document.getElementById('set-base-url').value = APP_CONFIG.ui.baseUrl;
 
     // Estilos y Colores
     document.getElementById('set-primary-blue').value = APP_CONFIG.ui.primaryBlue || '#93afc2';
@@ -580,10 +596,12 @@ function openIconPicker(targetId) {
 function selectIcon(icon) {
     const btn = document.getElementById(currentIconTargetId);
     if (btn) {
-        btn.innerHTML = `<i class="fas ${icon}"></i>`;
+        btn.innerHTML = `<i class="fa-solid ${icon}"></i>`;
         btn.dataset.icon = icon;
     }
     closeIconPicker();
+    syncTimelineData(); // Ensure the model is updated
+    notifyPreview();    // Trigger iframe preview update
 }
 
 function closeIconPicker() {
@@ -679,7 +697,6 @@ function saveSettings() {
     APP_CONFIG.wedding.location.virtual = document.getElementById('set-virtual-location').value;
 
     Object.assign(APP_CONFIG.ui, {
-        baseUrl: document.getElementById('set-base-url').value,
         showCountdown: document.getElementById('set-show-countdown').checked,
         iconColor: document.getElementById('set-icon-color').value,
         primaryBlue: document.getElementById('set-primary-blue').value,

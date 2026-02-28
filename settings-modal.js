@@ -26,7 +26,6 @@ function saveSettings() {
     APP_CONFIG.wedding.names = document.getElementById('set-wedding-names').value;
     APP_CONFIG.wedding.location.physical = document.getElementById('set-physical-location').value;
     APP_CONFIG.wedding.location.virtual = document.getElementById('set-virtual-location').value;
-    APP_CONFIG.ui.baseUrl = document.getElementById('set-base-url').value;
     APP_CONFIG.ui.musicVolume = parseFloat(document.getElementById('set-music-volume').value);
 
     // Guardar en localStorage para persistencia local
