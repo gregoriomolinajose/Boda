@@ -213,6 +213,26 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 }
             }, 100);
+        } else if (event.data.type === 'SIMULATE_RSVP') {
+            // Ocultar sección de RSVP
+            const rsvpSection = document.getElementById('wedding-rsvp-section');
+            if (rsvpSection) rsvpSection.style.display = 'none';
+
+            // Mostrar pantalla final
+            const finalScreen = document.getElementById('final-screen');
+            if (finalScreen) {
+                finalScreen.style.display = 'flex';
+                finalScreen.scrollIntoView({ behavior: 'smooth' });
+
+                // Configurar mensaje de sí o no
+                if (event.data.state === 'yes') {
+                    document.getElementById('final-msg-yes').style.display = 'block';
+                    document.getElementById('final-msg-no').style.display = 'none';
+                } else {
+                    document.getElementById('final-msg-yes').style.display = 'none';
+                    document.getElementById('final-msg-no').style.display = 'block';
+                }
+            }
         }
     });
 
