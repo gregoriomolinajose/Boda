@@ -16,6 +16,23 @@ document.addEventListener('DOMContentLoaded', () => {
     // Inicializar Store con configuración global y ID de evento
     const store = new Store(window.APP_CONFIG || {}, eventId);
 
+    // --- Lógica de Personalización Inmediata (URL Params) ---
+    // Extraer inmediatamente para evitar que la primera carga desde caché (con valores viejos) bloquee el render final
+    const guestData = {
+        wedding: {
+            demoGuestName: urlParams.get('n') || "",
+            guestUuid: urlParams.get('u') || "",
+            adultsCount: parseInt(urlParams.get('ca')) || 0,
+            kidsCount: parseInt(urlParams.get('cc')) || 0,
+            invType: urlParams.get('t') || 'f'
+        }
+    };
+
+    // Inyectar en el estado de forma limpia antes de que suceda el primer render o la nube sobrescriba
+    if (guestData.wedding.demoGuestName) {
+        store.setState(guestData, true);
+    }
+
     const domElements = {
         hostNamesSplash: document.getElementById('host-names-splash'),
         heroNames: document.getElementById('host-names-hero'),
@@ -101,23 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.warn("Fallo carga cloud, usando local:", e);
         }
 
-        // --- Lógica de Personalización (URL Params) ---
-        const urlParams = new URLSearchParams(window.location.search);
-        const guestData = {
-            wedding: {
-                demoGuestName: urlParams.get('n') || "",
-                guestUuid: urlParams.get('u') || "",
-                adultsCount: parseInt(urlParams.get('ca')) || 0,
-                kidsCount: parseInt(urlParams.get('cc')) || 0,
-                invType: urlParams.get('t') || 'f'
-            }
-        };
-
-        // Si hay nombre en la URL, priorizarlo sobre el demoGuestName del store
-        if (guestData.wedding.demoGuestName) {
-            store.setState(guestData, true); // skipCloud=true para no sobrescribir la config global
-        }
-
+        // Renderer inicial final
         renderer.render(store.getState());
         initParticles();
     };
