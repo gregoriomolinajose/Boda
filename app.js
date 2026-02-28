@@ -234,6 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const enterBtn = document.getElementById('enter-site');
         const splash = document.getElementById('splash');
         const audio = document.getElementById('wedding-song');
+        const musicBtn = document.getElementById('music-toggle');
 
         if (enterBtn && splash) {
             enterBtn.addEventListener('click', () => {
@@ -243,7 +244,30 @@ document.addEventListener('DOMContentLoaded', () => {
                     splash.style.display = 'none';
                     initScrollReveal(); // Iniciar observer después del splash
                 }, 1000);
-                if (audio) audio.play().catch(e => console.log("Audio prevented:", e));
+
+                if (audio) {
+                    audio.play().then(() => {
+                        if (musicBtn) musicBtn.classList.remove('paused');
+                    }).catch(e => {
+                        console.log("Audio prevented by browser policy:", e);
+                        if (musicBtn) musicBtn.classList.add('paused');
+                    });
+                }
+            });
+        }
+
+        // Control de botón de música en la interfaz
+        if (musicBtn && audio) {
+            musicBtn.addEventListener('click', () => {
+                if (audio.paused) {
+                    audio.play();
+                    musicBtn.classList.remove('paused');
+                    musicBtn.setAttribute('aria-pressed', 'true');
+                } else {
+                    audio.pause();
+                    musicBtn.classList.add('paused');
+                    musicBtn.setAttribute('aria-pressed', 'false');
+                }
             });
         }
     };
