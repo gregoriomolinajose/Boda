@@ -114,7 +114,7 @@ export class Renderer {
         }
 
         // --- Timeline ---
-        this.renderTimeline(state.timeline, ui.iconColor);
+        this.renderTimeline(state.timeline, ui.iconColor, ui.timelineAlign);
 
         // --- Countdown ---
         const countdownContainer = document.getElementById('countdown');
@@ -163,10 +163,11 @@ export class Renderer {
     /**
      * Renderiza el itinerario dinámico.
      */
-    renderTimeline(timeline = [], iconColor = '#80a040') {
+    renderTimeline(timeline = [], iconColor = '#80a040', alignment = 'center') {
         const container = document.getElementById('timeline-container');
         if (!container) return;
 
+        container.className = `timeline-container align-${alignment}`;
         container.innerHTML = '';
         timeline.forEach(item => {
             const row = document.createElement('div');

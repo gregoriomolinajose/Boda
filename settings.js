@@ -101,6 +101,9 @@ function populateSettingsForm() {
     const setBgColor = document.getElementById('set-bg-anim-color');
     if (setBgColor) setBgColor.value = bgAnim.color || '#6b705c';
 
+    const setTimelineAlign = document.getElementById('set-timeline-align');
+    if (setTimelineAlign) setTimelineAlign.value = APP_CONFIG.ui.timelineAlign || 'center';
+
     const hostMessage = document.getElementById('set-wedding-message');
     if (hostMessage) hostMessage.value = APP_CONFIG.wedding.message || "";
 
@@ -421,6 +424,7 @@ function notifyPreview() {
             primaryOlive: document.getElementById('set-primary-olive').value,
             fontPrimary: document.getElementById('set-font-primary').value,
             fontScript: document.getElementById('set-font-script').value,
+            timelineAlign: document.getElementById('set-timeline-align') ? document.getElementById('set-timeline-align').value : 'center',
             bgAnimation: {
                 enabled: document.getElementById('set-bg-anim-enabled').checked,
                 type: document.getElementById('set-bg-anim-type').value,
@@ -681,7 +685,8 @@ function saveSettings() {
         primaryBlue: document.getElementById('set-primary-blue').value,
         primaryOlive: document.getElementById('set-primary-olive').value,
         fontPrimary: document.getElementById('set-font-primary').value,
-        fontScript: document.getElementById('set-font-script').value
+        fontScript: document.getElementById('set-font-script').value,
+        timelineAlign: document.getElementById('set-timeline-align') ? document.getElementById('set-timeline-align').value : 'center'
     });
 
     // Consolidar Timeline (para capturar cambios en inputs de texto/hora)

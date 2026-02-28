@@ -733,6 +733,89 @@ body.show-content #splash {
     color: var(--text-dark);
 }
 
+/* -- Alineaciones del Itinerario -- */
+.timeline-container.align-left .timeline-item {
+    flex-direction: row;
+    text-align: left;
+}
+
+.timeline-container.align-left .timeline-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.timeline-container.align-left .timeline-content .event {
+    order: 1;
+    margin-bottom: 5px;
+}
+
+.timeline-container.align-left .timeline-content .time {
+    order: 2;
+}
+
+.timeline-container.align-left::after {
+    left: 29px;
+    /* Centrado con el icono de 60px */
+}
+
+.timeline-container.align-center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.timeline-container.align-center .timeline-item {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+}
+
+.timeline-container.align-center .timeline-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.timeline-container.align-center .timeline-content .event {
+    order: 1;
+    margin-bottom: 5px;
+}
+
+.timeline-container.align-center .timeline-content .time {
+    order: 2;
+}
+
+.timeline-container.align-center::after {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.timeline-container.align-right .timeline-item {
+    flex-direction: row-reverse;
+    text-align: right;
+}
+
+.timeline-container.align-right .timeline-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.timeline-container.align-right .timeline-content .event {
+    order: 1;
+    margin-bottom: 5px;
+}
+
+.timeline-container.align-right .timeline-content .time {
+    order: 2;
+}
+
+.timeline-container.align-right::after {
+    left: auto;
+    right: 29px;
+    /* Centrado con el icono de 60px en modo reversa */
+}
+
 /* -- Bloque Código de Vestimenta (Con Divisor) -- */
 .dress-code-wrapper {
     display: flex;
@@ -1926,9 +2009,22 @@ td {
 
 .timeline-builder-item input {
     min-width: 0;
-    /* Permite que el input se encoja si es necesario */
     width: 100%;
-    text-align: right;
+    text-align: left;
+    padding: 10px 12px;
+    border: 1px solid var(--border-color, #e0e0e0);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    background-color: var(--bg-light, #f8f9fa);
+    transition: all 0.3s ease;
+}
+
+.timeline-builder-item input:focus {
+    border-color: var(--primary-olive);
+    background-color: white;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(107, 112, 92, 0.1);
 }
 
 .timeline-builder-actions {

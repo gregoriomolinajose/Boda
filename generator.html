@@ -165,10 +165,18 @@
 
                     <div class="settings-section-title">
                         <i class="fas fa-clock"></i> Itinerario (Timeline)
-                        <button class="btn btn-olive" style="margin-left: auto; padding: 5px 15px; font-size: 0.7rem;"
-                            onclick="addTimelineItem()">
-                            + Añadir Actividad
-                        </button>
+                        <div style="margin-left: auto; display: flex; gap: 10px; align-items: center;">
+                            <select id="set-timeline-align" class="form-input"
+                                style="padding: 5px; font-size: 0.7rem; width: auto; margin: 0; min-height: unset;">
+                                <option value="left">Alineación Izquierda</option>
+                                <option value="center" selected>Alineación Centro</option>
+                                <option value="right">Alineación Derecha</option>
+                            </select>
+                            <button class="btn btn-olive" style="padding: 5px 15px; font-size: 0.7rem; margin: 0;"
+                                onclick="addTimelineItem()">
+                                + Añadir Actividad
+                            </button>
+                        </div>
                     </div>
 
                     <div id="timeline-builder-container">
