@@ -29,9 +29,16 @@ export class Store {
      * Actualiza una parte del estado de forma inmutable y notifica a los suscriptores.
      */
     setState(newState, skipCloud = false) {
-        if (newState.wedding) this.state.wedding = { ...(this.state.wedding || {}), ...newState.wedding };
-        if (newState.ui) this.state.ui = { ...(this.state.ui || {}), ...newState.ui };
-        if (newState.api) this.state.api = { ...(this.state.api || {}), ...newState.api };
+        if (newState.wedding) {
+            // Deep merge for wedding to preserve nested objects like location, rsvp, gifts, gallery
+            this.state.wedding = Helpers.deepMerge(this.state.wedding || {}, newState.wedding);
+        }
+        if (newState.ui) {
+            this.state.ui = Helpers.deepMerge(this.state.ui || {}, newState.ui);
+        }
+        if (newState.api) {
+            this.state.api = { ...(this.state.api || {}), ...newState.api };
+        }
         if (newState.timeline) this.state.timeline = newState.timeline;
 
         this.notify();
@@ -121,9 +128,9 @@ export class Store {
 
                 // Sincronizar con el objeto global si existe
                 if (window.APP_CONFIG) {
-                    if (cloudData.wedding) window.APP_CONFIG.wedding = { ...window.APP_CONFIG.wedding, ...cloudData.wedding };
-                    if (cloudData.ui) window.APP_CONFIG.ui = { ...window.APP_CONFIG.ui, ...cloudData.ui };
-                    if (cloudData.api) window.APP_CONFIG.api = { ...window.APP_CONFIG.api, ...cloudData.api };
+                    if (cloudData.wedding) window.APP_CONFIG.wedding = Helpers.deepMerge(window.APP_CONFIG.wedding || {}, cloudData.wedding);
+                    if (cloudData.ui) window.APP_CONFIG.ui = Helpers.deepMerge(window.APP_CONFIG.ui || {}, cloudData.ui);
+                    if (cloudData.api) window.APP_CONFIG.api = { ...(window.APP_CONFIG.api || {}), ...cloudData.api };
                     if (cloudData.timeline) window.APP_CONFIG.timeline = cloudData.timeline;
                 }
             }
