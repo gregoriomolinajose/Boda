@@ -88,34 +88,51 @@ function populateSettingsForm() {
     const dateStr = `${year}-${month}-${day}`;
     const timeStr = `${hours}:${minutes}`;
 
-    document.getElementById('set-wedding-date-picker').value = dateStr;
-    document.getElementById('set-wedding-time-picker').value = timeStr;
+    const elWeddingDatePicker = document.getElementById('set-wedding-date-picker');
+    if (elWeddingDatePicker) elWeddingDatePicker.value = dateStr;
+    const elWeddingTimePicker = document.getElementById('set-wedding-time-picker');
+    if (elWeddingTimePicker) elWeddingTimePicker.value = timeStr;
 
-    // Toggle Contador
-    document.getElementById('set-show-countdown').checked = APP_CONFIG.ui.showCountdown !== false;
+    // Toggle    // UI
+    const elShowCountdown = document.getElementById('set-show-countdown');
+    if (elShowCountdown) elShowCountdown.checked = APP_CONFIG.ui.showCountdown !== false;
 
-    // Otros
-    document.getElementById('set-physical-location').value = APP_CONFIG.wedding.location.physical;
-    document.getElementById('set-virtual-location').value = APP_CONFIG.wedding.location.virtual;
+    const elPhysicalConfig = document.getElementById('set-physical-location');
+    if (elPhysicalConfig) elPhysicalConfig.value = APP_CONFIG.wedding.location.physical || "";
 
-    // Estilos y Colores
-    document.getElementById('set-primary-blue').value = APP_CONFIG.ui.primaryBlue || '#93afc2';
-    document.getElementById('set-primary-olive').value = APP_CONFIG.ui.primaryOlive || '#6b705c';
-    document.getElementById('set-icon-color').value = APP_CONFIG.ui.iconColor || '#80a040';
-    document.getElementById('set-font-primary').value = APP_CONFIG.ui.fontPrimary || 'Montserrat';
-    document.getElementById('set-font-script').value = APP_CONFIG.ui.fontScript || 'Great Vibes';
+    const elVirtualConfig = document.getElementById('set-virtual-location');
+    if (elVirtualConfig) elVirtualConfig.value = APP_CONFIG.wedding.location.virtual || "";
+
+    const elPrimaryBlue = document.getElementById('set-primary-blue');
+    if (elPrimaryBlue) elPrimaryBlue.value = APP_CONFIG.ui.primaryBlue || '#93afc2';
+
+    const elPrimaryOlive = document.getElementById('set-primary-olive');
+    if (elPrimaryOlive) elPrimaryOlive.value = APP_CONFIG.ui.primaryOlive || '#6b705c';
+
+    const elIconColor = document.getElementById('set-icon-color');
+    if (elIconColor) elIconColor.value = APP_CONFIG.ui.iconColor || '#80a040';
+
+    const elFontPrimary = document.getElementById('set-font-primary');
+    if (elFontPrimary) elFontPrimary.value = APP_CONFIG.ui.fontPrimary || 'Montserrat';
+
+    const elFontScript = document.getElementById('set-font-script');
+    if (elFontScript) elFontScript.value = APP_CONFIG.ui.fontScript || 'Great Vibes';
 
     const bgAnim = APP_CONFIG.ui.bgAnimation || { enabled: true, type: 'particles', size: 15, opacity: 0.15, color: '#6b705c' };
-    const setBgEnabled = document.getElementById('set-bg-anim-enabled');
-    if (setBgEnabled) setBgEnabled.checked = bgAnim.enabled !== false;
-    const setBgType = document.getElementById('set-bg-anim-type');
-    if (setBgType) setBgType.value = bgAnim.type || 'particles';
-    const setBgSize = document.getElementById('set-bg-anim-size');
-    if (setBgSize) setBgSize.value = bgAnim.size || 15;
-    const setBgOpacity = document.getElementById('set-bg-anim-opacity');
-    if (setBgOpacity) setBgOpacity.value = bgAnim.opacity || 0.15;
-    const setBgColor = document.getElementById('set-bg-anim-color');
-    if (setBgColor) setBgColor.value = bgAnim.color || '#6b705c';
+    const elBgAnimEnabled = document.getElementById('set-bg-anim-enabled');
+    if (elBgAnimEnabled) elBgAnimEnabled.checked = bgAnim.enabled !== false;
+
+    const elBgAnimType = document.getElementById('set-bg-anim-type');
+    if (elBgAnimType) elBgAnimType.value = bgAnim.type || 'particles';
+
+    const elBgAnimSize = document.getElementById('set-bg-anim-size');
+    if (elBgAnimSize) elBgAnimSize.value = bgAnim.size || 15;
+
+    const elBgAnimOpacity = document.getElementById('set-bg-anim-opacity');
+    if (elBgAnimOpacity) elBgAnimOpacity.value = bgAnim.opacity || 0.15;
+
+    const elBgAnimColor = document.getElementById('set-bg-anim-color');
+    if (elBgAnimColor) elBgAnimColor.value = bgAnim.color || '#6b705c';
 
     const setTimelineAlign = document.getElementById('set-timeline-align');
     if (setTimelineAlign) setTimelineAlign.value = APP_CONFIG.ui.timelineAlign || 'center';
@@ -365,21 +382,23 @@ function notifyPreview() {
     const iframe = document.getElementById('preview-iframe');
     if (!iframe || !iframe.contentWindow) return;
 
-    const date = document.getElementById('set-wedding-date-picker').value;
-    const time = document.getElementById('set-wedding-time-picker').value;
+    const elDate = document.getElementById('set-wedding-date-picker');
+    const elTime = document.getElementById('set-wedding-time-picker');
+    const date = elDate ? elDate.value : "";
+    const time = elTime ? elTime.value : "";
 
     const configSnapshot = {
         wedding: {
-            names: document.getElementById('set-wedding-names').value,
+            names: document.getElementById('set-wedding-names') ? document.getElementById('set-wedding-names').value : "",
             date: `${date} ${time}`,
             location: {
-                physical: document.getElementById('set-physical-location').value,
-                virtual: document.getElementById('set-virtual-location').value
+                physical: document.getElementById('set-physical-location') ? document.getElementById('set-physical-location').value : "",
+                virtual: document.getElementById('set-virtual-location') ? document.getElementById('set-virtual-location').value : ""
             },
-            photo: document.getElementById('couple-photo-preview').src,
-            message: document.getElementById('set-wedding-message').value,
-            subject: document.getElementById('set-wedding-subject').value,
-            demoGuestName: document.getElementById('set-demo-guest-name').value,
+            photo: document.getElementById('couple-photo-preview') ? document.getElementById('couple-photo-preview').src : "",
+            message: document.getElementById('set-wedding-message') ? document.getElementById('set-wedding-message').value : "",
+            subject: document.getElementById('set-wedding-subject') ? document.getElementById('set-wedding-subject').value : "",
+            demoGuestName: document.getElementById('set-demo-guest-name') ? document.getElementById('set-demo-guest-name').value : "",
             calendar: {
                 title: document.getElementById('set-calendar-title').value,
                 description: document.getElementById('set-calendar-description').value,
@@ -435,19 +454,19 @@ function notifyPreview() {
             }
         },
         ui: {
-            showCountdown: document.getElementById('set-show-countdown').checked,
-            iconColor: document.getElementById('set-icon-color').value,
-            primaryBlue: document.getElementById('set-primary-blue').value,
-            primaryOlive: document.getElementById('set-primary-olive').value,
-            fontPrimary: document.getElementById('set-font-primary').value,
-            fontScript: document.getElementById('set-font-script').value,
+            showCountdown: document.getElementById('set-show-countdown') ? document.getElementById('set-show-countdown').checked : true,
+            iconColor: document.getElementById('set-icon-color') ? document.getElementById('set-icon-color').value : '#80a040',
+            primaryBlue: document.getElementById('set-primary-blue') ? document.getElementById('set-primary-blue').value : '#93afc2',
+            primaryOlive: document.getElementById('set-primary-olive') ? document.getElementById('set-primary-olive').value : '#6b705c',
+            fontPrimary: document.getElementById('set-font-primary') ? document.getElementById('set-font-primary').value : 'Montserrat',
+            fontScript: document.getElementById('set-font-script') ? document.getElementById('set-font-script').value : 'Great Vibes',
             timelineAlign: document.getElementById('set-timeline-align') ? document.getElementById('set-timeline-align').value : 'center',
             bgAnimation: {
-                enabled: document.getElementById('set-bg-anim-enabled').checked,
-                type: document.getElementById('set-bg-anim-type').value,
-                size: parseFloat(document.getElementById('set-bg-anim-size').value),
-                opacity: parseFloat(document.getElementById('set-bg-anim-opacity').value),
-                color: document.getElementById('set-bg-anim-color').value
+                enabled: document.getElementById('set-bg-anim-enabled') ? document.getElementById('set-bg-anim-enabled').checked : true,
+                type: document.getElementById('set-bg-anim-type') ? document.getElementById('set-bg-anim-type').value : 'particles',
+                size: document.getElementById('set-bg-anim-size') ? parseFloat(document.getElementById('set-bg-anim-size').value) : 15,
+                opacity: document.getElementById('set-bg-anim-opacity') ? parseFloat(document.getElementById('set-bg-anim-opacity').value) : 0.15,
+                color: document.getElementById('set-bg-anim-color') ? document.getElementById('set-bg-anim-color').value : '#6b705c'
             }
         },
         // Capturar el timeline actual
@@ -608,18 +627,21 @@ function closeIconPicker() {
 }
 
 function saveSettings() {
-    const date = document.getElementById('set-wedding-date-picker').value;
-    const time = document.getElementById('set-wedding-time-picker').value;
+    const elDate = document.getElementById('set-wedding-date-picker');
+    const elTime = document.getElementById('set-wedding-time-picker');
+    const date = elDate ? elDate.value : "";
+    const time = elTime ? elTime.value : "";
 
     // Actualizar objeto APP_CONFIG
-    APP_CONFIG.wedding.names = document.getElementById('set-wedding-names').value;
-    APP_CONFIG.wedding.date = `${date} ${time}`;
-    APP_CONFIG.wedding.message = document.getElementById('set-wedding-message').value;
-    APP_CONFIG.wedding.subject = document.getElementById('set-wedding-subject').value;
-    APP_CONFIG.wedding.demoGuestName = document.getElementById('set-demo-guest-name').value;
+    APP_CONFIG.wedding.names = document.getElementById('set-wedding-names') ? document.getElementById('set-wedding-names').value : "";
+    APP_CONFIG.wedding.date = `${date || ""} ${time || ""}`.trim();
+    APP_CONFIG.wedding.message = document.getElementById('set-wedding-message') ? document.getElementById('set-wedding-message').value : "";
+    APP_CONFIG.wedding.subject = document.getElementById('set-wedding-subject') ? document.getElementById('set-wedding-subject').value : "";
+    APP_CONFIG.wedding.demoGuestName = document.getElementById('set-demo-guest-name') ? document.getElementById('set-demo-guest-name').value : "";
 
     // IMPORTANTE: Asegurar que la foto se capture del preview actual
-    const currentPhoto = document.getElementById('couple-photo-preview').src;
+    const elPhotoPreview = document.getElementById('couple-photo-preview');
+    const currentPhoto = elPhotoPreview ? elPhotoPreview.src : "";
     if (currentPhoto && !currentPhoto.includes('placeholder') && !currentPhoto.includes('placehold.co')) {
         APP_CONFIG.wedding.photo = currentPhoto;
     } else {
@@ -687,21 +709,21 @@ function saveSettings() {
 
     // UI Styles
     APP_CONFIG.ui.bgAnimation = {
-        enabled: document.getElementById('set-bg-anim-enabled').checked,
-        type: document.getElementById('set-bg-anim-type').value,
-        size: parseFloat(document.getElementById('set-bg-anim-size').value),
-        opacity: parseFloat(document.getElementById('set-bg-anim-opacity').value),
-        color: document.getElementById('set-bg-anim-color').value
+        enabled: document.getElementById('set-bg-anim-enabled') ? document.getElementById('set-bg-anim-enabled').checked : true,
+        type: document.getElementById('set-bg-anim-type') ? document.getElementById('set-bg-anim-type').value : 'particles',
+        size: document.getElementById('set-bg-anim-size') ? parseFloat(document.getElementById('set-bg-anim-size').value) : 15,
+        opacity: document.getElementById('set-bg-anim-opacity') ? parseFloat(document.getElementById('set-bg-anim-opacity').value) : 0.15,
+        color: document.getElementById('set-bg-anim-color') ? document.getElementById('set-bg-anim-color').value : '#6b705c'
     };
-    APP_CONFIG.wedding.location.virtual = document.getElementById('set-virtual-location').value;
+    APP_CONFIG.wedding.location.virtual = document.getElementById('set-virtual-location') ? document.getElementById('set-virtual-location').value : "";
 
     Object.assign(APP_CONFIG.ui, {
-        showCountdown: document.getElementById('set-show-countdown').checked,
-        iconColor: document.getElementById('set-icon-color').value,
-        primaryBlue: document.getElementById('set-primary-blue').value,
-        primaryOlive: document.getElementById('set-primary-olive').value,
-        fontPrimary: document.getElementById('set-font-primary').value,
-        fontScript: document.getElementById('set-font-script').value,
+        showCountdown: document.getElementById('set-show-countdown') ? document.getElementById('set-show-countdown').checked : true,
+        iconColor: document.getElementById('set-icon-color') ? document.getElementById('set-icon-color').value : '#80a040',
+        primaryBlue: document.getElementById('set-primary-blue') ? document.getElementById('set-primary-blue').value : '#93afc2',
+        primaryOlive: document.getElementById('set-primary-olive') ? document.getElementById('set-primary-olive').value : '#6b705c',
+        fontPrimary: document.getElementById('set-font-primary') ? document.getElementById('set-font-primary').value : 'Montserrat',
+        fontScript: document.getElementById('set-font-script') ? document.getElementById('set-font-script').value : 'Great Vibes',
         timelineAlign: document.getElementById('set-timeline-align') ? document.getElementById('set-timeline-align').value : 'center'
     });
 
