@@ -75,6 +75,7 @@ const APP_CONFIG = {
         primaryOlive: "#6b705c",
         fontPrimary: "Montserrat",
         fontScript: "Great Vibes",
+        timelineAlign: "left",
         bgAnimation: {
             enabled: true,
             type: "particles",
