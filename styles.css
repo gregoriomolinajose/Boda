@@ -200,9 +200,8 @@ select {
     align-items: center;
     transition: transform 0.3s ease, background 0.3s ease;
     position: fixed;
-    top: 50%;
-    right: 15px;
-    transform: translateY(-50%);
+    top: 25px;
+    right: 25px;
     z-index: 2000;
 }
 
@@ -212,18 +211,18 @@ select {
 
 @keyframes music-beat {
     0% {
-        transform: translateY(-50%) scale(1);
+        transform: scale(1);
         box-shadow: 0 0 0 0 rgba(107, 142, 35, 0.6);
     }
 
     100% {
-        transform: translateY(-50%) scale(1.1);
+        transform: scale(1.1);
         box-shadow: 0 0 0 12px rgba(107, 142, 35, 0);
     }
 }
 
 .music-btn:hover {
-    transform: translateY(-50%) scale(1.15) !important;
+    transform: scale(1.15) !important;
 }
 
 .eq-container {
