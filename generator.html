@@ -507,6 +507,25 @@
         </div>
     </div>
 
+    <!-- Barra de Navegación Global -->
+    <header class="app-header"
+        style="background: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 15px rgba(0,0,0,0.05); margin-bottom: 30px; position: sticky; top: 0; z-index: 100;">
+        <div class="app-brand"
+            style="font-family: 'Great Vibes', cursive; font-size: 2.2rem; color: var(--primary-blue); line-height: 1;">
+            Bellfy</div>
+        <div class="app-nav" style="display: flex; gap: 15px; align-items: center;">
+            <a href="portal.html" class="btn"
+                style="text-decoration: none; font-size: 0.85rem; background: var(--primary-olive-light); color: var(--primary-olive); padding: 8px 16px; border-radius: 8px; font-weight: 600; display: flex; align-items: center; gap: 8px; border: none; transition: transform 0.2s;">
+                <i class="fas fa-th-large"></i> Mis Eventos
+            </a>
+            <button onclick="handleLogout()" class="btn"
+                style="background: transparent; border: none; color: #888; cursor: pointer; font-size: 1.2rem; padding: 8px; transition: color 0.2s;"
+                title="Cerrar Sesión" onmouseover="this.style.color='#ff4757'" onmouseout="this.style.color='#888'">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </header>
+
     <div class="generator-container">
         <!-- Dashboard Stats -->
         <div class="stats-grid" id="stats-container">
@@ -529,38 +548,26 @@
         </div>
 
         <div class="dashboard-card">
-            <div class="dashboard-header">
+            <div class="dashboard-header"
+                style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
                 <div>
-                    <h2 style="font-size: 1.4rem; margin: 0; color: var(--olive);">Panel de Invitados</h2>
-                    <p style="font-size: 0.8rem; color: #999; margin: 5px 0 0 0;" id="wedding-subtitle">Cargando
+                    <h2 style="font-size: 1.5rem; margin: 0; color: var(--text-dark);">Panel de Invitados</h2>
+                    <p style="font-size: 0.85rem; color: #777; margin: 5px 0 0 0;" id="wedding-subtitle">Cargando
                         datos...</p>
                 </div>
-                <div style="display: flex; gap: 10px; align-items: center;">
-                    <a href="portal.html" class="btn btn-outline"
-                        style="text-decoration: none; font-size: 0.8rem; background: white; color: var(--primary-blue); border: 1px solid var(--primary-blue); padding: 8px 12px; border-radius: 8px;">
-                        <i class="fas fa-th-large"></i> Portal
-                    </a>
-                    <button class="btn"
-                        style="background: transparent; border: 1px solid #ddd; color: #777; padding: 8px 12px; font-size: 0.8rem;"
-                        onclick="handleLogout()" title="Cerrar Sesión">
-                        <i class="fas fa-sign-out-alt"></i>
-                    </button>
+                <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
                     <button class="btn" onclick="openInvitationModal()"
-                        style="margin: 0; padding: 10px 20px; font-size: 0.85rem; background: var(--olive);">
-                        + Nueva Invitación
+                        style="background: var(--primary-blue); color: white; border: none; padding: 10px 20px; font-size: 0.9rem; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); font-weight: 600; display: flex; align-items: center; gap: 8px; transition: transform 0.2s, box-shadow 0.2s;">
+                        <i class="fas fa-plus"></i> Nueva Invitación
                     </button>
-                    <button class="btn btn-olive" onclick="toggleSettings(true)"
-                        style="margin: 0; padding: 10px 20px; font-size: 0.85rem;">
-                        Configuración
+                    <button class="btn" onclick="toggleSettings(true)"
+                        style="background: white; color: var(--text-dark); border: 1px solid #ddd; padding: 10px 20px; font-size: 0.9rem; border-radius: 8px; font-weight: 600; display: flex; align-items: center; gap: 8px; transition: background 0.2s;">
+                        <i class="fas fa-cog"></i> Ajustes
                     </button>
-                    <button class="btn btn-olive" id="refresh-dashboard-btn" onclick="loadDashboard()"
-                        style="padding: 10px;">
-                        <svg id="refresh-icon" width="16" height="16" viewBox="0 0 24 24" fill="none"
-                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M23 4v6h-6"></path>
-                            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
-                        </svg>
-                        Actualizar
+                    <button class="btn" id="refresh-dashboard-btn" onclick="loadDashboard()"
+                        style="background: white; color: #666; border: 1px solid #ddd; padding: 10px; border-radius: 8px; display: flex; align-items: center; justify-content: center; transition: color 0.2s;"
+                        title="Actualizar Datos">
+                        <i class="fas fa-sync-alt" id="refresh-icon"></i>
                     </button>
                     <button class="btn btn-olive" onclick="document.getElementById('bulk-import-input').click()"
                         style="background: #27ae60; border-color: #27ae60;">
