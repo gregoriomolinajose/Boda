@@ -151,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 // Si estamos en el simulador (iframe) o no hay eventId en URL, no intentar guardar en la base de datos real
                 const urlParams = new URL(window.location.href).searchParams;
-                const isPreview = window !== window.parent || !urlParams.get('eventId');
+                const isPreview = window !== window.parent || !urlParams.get('event');
 
                 if (!isPreview) {
                     await store.saveGuest(formData);
