@@ -222,7 +222,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const finalScreen = document.getElementById('final-screen');
             if (finalScreen) {
                 finalScreen.style.display = 'flex';
-                finalScreen.scrollIntoView({ behavior: 'smooth' });
 
                 // Configurar mensaje de sí o no
                 if (event.data.state === 'yes') {
