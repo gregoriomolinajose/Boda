@@ -526,8 +526,8 @@ function renderTimelineUI() {
                     style="border: 2px solid ${iconColor}">
                 <i class="fa-solid ${item.icon}" style="color: ${iconColor}; font-weight: 900;"></i>
             </button>
-            <input type="time" class="set-timeline-time" value="${item.time}">
-            <input type="text" class="set-timeline-activity" value="${item.activity}" placeholder="Actividad">
+            <input type="time" class="set-timeline-time" value="${item.time}" oninput="syncTimelineData(); notifyPreview();">
+            <input type="text" class="set-timeline-activity" value="${item.activity}" placeholder="Actividad" oninput="syncTimelineData(); notifyPreview();">
             <button type="button" class="remove-item" onclick="removeTimelineItem(${index});" aria-label="Eliminar" title="Eliminar actividad">
                 <i class="fa-solid fa-xmark"></i>
             </button>
