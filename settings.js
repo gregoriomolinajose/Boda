@@ -499,7 +499,7 @@ function renderTimelineUI() {
             <div class="timeline-builder-handle">
                 <i class="fas fa-grip-vertical"></i>
             </div>
-            <button class="icon-selector-btn" 
+            <button type="button" class="icon-selector-btn" 
                     onclick="openIconPicker('timeline-icon-${index}')" 
                     id="timeline-icon-${index}" 
                     data-icon="${item.icon}"
@@ -508,7 +508,7 @@ function renderTimelineUI() {
             </button>
             <input type="time" class="set-timeline-time" value="${item.time}">
             <input type="text" class="set-timeline-activity" value="${item.activity}" placeholder="Actividad">
-            <button class="remove-item" onclick="removeTimelineItem(${index}); return false;" aria-label="Eliminar" title="Eliminar actividad">
+            <button type="button" class="remove-item" onclick="removeTimelineItem(${index});" aria-label="Eliminar" title="Eliminar actividad">
                 <i class="fa-solid fa-xmark"></i>
             </button>
         `;
