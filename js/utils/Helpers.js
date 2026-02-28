@@ -98,12 +98,20 @@ export const Helpers = {
     generateCalendarLink: (wedding) => {
         if (!wedding || !wedding.date) return '#';
 
-        const title = encodeURIComponent(wedding.subject || "Nuestra Boda");
+        const cal = wedding.calendar || {};
+        const title = encodeURIComponent(cal.title || wedding.subject || "Nuestra Boda");
         const location = encodeURIComponent(wedding.location?.physical || "");
-        const details = encodeURIComponent(wedding.message || "¡Te esperamos!");
+        const details = encodeURIComponent(cal.description || wedding.message || "¡Te esperamos!");
 
         try {
-            const startDate = new Date(wedding.date);
+            let startDate = new Date(wedding.date);
+
+            if (cal.time) {
+                // Separar la parte de la fecha (YYY-MM-DD) y usar la nueva hora (HH:MM)
+                const datePart = wedding.date.split(' ')[0];
+                startDate = new Date(`${datePart}T${cal.time}`);
+            }
+
             // Asumimos 5 horas de duración por defecto para la boda
             const endDate = new Date(startDate.getTime() + 5 * 60 * 60 * 1000);
 

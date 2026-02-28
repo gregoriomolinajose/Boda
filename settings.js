@@ -111,6 +111,12 @@ function populateSettingsForm() {
     const demoGuest = document.getElementById('set-demo-guest-name');
     if (demoGuest) demoGuest.value = APP_CONFIG.wedding.demoGuestName || "";
 
+    // Calendario
+    const cl = APP_CONFIG.wedding.calendar || {};
+    document.getElementById('set-calendar-title').value = cl.title || "";
+    document.getElementById('set-calendar-description').value = cl.description || "";
+    document.getElementById('set-calendar-time').value = cl.time || "";
+
     // Logística y Detalles
     const dc = APP_CONFIG.wedding.dressCode || {};
     document.getElementById('set-dress-code-show').checked = dc.show !== false;
@@ -355,6 +361,11 @@ function notifyPreview() {
             message: document.getElementById('set-wedding-message').value,
             subject: document.getElementById('set-wedding-subject').value,
             demoGuestName: document.getElementById('set-demo-guest-name').value,
+            calendar: {
+                title: document.getElementById('set-calendar-title').value,
+                description: document.getElementById('set-calendar-description').value,
+                time: document.getElementById('set-calendar-time').value
+            },
             dressCode: {
                 show: document.getElementById('set-dress-code-show').checked,
                 title: document.getElementById('set-dress-code-title').value,
@@ -596,6 +607,11 @@ function saveSettings() {
     }
 
     // Logística y Detalles
+    APP_CONFIG.wedding.calendar = {
+        title: document.getElementById('set-calendar-title').value,
+        description: document.getElementById('set-calendar-description').value,
+        time: document.getElementById('set-calendar-time').value
+    };
     APP_CONFIG.wedding.dressCode = {
         show: document.getElementById('set-dress-code-show').checked,
         title: document.getElementById('set-dress-code-title').value,
