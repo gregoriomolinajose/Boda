@@ -90,5 +90,34 @@ export const Helpers = {
         const year = date.getFullYear();
         const time = date.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit', hour12: true });
         return `${day} de ${month}, ${year}<br>${time.toUpperCase()}`;
+    },
+
+    /**
+     * Genera un enlace de Google Calendar para el evento.
+     */
+    generateCalendarLink: (wedding) => {
+        if (!wedding || !wedding.date) return '#';
+
+        const title = encodeURIComponent(wedding.subject || "Nuestra Boda");
+        const location = encodeURIComponent(wedding.location?.physical || "");
+        const details = encodeURIComponent(wedding.message || "¡Te esperamos!");
+
+        try {
+            const startDate = new Date(wedding.date);
+            // Asumimos 5 horas de duración por defecto para la boda
+            const endDate = new Date(startDate.getTime() + 5 * 60 * 60 * 1000);
+
+            // Formato de fecha requerido por Google Calendar: YYYYMMDDTHHMMSSZ
+            const formatForCalendar = (d) => {
+                return d.toISOString().replace(/-|:|\.\d\d\d/g, "");
+            };
+
+            const dates = `${formatForCalendar(startDate)}/${formatForCalendar(endDate)}`;
+
+            return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${dates}&details=${details}&location=${location}`;
+        } catch (e) {
+            console.error("Error generating calendar link:", e);
+            return '#';
+        }
     }
 };

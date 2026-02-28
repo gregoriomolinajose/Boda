@@ -40,6 +40,12 @@ export class Renderer {
         if (this.domElements.locationPhysical) this.domElements.locationPhysical.innerText = wedding.location?.physical || "";
         if (this.domElements.dateDisplay) this.domElements.dateDisplay.innerHTML = Helpers.formatDisplayDate(wedding.date);
 
+        // Agendar Button (Google Calendar Link)
+        const addToCalendarBtn = document.getElementById('add-to-calendar');
+        if (addToCalendarBtn) {
+            addToCalendarBtn.href = Helpers.generateCalendarLink(wedding);
+        }
+
         // --- RSVP Section ---
         const rsvp = wedding.rsvp || {};
         if (this.domElements.rsvpTitle) this.domElements.rsvpTitle.innerText = rsvp.title || "Confirmar Asistencia";
