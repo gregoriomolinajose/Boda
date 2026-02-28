@@ -205,6 +205,13 @@ document.addEventListener('DOMContentLoaded', () => {
         if (event.data.type === 'UPDATE_CONFIG') {
             store.setState(event.data.config, true); // Forzar skipCloud en la invitación
 
+            // Restaurar visibilidad por si se había simulado el RSVP previo
+            const rsvpSection = document.getElementById('wedding-rsvp-section');
+            if (rsvpSection) rsvpSection.style.display = '';
+
+            const finalScreen = document.getElementById('final-screen');
+            if (finalScreen) finalScreen.style.display = 'none';
+
             // Re-vincular el observador para elementos dinámicamente re-renderizados (como el Itinerario)
             setTimeout(() => {
                 if (window.revealObserver) {
