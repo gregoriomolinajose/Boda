@@ -52,11 +52,11 @@ export class Renderer {
         if (this.domElements.rsvpDescription) this.domElements.rsvpDescription.innerText = rsvp.description || "";
 
         if (this.domElements.wrapperAdults)
-            this.domElements.wrapperAdults.style.display = rsvp.showAdults !== false ? 'block' : 'none';
+            this.domElements.wrapperAdults.style.display = (rsvp.showAdults !== false && String(rsvp.showAdults) !== 'false') ? 'block' : 'none';
         if (this.domElements.wrapperKids)
-            this.domElements.wrapperKids.style.display = rsvp.showKids !== false ? 'block' : 'none';
+            this.domElements.wrapperKids.style.display = (rsvp.showKids !== false && String(rsvp.showKids) !== 'false') ? 'block' : 'none';
         if (this.domElements.wrapperAllergies)
-            this.domElements.wrapperAllergies.style.display = rsvp.showAllergies !== false ? 'block' : 'none';
+            this.domElements.wrapperAllergies.style.display = (rsvp.showAllergies !== false && String(rsvp.showAllergies) !== 'false') ? 'block' : 'none';
 
         // --- Populate RSVP fields from URL data if available ---
         const inputAdults = document.getElementById('adults');

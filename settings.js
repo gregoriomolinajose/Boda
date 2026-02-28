@@ -171,9 +171,9 @@ function populateSettingsForm() {
     const rv = APP_CONFIG.wedding.rsvp || {};
     document.getElementById('set-rsvp-title').value = rv.title || "";
     document.getElementById('set-rsvp-description').value = rv.description || "";
-    document.getElementById('set-rsvp-adults-show').checked = rv.showAdults !== false;
-    document.getElementById('set-rsvp-kids-show').checked = rv.showKids !== false;
-    document.getElementById('set-rsvp-allergies-show').checked = rv.showAllergies !== false;
+    document.getElementById('set-rsvp-adults-show').checked = rv.showAdults !== false && String(rv.showAdults) !== 'false';
+    document.getElementById('set-rsvp-kids-show').checked = rv.showKids !== false && String(rv.showKids) !== 'false';
+    document.getElementById('set-rsvp-allergies-show').checked = rv.showAllergies !== false && String(rv.showAllergies) !== 'false';
 
     // Configuración Mensajes Finales
     const cf = APP_CONFIG.wedding.confirmation || {};
@@ -225,6 +225,7 @@ function populateSettingsForm() {
     inputs.forEach(input => {
         if (input.id !== 'photo-input') {
             input.addEventListener('input', notifyPreview);
+            input.addEventListener('change', notifyPreview);
         }
     });
 
