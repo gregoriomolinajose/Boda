@@ -13,7 +13,16 @@ export class Store {
         this.eventId = eventId;
         this.storageKey = `${storageKey}_${eventId}`;
         this.subscribers = [];
+    }
+
+    /**
+     * Inicializa el Store fusionando datos locales y remotos (Firestore) en un solo flujo predecible.
+     */
+    async initialize() {
         this.loadFromStorage();
+        if (this.eventId !== 'default') {
+            await this.loadFromCloud();
+        }
     }
 
     /**
@@ -127,7 +136,7 @@ export class Store {
                 const cloudData = docSnap.data();
                 this.setState(cloudData, true);
 
-                // Sincronizar con el objeto global si existe
+                // Sincronizar con el objeto global si existe (Refactorizar luego para que sea la única fuente de verdad)
                 if (window.APP_CONFIG) {
                     if (cloudData.wedding) window.APP_CONFIG.wedding = Helpers.deepMerge(window.APP_CONFIG.wedding || {}, cloudData.wedding);
                     if (cloudData.ui) window.APP_CONFIG.ui = Helpers.deepMerge(window.APP_CONFIG.ui || {}, cloudData.ui);

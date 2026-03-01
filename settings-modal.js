@@ -31,7 +31,7 @@ function saveSettings() {
     // Guardar en localStorage para persistencia local
     localStorage.setItem('app_settings', JSON.stringify(APP_CONFIG));
 
-    Utils.showToast('toast-container', 'Configuración guardada correctamente. Algunos cambios pueden requerir recargar la página.');
+    window.NotificationService.showToast('Configuración guardada correctamente. Algunos cambios pueden requerir recargar la página.');
     closeSettingsModal();
 }
 
@@ -51,3 +51,8 @@ function loadPersistedSettings() {
 
 // Cargar configuración al inicio del script
 loadPersistedSettings();
+
+// Exponer al objeto window para compresión Vite / módulos
+window.openSettingsModal = openSettingsModal;
+window.closeSettingsModal = closeSettingsModal;
+window.saveSettings = saveSettings;
