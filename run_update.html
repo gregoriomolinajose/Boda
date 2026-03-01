@@ -8,11 +8,12 @@
 
 <body>
     <h1>Actualizando Propietario de Evento...</h1>
-    <p id="status">Iniciando...</p>
+    <p id="status">Verificando sesión activa...</p>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, getDocs, query, where, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAsbrZn2FEKiIweJTBS0q09HyEfgQdTiE8",
@@ -22,21 +23,12 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const auth = getAuth(app);
         const statusEl = document.getElementById("status");
 
-        async function updateEvents() {
+        async function updateEvents(uid) {
             try {
-                statusEl.innerText = "Buscando usuario gregoriomolinajose@gmail.com...";
-                const q = query(collection(db, "users"), where("email", "==", "gregoriomolinajose@gmail.com"));
-                const querySnapshot = await getDocs(q);
-
-                if (querySnapshot.empty) {
-                    statusEl.innerText = "Error: Usuario no encontrado en la colección 'users'.";
-                    return;
-                }
-
-                const uid = querySnapshot.docs[0].id;
-                statusEl.innerText = "UID encontrado: " + uid + ". Buscando eventos...";
+                statusEl.innerText = "Surgió sesión con UID: " + uid + ". Buscando eventos para asignar...";
 
                 const eventsSnapshot = await getDocs(collection(db, "events"));
                 const promises = [];
@@ -46,14 +38,20 @@
                 });
 
                 await Promise.all(promises);
-                statusEl.innerText = "¡Éxito! Todos los eventos han sido asignados al UID: " + uid;
+                statusEl.innerText = "¡Éxito! Todos los eventos en la base de datos ahora te pertenecen. Revisa tu panel (portal.html).";
             } catch (error) {
                 statusEl.innerText = "Error crítico: " + error.message;
                 console.error(error);
             }
         }
 
-        updateEvents();
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                updateEvents(user.uid);
+            } else {
+                statusEl.innerText = "Error: No estás logueado en este navegador. Primero ve a login.html o portal.html e inicia sesión.";
+            }
+        });
     </script>
 </body>
 
