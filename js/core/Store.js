@@ -1,5 +1,5 @@
 import {
-    doc, setDoc, getDoc, collection, getDocs, deleteDoc, updateDoc, query, orderBy, serverTimestamp
+    doc, setDoc, getDoc, collection, getDocs, deleteDoc, updateDoc, query, orderBy, serverTimestamp, where
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 import { db } from "./Firebase.js";
 import { Helpers } from "../utils/Helpers.js";
@@ -217,12 +217,18 @@ export class Store {
     // ==========================================
 
     /**
-     * Lista todos los eventos registrados.
+     * Lista todos los eventos registrados para un usuario específico.
+     * @param {string} userId El ID del usuario autenticado.
      */
-    static async getEvents() {
+    static async getEvents(userId) {
+        if (!userId) {
+            console.error("Se requiere un userId para obtener los eventos.");
+            return [];
+        }
         try {
             const eventsCol = collection(db, "events");
-            const snapshot = await getDocs(eventsCol);
+            const q = query(eventsCol, where("userId", "==", userId));
+            const snapshot = await getDocs(q);
             return snapshot.docs.map(doc => ({
                 id: doc.id,
                 ...doc.data()
@@ -234,9 +240,12 @@ export class Store {
     }
 
     /**
-     * Genera un nuevo evento inicial en la base de datos.
+     * Genera un nuevo evento inicial en la base de datos asociado a un usuario.
      */
-    static async createEvent(id, name, type = 'wedding') {
+    static async createEvent(id, name, type = 'wedding', userId) {
+        if (!userId) {
+            throw new Error("Se requiere un userId para crear un evento.");
+        }
         try {
             const docRef = doc(db, "events", id);
             const initialConfig = {
@@ -250,6 +259,7 @@ export class Store {
                     location: { physical: "Barolo 8C Chapalita" }
                 },
                 ui: { showCountdown: true },
+                userId: userId,
                 createdAt: serverTimestamp()
             };
             await setDoc(docRef, initialConfig);
