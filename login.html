@@ -200,6 +200,19 @@
             }
         };
 
+        // Revisar si venimos de un redireccionamiento de Google Auth
+        document.addEventListener('DOMContentLoaded', async () => {
+            const loading = document.getElementById('loading');
+            loading.style.display = 'flex';
+            try {
+                await Auth.checkRedirectResult();
+            } catch (err) {
+                alert("Error al procesar el inicio de sesión. Por favor intenta de nuevo.");
+            } finally {
+                loading.style.display = 'none';
+            }
+        });
+
         // Redirigir si ya tiene sesión activa
         Auth.onSessionChange((user) => {
             if (user) {
@@ -213,10 +226,10 @@
 
             try {
                 await Auth.loginWithGoogle();
-                // onAuthStateChanged se encargará de la redirección
+                // El navegador se redirigirá a Google y volverá a esta misma página.
             } catch (err) {
                 loading.style.display = 'none';
-                alert("Error al iniciar sesión con Google. Por favor intenta de nuevo.");
+                alert("Error al intentar iniciar sesión con Google.");
             }
         };
     </script>
