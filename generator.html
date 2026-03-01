@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <title>Generador de Invitaciones - Dora & Gregorio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+  <script type="module" crossorigin src="./assets/generator-DGRt8fiD.js"></script>
+  <link rel="modulepreload" crossorigin href="./assets/Firebase-C_lFSCaV.js">
+  <link rel="modulepreload" crossorigin href="./assets/config.js_v_1.9-DMxjU1_X.js">
+  <link rel="modulepreload" crossorigin href="./assets/Store-R29y0pfM.js">
+  <link rel="modulepreload" crossorigin href="./assets/Auth-CxWgCIcJ.js">
+  <link rel="stylesheet" crossorigin href="./assets/Firebase-CwWNX_i3.css">
+</head>
+
+<body class="generator-body">
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- Modal Formulario Invitación -->
+    <div id="modal-invitation" class="modal-overlay">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeInvitationModal()">&times;</span>
+            <h1 id="modal-title">Nueva Invitación</h1>
+            <input type="hidden" id="edit-id">
+            <div class="form-group" id="group-guestName">
+                <label>Nombre de la Familia / Invitados</label>
+                <input type="text" id="guestName" placeholder="Ej: Familia Molina">
+                <span class="error-msg">Por favor ingresa un nombre</span>
+                <p style="font-size: 0.7rem; color: #999; margin-top: 5px;">* El sistema asignará un identificador único
+                    automáticamente.</p>
+            </div>
+            <div class="form-group">
+                <label>N° de Adultos (Cupos)</label>
+                <input type="number" id="adults" value="2" min="1">
+            </div>
+            <div class="form-group">
+                <label>N° de Niños (Cupos)</label>
+                <input type="number" id="kids" value="0" min="0">
+            </div>
+            <div class="form-group">
+                <label>Tipo de Invitación</label>
+                <div class="modal-selector">
+                    <div class="modal-option">
+                        <input type="radio" name="inv-type" id="type-f" value="f" checked>
+                        <label for="type-f">Física</label>
+                    </div>
+                    <div class="modal-option">
+                        <input type="radio" name="inv-type" id="type-d" value="d">
+                        <label for="type-d">Digital</label>
+                    </div>
+                </div>
+            </div>
+            <button class="btn" id="generate-btn" onclick="generateInvitationLink()">Generar e Inscribir</button>
+
+            <div id="result" style="display:none; margin-top: 20px;">
+                <p><strong>Link Personalizado:</strong></p>
+                <div id="link-display"
+                    style="word-break: break-all; padding: 10px; background: #f0f0f0; margin: 10px 0;"></div>
+                <button class="copy-btn btn" onclick="copyGeneratedLink(event)">Copiar Link</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sección de Configuración (Pantalla Completa) -->
+    <div id="settings-page">
+        <div class="settings-header">
+            <h1 style="margin:0; color:var(--primary-olive);">Configuración del Sistema</h1>
+            <button class="btn btn-primary" onclick="toggleSettings(false)">
+                <i class="fas fa-arrow-left"></i> Volver al Panel
+            </button>
+        </div>
+
+        <div class="settings-content-wrapper">
+            <div class="settings-form-column">
+                <div class="settings-container">
+                    <div class="settings-section-title">
+                        <i class="fas fa-calendar-alt"></i> Información del Evento
+                    </div>
+
+                    <div class="photo-upload-container"
+                        style="border-top: 1px dashed #ddd; border-radius: 12px; margin-bottom: 20px;">
+                        <div class="photo-preview-box" id="couple-photo-preview-box">
+                            <img id="couple-photo-preview" src="https://placehold.co/600x600?text=Subir+Foto"
+                                alt="Foto Novios" style="max-width: 100%; border-radius: 8px;">
+                        </div>
+                        <div class="photo-upload-controls"
+                            style="margin-top: 15px; display: flex; flex-direction: column; gap: 10px;">
+                            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                                <label for="photo-input" class="btn btn-primary"
+                                    style="margin: 0; flex: 1; text-align: center; white-space: nowrap;">
+                                    <i class="fas fa-upload"></i> Subir Nueva
+                                </label>
+                                <button class="btn btn-olive" onclick="reEditPhoto()"
+                                    style="margin: 0; flex: 1; white-space: nowrap;">
+                                    <i class="fas fa-edit"></i> Editar
+                                </button>
+                                <button class="btn btn-danger" onclick="deletePhoto()"
+                                    style="margin: 0; flex: 1; white-space: nowrap;">
+                                    <i class="fas fa-trash-alt"></i> Borrar
+                                </button>
+                            </div>
+                            <input type="file" id="photo-input" accept="image/*" style="display: none;">
+                            <p class="help-text" style="font-size: 0.75rem; color: #777;">JPG o PNG. Se recomienda
+                                formato vertical 4:5.</p>
+                        </div>
+                    </div>
+                    <div class="settings-grid">
+                        <div class="form-group">
+                            <label>Anfitriones</label>
+                            <input type="text" id="set-wedding-names" placeholder="Ej: Dora & Gregorio">
+                        </div>
+                        <div class="form-group">
+                            <label>Fecha del Evento</label>
+                            <input type="date" id="set-wedding-date-picker">
+                        </div>
+                        <div class="form-group">
+                            <label>Hora del Evento</label>
+                            <input type="time" id="set-wedding-time-picker">
+                        </div>
+                        <div class="form-group">
+                            <label>Ubicación Física</label>
+                            <input type="text" id="set-physical-location">
+                        </div>
+                        <div class="form-group">
+                            <label>Ubicación Virtual</label>
+                            <input type="text" id="set-virtual-location">
+                        </div>
+                    </div>
+
+                    <div class="settings-section-title">
+                        <i class="fas fa-comment-dots"></i> Palabras del anfitrión (Detalle del evento y contador)
+                    </div>
+                    <div class="settings-grid">
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label>Motivo del Evento (Título Principal)</label>
+                            <input type="text" id="set-wedding-subject" placeholder="Ej: Nuestra Boda">
+                        </div>
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label>Invitado (Demostración)</label>
+                            <input type="text" id="set-demo-guest-name" placeholder="Ej: Juan Pérez">
+                            <p class="help-text" style="font-size: 0.75rem; color: #777; margin-top: 5px;">Este campo es
+                                solo demostrativo para ver cómo luce el nombre. Los nombres reales se generan al crear
+                                cada invitación.</p>
+                        </div>
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label>Mensaje de Bienvenida (Detalle del Evento)</label>
+                            <textarea id="set-wedding-message" class="form-input" rows="3"
+                                placeholder="Ej: Nos encantaría que seas parte de este momento tan especial..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label style="display: flex; align-items: center; gap: 10px;">
+                                Activador del contador
+                                <label class="switch">
+                                    <input type="checkbox" id="set-show-countdown">
+                                    <span class="slider"></span>
+                                </label>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="settings-section-title">
+                        <i class="fas fa-clock"></i> Itinerario (Timeline)
+                        <div style="margin-left: auto; display: flex; gap: 10px; align-items: center;">
+                            <select id="set-timeline-align" class="form-input"
+                                style="padding: 5px; font-size: 0.7rem; width: auto; margin: 0; min-height: unset;">
+                                <option value="left">Alineación Izquierda</option>
+                                <option value="center" selected>Alineación Centro</option>
+                                <option value="right">Alineación Derecha</option>
+                            </select>
+                            <button class="btn btn-olive" style="padding: 5px 15px; font-size: 0.7rem; margin: 0;"
+                                onclick="addTimelineItem()">
+                                + Añadir Actividad
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="timeline-builder-container">
+                        <!-- Se poblará dinámicamente -->
+                    </div>
+
+                    <div class="settings-section-title">
+                        <i class="fas fa-calendar-plus"></i> Detalles de Agenda (Google Calendar)
+                    </div>
+                    <div class="settings-grid">
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label>Título del Evento en Calendar</label>
+                            <input type="text" id="set-calendar-title" placeholder="Ej: Boda Dora & Gregorio">
+                        </div>
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label>Descripción para Calendar</label>
+                            <textarea id="set-calendar-description" class="form-input" rows="2"
+                                placeholder="Ej: ¡Acompáñanos a celebrar nuestra boda!"></textarea>
+                        </div>
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label>Hora para Calendar</label>
+                            <input type="time" id="set-calendar-time">
+                            <p class="help-text" style="font-size: 0.75rem; color: #777; margin-top: 5px;">Se usará la
+                                misma "Fecha del Evento" principal junto con esta hora.</p>
+                        </div>
+                    </div>
+
+                    <div class="settings-section-title">
+                        <i class="fas fa-truck-loading"></i> Vestimenta y Regalos
+                    </div>
+                    <div class="settings-grid">
+                        <!-- Código de Vestimenta -->
+                        <div class="form-group"
+                            style="grid-column: span 2; border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 5px;">
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <label style="margin: 0; font-weight: bold;">Código de Vestimenta</label>
+                                <label class="switch">
+                                    <input type="checkbox" id="set-dress-code-show" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="settings-grid" style="padding: 0;">
+                                <div class="form-group">
+                                    <label>Título</label>
+                                    <input type="text" id="set-dress-code-title" placeholder="Código de vestimenta">
+                                </div>
+                                <div class="form-group">
+                                    <label>Descripción</label>
+                                    <input type="text" id="set-dress-code-description" placeholder="Formal Cocktail">
+                                </div>
+                                <div class="form-group" style="grid-column: span 2;">
+                                    <label>Tip (Recomendación)</label>
+                                    <input type="text" id="set-dress-code-tip" placeholder="¡Luce tu mejor look!">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Regalos -->
+                        <div class="form-group" style="grid-column: span 2;">
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <label style="margin: 0; font-weight: bold;">Regalos</label>
+                                <label class="switch">
+                                    <input type="checkbox" id="set-gifts-show" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <div class="form-group">
+                                <label>Título</label>
+                                <input type="text" id="set-gifts-title" placeholder="Regalos">
+                            </div>
+                            <div class="form-group" style="margin-top: 5px;">
+                                <label>Descripción / Mensaje</label>
+                                <textarea id="set-gifts-description" class="form-input" rows="2"
+                                    placeholder="Lo más importante es tu presencia..."></textarea>
+                            </div>
+
+                            <!-- Mesa de Regalos -->
+                            <div style="margin-top: 15px; border-top: 1px solid #eee; padding-top: 10px;">
+                                <div
+                                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                                    <label style="margin: 0; font-size: 0.9rem;">Mesa de Regalos</label>
+                                    <label class="switch">
+                                        <input type="checkbox" id="set-registry-show" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" id="set-registry-url"
+                                        placeholder="https://www.amazon.com.mx/wedding/..."
+                                        style="font-size: 0.85rem; padding: 10px;">
+                                </div>
+                            </div>
+
+                            <!-- Datos Bancarios -->
+                            <div style="margin-top: 10px;">
+                                <div
+                                    style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+                                    <label style="margin: 0; font-size: 0.9rem;">Datos Bancarios</label>
+                                    <label class="switch">
+                                        <input type="checkbox" id="set-bank-show" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="form-group">
+                                    <textarea id="set-bank-details" class="form-input" rows="3"
+                                        placeholder="Banco: ...&#10;Cuenta: ...&#10;CLABE: ..."
+                                        style="font-size: 0.85rem; padding: 10px;"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section-title">
+                        <i class="fas fa-images"></i> Galería y Álbum
+                    </div>
+                    <div class="settings-grid">
+                        <!-- Título y Descripción -->
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label>Título de la Sección</label>
+                            <input type="text" id="set-gallery-title" placeholder="¡Captura los Mejores Momentos!">
+                        </div>
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label>Descripción / Invitación</label>
+                            <textarea id="set-gallery-description" class="form-input" rows="2"
+                                placeholder="Queremos revivir este día tan especial..."></textarea>
+                        </div>
+
+                        <!-- Botón Subir Fotos -->
+                        <div class="form-group">
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <label style="margin: 0; font-weight: bold;">Botón "Subir Fotos"</label>
+                                <label class="switch">
+                                    <input type="checkbox" id="set-upload-show" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <label>Enlace (URL)</label>
+                            <input type="text" id="set-upload-url" placeholder="https://photos.app.goo.gl/...">
+                        </div>
+
+                        <!-- Botón Ver Álbum -->
+                        <div class="form-group">
+                            <div
+                                style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                                <label style="margin: 0; font-weight: bold;">Botón "Ver Álbum"</label>
+                                <label class="switch">
+                                    <input type="checkbox" id="set-album-show" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            <label>Enlace (URL)</label>
+                            <input type="text" id="set-album-url" placeholder="https://photos.app.goo.gl/...">
+                        </div>
+                    </div>
+
+                    <div class="settings-section-title">
+                        <i class="fas fa-check-circle"></i> Configuración RSVP
+                    </div>
+                    <div class="settings-grid">
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label>Título de la Sección</label>
+                            <input type="text" id="set-rsvp-title" placeholder="Confirmar Asistencia">
+                        </div>
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label>Descripción / Invitación</label>
+                            <textarea id="set-rsvp-description" class="form-input" rows="2"
+                                placeholder="Por favor, confirma tu asistencia..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="switch-container">
+                                <span>Mostrar campo Adultos</span>
+                                <label class="switch">
+                                    <input type="checkbox" id="set-rsvp-adults-show" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <label class="switch-container">
+                                <span>Mostrar campo Niños</span>
+                                <label class="switch">
+                                    <input type="checkbox" id="set-rsvp-kids-show" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </label>
+                        </div>
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label class="switch-container">
+                                <span>Mostrar campo Alergias</span>
+                                <label class="switch">
+                                    <input type="checkbox" id="set-rsvp-allergies-show" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="settings-section-title">
+                        <i class="fas fa-envelope-open-text"></i> Configuración Mensajes Finales
+                    </div>
+                    <div class="settings-grid">
+                        <!-- Al Confirmar -->
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label style="font-weight: bold; color: var(--primary-olive);">Al Confirmar Asistencia
+                                (SÍ)</label>
+                        </div>
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label>Título Final</label>
+                            <input type="text" id="set-final-title-yes" placeholder="Te esperamos">
+                        </div>
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label>Descripción / Mensaje Adicional</label>
+                            <textarea id="set-final-desc-yes" class="form-input" rows="2"
+                                placeholder="¡Nos hace muy felices contar contigo!"></textarea>
+                        </div>
+
+                        <!-- Al Cancelar -->
+                        <div class="form-group" style="grid-column: span 2; margin-top: 15px;">
+                            <label style="font-weight: bold; color: #d9534f;">Al Cancelar Asistencia (NO)</label>
+                        </div>
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label>Título Final</label>
+                            <input type="text" id="set-final-title-no" placeholder="¡Te extrañaremos!">
+                        </div>
+                        <div class="form-group" style="grid-column: span 2;">
+                            <label>Descripción / Mensaje de Despedida</label>
+                            <textarea id="set-final-desc-no" class="form-input" rows="3"
+                                placeholder="Valoramos mucho tu cariño..."></textarea>
+                        </div>
+
+                        <!-- Botones de Simulación -->
+                        <div class="form-group"
+                            style="grid-column: span 2; display: flex; gap: 10px; margin-top: 10px;">
+                            <button type="button" class="action-btn" onclick="simulatePreviewRsvp('yes')"
+                                style="flex: 1; background-color: var(--primary-olive); font-size: 0.85rem;">
+                                <i class="fas fa-eye"></i> Simular Confirmación (SÍ)
+                            </button>
+                            <button type="button" class="action-btn" onclick="simulatePreviewRsvp('no')"
+                                style="flex: 1; background-color: #d9534f; font-size: 0.85rem;">
+                                <i class="fas fa-eye-slash"></i> Simular Cancelación (NO)
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="settings-section-title">
+                        <i class="fas fa-magic"></i> Fondo y Ambiente
+                    </div>
+                    <div class="settings-grid">
+                        <div class="form-group">
+                            <label style="display: flex; align-items: center; gap: 10px;">
+                                Activar fondo animado
+                                <label class="switch">
+                                    <input type="checkbox" id="set-bg-anim-enabled" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </label>
+                            <p class="help-text" style="font-size: 0.75rem; color: #777; margin-top: 5px;">Habilita
+                                círculos suaves flotando en el fondo.</p>
+                        </div>
+                        <div class="form-group">
+                            <label>Tipo de Efecto</label>
+                            <select id="set-bg-anim-type" class="form-input" style="padding: 8px;">
+                                <option value="particles">Partículas Suaves</option>
+                                <option value="none">Sin animación</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Tamaño de Partículas</label>
+                            <input type="range" id="set-bg-anim-size" min="2" max="50" value="15" class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label>Opacidad</label>
+                            <input type="range" id="set-bg-anim-opacity" min="0" max="1" step="0.05" value="0.15"
+                                class="form-input">
+                        </div>
+                        <div class="form-group">
+                            <label>Color de Partículas</label>
+                            <input type="color" id="set-bg-anim-color" value="#6b705c" class="form-input"
+                                style="padding: 0; height: 40px;">
+                        </div>
+                    </div>
+
+                    <div class="settings-section-title">
+                        <i class="fas fa-palette"></i> Estilos y Colores
+                    </div>
+                    <div class="settings-grid">
+                        <div class="form-group">
+                            <label>Color Principal (Azul)</label>
+                            <input type="color" id="set-primary-blue" value="#93afc2">
+                        </div>
+                        <div class="form-group">
+                            <label>Color de Detalles (Olivo)</label>
+                            <input type="color" id="set-primary-olive" value="#6b705c">
+                        </div>
+                        <div class="form-group">
+                            <label>Color de Iconos (Timeline)</label>
+                            <input type="color" id="set-icon-color" value="#80a040">
+                        </div>
+                        <div class="form-group">
+                            <label>Tipografía Principal</label>
+                            <select id="set-font-primary" class="form-input" style="padding: 8px;">
+                                <option value="Montserrat">Montserrat (Moderna)</option>
+                                <option value="Playfair Display">Playfair Display (Serif Elegante)</option>
+                                <option value="Lora">Lora (Clásica)</option>
+                                <option value="Roboto">Roboto (Limpia)</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Tipografía Script (Nombres)</label>
+                            <select id="set-font-script" class="form-input" style="padding: 8px;">
+                                <option value="Great Vibes">Great Vibes (Fluida)</option>
+                                <option value="Dancing Script">Dancing Script (Casual)</option>
+                                <option value="Alex Brush">Alex Brush (Clásica)</option>
+                                <option value="Pacifico">Pacifico (Retro)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div style="margin-top: 40px; display: flex; gap: 20px;">
+                        <button class="btn btn-olive" style="flex: 2; padding: 15px;" onclick="saveSettings()">
+                            Guardar Cambios
+                        </button>
+                        <button class="btn btn-danger" style="flex: 1; padding: 15px;" onclick="toggleSettings(false)">
+                            Cancelar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Columna de Vista Previa Móvil -->
+            <div class="settings-preview-column">
+                <div class="mobile-frame">
+                    <iframe id="preview-iframe" src="index.html"></iframe>
+                </div>
+                <p style="text-align:center; color:#999; margin-top:15px; font-size:0.8rem;">
+                    <i class="fas fa-mobile-alt"></i> Vista Previa en Tiempo Real
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Selector de Iconos -->
+    <div id="modal-icon-picker" class="modal-overlay" style="z-index: 5000;">
+        <div class="modal-content" style="max-width: 500px;">
+            <span class="modal-close" onclick="closeIconPicker()">&times;</span>
+            <h2 style="margin-bottom: 20px;">Seleccionar Icono</h2>
+            <div class="icon-picker-grid" id="icon-grid">
+                <!-- Iconos se cargarán aquí -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Barra de Navegación Global -->
+    <header class="app-header"
+        style="background: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 15px rgba(0,0,0,0.05); margin-bottom: 30px; position: sticky; top: 0; z-index: 100;">
+        <div class="app-brand"
+            style="font-family: 'Great Vibes', cursive; font-size: 2.2rem; margin:0; padding:0; line-height: 1; color: #5a7d9a;">
+            Bellfy</div>
+        <div class="app-nav" style="display: flex; gap: 15px; align-items: center;">
+            <a href="portal.html" class="btn"
+                style="text-decoration: none; font-size: 0.85rem; background: #e9ecef; color: #495057; padding: 8px 16px; border-radius: 8px; font-weight: 600; display: flex; align-items: center; gap: 8px; border: none; transition: transform 0.2s;">
+                <i class="fas fa-th-large" style="color: #495057;"></i> Mis Eventos
+            </a>
+            <button onclick="handleLogout()" class="btn"
+                style="background: transparent; border: none; color: #495057; cursor: pointer; font-size: 1.2rem; padding: 8px; transition: color 0.2s;"
+                title="Cerrar Sesión" onmouseover="this.style.color='#dc3545'" onmouseout="this.style.color='#495057'">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+    </header>
+
+    <div class="generator-container">
+        <!-- Dashboard Stats -->
+        <div class="stats-grid" id="stats-container">
+            <div class="stat-card">
+                <span class="stat-value" id="stat-ratio-adults">0 / 0</span>
+                <span class="stat-label">Adultos Confirmados</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value" id="stat-ratio-kids">0 / 0</span>
+                <span class="stat-label">Niños Confirmados</span>
+            </div>
+            <div class="stat-card">
+                <span class="stat-value" id="stat-ratio-declined">0 / 0</span>
+                <span class="stat-label">Invitaciones Rechazadas</span>
+            </div>
+            <div class="stat-card" style="border-bottom: 3px solid #5a7d9a;">
+                <span class="stat-value" id="stat-ratio-accepted">0 / 0</span>
+                <span class="stat-label">Invitaciones Aceptadas</span>
+            </div>
+        </div>
+
+        <div class="dashboard-card">
+            <div class="dashboard-header"
+                style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
+                <div>
+                    <h2 style="font-size: 1.5rem; margin: 0; color: #343a40;">Panel de Invitados</h2>
+                    <p style="font-size: 0.85rem; color: #6c757d; margin: 5px 0 0 0;" id="wedding-subtitle">Cargando
+                        datos...</p>
+                </div>
+                <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                    <button class="btn" onclick="openInvitationModal()"
+                        style="background: #5a7d9a; color: white; border: none; padding: 10px 20px; font-size: 0.9rem; border-radius: 8px; box-shadow: 0 4px 10px rgba(90, 125, 154, 0.2); font-weight: 600; display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-plus"></i> Nueva Invitación
+                    </button>
+                    <button class="btn" onclick="toggleSettings(true)"
+                        style="background: white; color: #343a40; border: 1px solid #ced4da; padding: 10px 20px; font-size: 0.9rem; border-radius: 8px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-cog" style="color: #6c757d;"></i> Ajustes
+                    </button>
+                    <button class="btn" id="refresh-dashboard-btn" onclick="loadDashboard()"
+                        style="background: white; color: #343a40; border: 1px solid #ced4da; padding: 10px; border-radius: 8px; display: flex; align-items: center; justify-content: center;"
+                        title="Actualizar Datos">
+                        <i class="fas fa-sync-alt" id="refresh-icon" style="color: #6c757d;"></i>
+                    </button>
+                    <button class="btn btn-olive" onclick="document.getElementById('bulk-import-input').click()"
+                        style="background: #28a745; color: white; border: none; padding: 10px 20px; font-size: 0.9rem; border-radius: 8px; font-weight: 600; display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-file-csv"></i> Importar CSV
+                    </button>
+                    <input type="file" id="bulk-import-input" accept=".csv" style="display: none;"
+                        onchange="handleBulkImport(event)">
+                </div>
+            </div>
+
+            <div class="dashboard-tools">
+                <div class="search-container">
+                    <input type="text" id="dashboard-search" class="search-input"
+                        placeholder="Buscar invitado por nombre..." oninput="filterDashboard()">
+                </div>
+            </div>
+
+            <div id="loading" class="loading-spinner">Cargando datos...</div>
+
+            <div class="table-container">
+                <table id="main-table">
+                    <thead>
+                        <tr>
+                            <th class="sortable" onclick="sortByColumn('index')">#</th>
+                            <th class="sortable" onclick="sortByColumn('Fecha/Hora')">Fecha/Hora</th>
+                            <th class="sortable" onclick="sortByColumn('Invitado')">Invitado</th>
+                            <th class="sortable" onclick="sortByColumn('Asistencia')">Estado</th>
+                            <th class="sortable" onclick="sortByColumn('Adultos')">Adul.</th>
+                            <th class="sortable" onclick="sortByColumn('Niños')">Niños</th>
+                            <th>Activo</th>
+                            <th>Link</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="guest-table-body"></tbody>
+                </table>
+            </div>
+
+            <div id="pagination" class="pagination-container"></div>
+        </div>
+    </div>
+
+    <!-- Modal Recorte de Foto -->
+    <div id="modal-cropper" class="modal-overlay" style="z-index: 5000;">
+        <div class="modal-content" style="max-width: 600px;">
+            <div class="cropper-modern-header">
+                <div class="cropper-back" onclick="closeCropper()"><i class="fas fa-arrow-left"></i></div>
+                <div class="cropper-title">Recortar</div>
+                <div class="cropper-next" onclick="applyCrop()">Siguiente</div>
+            </div>
+            <div class="cropper-container">
+                <img id="cropper-image" src="" style="max-width: 100%;">
+
+                <!-- Selector de Proporción -->
+                <div class="cropper-ratio-menu">
+                    <div class="ratio-toggle-btn" onclick="toggleRatioMenu()" title="Cambiar Proporción">
+                        <i class="fas fa-expand"></i>
+                    </div>
+                    <div class="ratio-options" id="ratio-options">
+                        <div class="ratio-btn" onclick="setCropRatio(NaN, 'Original', this)">
+                            <div class="ratio-icon r-free"></div> Original
+                        </div>
+                        <div class="ratio-btn" onclick="setCropRatio(1, '1:1', this)">
+                            <div class="ratio-icon r-1-1"></div> 1:1
+                        </div>
+                        <div class="ratio-btn active" id="default-ratio-btn" onclick="setCropRatio(0.8, '4:5', this)">
+                            <div class="ratio-icon r-4-5"></div> 4:5
+                        </div>
+                        <div class="ratio-btn" onclick="setCropRatio(1.7777, '16:9', this)">
+                            <div class="ratio-icon r-16-9"></div> 16:9
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Control de Zoom Moderno -->
+                <div class="cropper-zoom-container">
+                    <i class="fas fa-search-plus" style="color: white; font-size: 0.8rem; opacity: 0.8;"></i>
+                    <input type="range" id="cropper-zoom-slider" min="0" max="1" step="0.01" value="0">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts Modulares -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+
+    <script>
+        window.onload = () => {
+            const subtitle = document.getElementById('wedding-subtitle');
+            if (subtitle) subtitle.innerText = `${APP_CONFIG.wedding.names} - ${APP_CONFIG.wedding.date}`;
+            loadDashboard();
+        };
+    </script>
+</body>
+
+</html>

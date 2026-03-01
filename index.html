@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Invitación Oficial a la Boda de Dora & Gregorio">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <title>Boda Dora & Gregorio</title>
+
+    <!-- Google Fonts: Great Vibes (Script) & Montserrat (Sans Serif) -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@200;300;400;600&display=swap"
+        rel="stylesheet">
+
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Lottie Player -->
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+  <script type="module" crossorigin src="./assets/main-DOlK7jh4.js"></script>
+  <link rel="modulepreload" crossorigin href="./assets/Firebase-C_lFSCaV.js">
+  <link rel="modulepreload" crossorigin href="./assets/config.js_v_1.9-DMxjU1_X.js">
+  <link rel="modulepreload" crossorigin href="./assets/Store-R29y0pfM.js">
+  <link rel="stylesheet" crossorigin href="./assets/Firebase-CwWNX_i3.css">
+</head>
+
+<body>
+    <!-- Partículas de fondo -->
+    <div id="particles-container" aria-hidden="true"></div>
+
+    <!-- Capa de Bienvenida -->
+    <div id="splash" aria-hidden="false">
+        <!-- Decoración Floral: Rama Olivo Superior Izquierda -->
+        <div class="floral-deco top-left" aria-hidden="true">
+            <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+                <!-- Rama principal -->
+                <path d="M0,0 Q20,10 40,40 T70,70" fill="none" stroke="#6b8e23" stroke-width="1.2" />
+                <!-- Rama secundaria -->
+                <path d="M0,5 Q15,20 30,50" fill="none" stroke="#6b8e23" stroke-width="0.8" opacity="0.7" />
+
+                <!-- Hojas rama principal -->
+                <ellipse cx="12" cy="6" rx="2.5" ry="5.5" fill="#80a040" transform="rotate(-35 12 6)" />
+                <ellipse cx="18" cy="12" rx="2.5" ry="5" fill="#8cb34d" transform="rotate(-15 18 12)" />
+                <ellipse cx="28" cy="20" rx="3" ry="6" fill="#80a040" transform="rotate(-25 28 20)" />
+                <ellipse cx="34" cy="28" rx="2.8" ry="5.5" fill="#8cb34d" transform="rotate(-5 34 28)" />
+                <ellipse cx="45" cy="40" rx="3" ry="6" fill="#80a040" transform="rotate(-15 45 40)" />
+                <ellipse cx="52" cy="48" rx="2.5" ry="5" fill="#8cb34d" transform="rotate(10 52 48)" />
+                <ellipse cx="62" cy="60" rx="3" ry="6" fill="#80a040" transform="rotate(20 62 60)" />
+                <ellipse cx="68" cy="68" rx="2" ry="4.5" fill="#8cb34d" transform="rotate(35 68 68)" />
+
+                <!-- Hojas rama secundaria (Frondosidad extra) -->
+                <ellipse cx="5" cy="15" rx="2" ry="4" fill="#95b85a" transform="rotate(-50 5 15)" />
+                <ellipse cx="14" cy="25" rx="2.2" ry="4.5" fill="#80a040" transform="rotate(-40 14 25)" />
+                <ellipse cx="24" cy="38" rx="2" ry="4" fill="#95b85a" transform="rotate(-30 24 38)" />
+            </svg>
+        </div>
+
+        <h1 class="elegant-script" id="host-names-splash">Dora & Gregorio</h1>
+        <button class="action-btn" id="enter-site" aria-label="Abrir invitación y reproducir música">Abrir</button>
+
+        <!-- Decoración Floral: Rama Olivo Inferior Derecha -->
+        <div class="floral-deco bottom-right" aria-hidden="true">
+            <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+                <!-- Rama principal -->
+                <path d="M100,100 Q80,90 60,60 T30,30" fill="none" stroke="#6b8e23" stroke-width="1.2" />
+                <!-- Rama secundaria -->
+                <path d="M95,100 Q85,80 70,50" fill="none" stroke="#6b8e23" stroke-width="0.8" opacity="0.7" />
+
+                <!-- Hojas rama principal -->
+                <ellipse cx="88" cy="94" rx="2.5" ry="5.5" fill="#80a040" transform="rotate(145 88 94)" />
+                <ellipse cx="82" cy="88" rx="2.5" ry="5" fill="#8cb34d" transform="rotate(165 82 88)" />
+                <ellipse cx="72" cy="80" rx="3" ry="6" fill="#80a040" transform="rotate(155 72 80)" />
+                <ellipse cx="66" cy="72" rx="2.8" ry="5.5" fill="#8cb34d" transform="rotate(175 66 72)" />
+                <ellipse cx="55" cy="60" rx="3" ry="6" fill="#80a040" transform="rotate(165 55 60)" />
+                <ellipse cx="48" cy="52" rx="2.5" ry="5" fill="#8cb34d" transform="rotate(190 48 52)" />
+                <ellipse cx="38" cy="40" rx="3" ry="6" fill="#80a040" transform="rotate(200 38 40)" />
+                <ellipse cx="32" cy="32" rx="2" ry="4.5" fill="#8cb34d" transform="rotate(215 32 32)" />
+
+                <!-- Hojas rama secundaria (Frondosidad extra) -->
+                <ellipse cx="95" cy="85" rx="2" ry="4" fill="#95b85a" transform="rotate(130 95 85)" />
+                <ellipse cx="86" cy="75" rx="2.2" ry="4.5" fill="#80a040" transform="rotate(140 86 75)" />
+                <ellipse cx="76" cy="62" rx="2" ry="4" fill="#95b85a" transform="rotate(150 76 62)" />
+            </svg>
+        </div>
+    </div>
+
+    <!-- Contenedor Principal (Layout y scroll snapping) -->
+    <div class="page-container" id="main-container">
+
+        <!-- === SECCIÓN 1: Hero (Imagen de fondo y nombres) === -->
+        <header class="hero snap-section" aria-label="Introducción a la boda">
+            <div class="hero-img" id="hero-img-display" aria-hidden="true" role="img" aria-label="Foto de la pareja">
+            </div>
+            <div class="hero-overlay">
+                <h2 class="hero-names elegant-script" id="host-names-hero">Dora & Gregorio</h2>
+                <h2 class="hero-tagline animate-flicker" id="event-date-hero">VIERNES | 13 MARZO | 2026</h2>
+            </div>
+
+            <!-- Flecha para bajar -->
+            <div class="scroll-indicator animate-bounce" id="scroll-indicator">
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </header>
+
+        <!-- Botón de Control de Audio Global -->
+        <button class="music-btn" id="music-toggle" aria-label="Reproducir o pausar música" aria-pressed="false">
+            <div class="eq-container">
+                <div class="eq-bar"></div>
+                <div class="eq-bar"></div>
+                <div class="eq-bar"></div>
+            </div>
+        </button>
+
+        <!-- === SECCIÓN 2: Detalles de la Boda y Countdown === -->
+        <main class="content-card snap-section reveal reveal-up" aria-label="Detalles de la celebración"
+            id="countdown-section">
+            <p class="section-title animate-on-scroll">
+                <span id="guest-welcome" class="elegant-script guest-name-welcome"></span>
+                Estás invitado a
+            </p>
+            <h2 class="section-subtitle elegant-script animate-on-scroll section-subtitle--mt-15"
+                id="wedding-subject-display">Nuestra Boda</h2>
+
+            <div class="messages-wrapper">
+                <p class="message animate-on-scroll text-center" id="wedding-message-display">
+                    Nos encantaría que seas parte de este momento tan especial para nosotros. Un brindis íntimo para
+                    celebrar nuestra unión civil.
+                </p>
+                <p class="tagline-style animate-on-scroll text-right">
+                    Falta<br>
+                    Poco para<br>
+                    el <span class="elegant-script script-accent">gran</span> día
+                </p>
+            </div>
+
+
+            <!-- Contador Regresivo -->
+            <section class="countdown animate-on-scroll" id="countdown" aria-label="Tiempo restante para la boda">
+                <div class="countdown-item">
+                    <span id="days">00</span><span>Días</span>
+                </div>
+                <div class="countdown-divider" aria-hidden="true">:</div>
+                <div class="countdown-item">
+                    <span id="hours">00</span><span>Horas</span>
+                </div>
+                <div class="countdown-divider" aria-hidden="true">:</div>
+                <div class="countdown-item">
+                    <span id="minutes">00</span><span>Min</span>
+                </div>
+                <div class="countdown-divider" aria-hidden="true">:</div>
+                <div class="countdown-item">
+                    <span id="seconds">00</span><span>Seg</span>
+                </div>
+            </section>
+        </main>
+
+        <!-- === SECCIÓN 3: Itinerario === -->
+        <section class="content-card snap-section reveal reveal-up" aria-label="Itinerario de la boda">
+            <h2 class="section-subtitle elegant-script animate-on-scroll">Itinerario</h2>
+
+            <!-- Datos de evento: Dónde y Cuándo -->
+            <section class="details-container animate-on-scroll" aria-label="Lugar y fecha">
+                <div class="detail-box" id="location-box">
+                    <h3>Dónde</h3>
+                    <p id="wedding-location-physical">Barolo 8C Chapalita<br>Zapopan, Jalisco</p>
+                    <p id="wedding-location-virtual" style="display: none;"></p>
+                </div>
+                <div class="detail-box">
+                    <h3>Cuándo</h3>
+                    <p id="wedding-date-display">13 de Marzo, 2026<br>7:30 p.m.</p>
+                </div>
+            </section>
+
+            <!-- Acciones de soporte: Botones -->
+            <nav class="action-cards animate-on-scroll" aria-label="Enlaces útiles">
+                <a id="view-map-btn" href="https://www.google.com/maps/search/?api=1&query=Barolo+8C+Chapalita"
+                    target="_blank" rel="noopener noreferrer" class="action-card"
+                    aria-label="Abrir ubicación en Google Maps">
+                    <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                    <span>Ver Mapa</span>
+                </a>
+                <a id="add-to-calendar" href="#" class="action-card" aria-label="Añadir el evento a Google Calendar">
+                    <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                    <span>Agendar</span>
+                </a>
+            </nav>
+
+            <div class="timeline-container" id="timeline-container">
+                <!-- Se poblará dinámicamente -->
+            </div>
+        </section>
+
+        <!-- === SECCIÓN 4: Código de Vestimenta y Regalos === -->
+        <section class="content-card snap-section reveal reveal-in" aria-label="Código de vestimenta y regalos"
+            id="logistics-section">
+            <div class="logistics-grid">
+                <div class="dress-code-wrapper stagger-item" id="dress-code-section">
+                    <div class="dress-code-icon">
+                        <img src="./assets/vestimenta_inv-Bb1psfG_.png" alt="Boceto de traje y vestido" class="w-100">
+                    </div>
+                    <div class="vertical-divider"></div>
+                    <div class="dress-code-text">
+                        <h2 class="section-subtitle elegant-script section-subtitle--small mb-5" id="dress-code-title">
+                            Código de
+                            vestimenta</h2>
+                        <p class="dress-detail" id="dress-code-description">Formal Cocktail</p>
+                        <p class="dress-message" id="dress-code-tip">¡Luce tu mejor Look!</p>
+                    </div>
+                </div>
+
+                <div class="info-block stagger-item gift-block" id="gifts-section">
+                    <h2 class="section-subtitle elegant-script" id="gifts-title">Regalos</h2>
+                    <p class="message" id="gifts-description">Lo más importante es tu presencia.</p>
+
+                    <div class="gift-actions"
+                        style="display: flex; flex-direction: column; gap: 10px; width: 100%; margin-top: 15px; align-items: center;">
+                        <a href="#" id="btn-gift-registry" class="action-card action-card--small" target="_blank"
+                            rel="noopener noreferrer" style="display: none; justify-content: center;">
+                            <i class="fas fa-gift" aria-hidden="true"></i>
+                            <span>Mesa de Regalos</span>
+                        </a>
+                        <button id="btn-bank-details" class="action-card action-card--small outline"
+                            style="display: none; justify-content: center; width: 100%; cursor: pointer;">
+                            <i class="fas fa-university" aria-hidden="true"></i>
+                            <span>Datos Bancarios</span>
+                        </button>
+                    </div>
+
+                    <div id="bank-details-container" class="hidden-field"
+                        style="margin-top: 15px; padding: 15px; background: rgba(0,0,0,0.03); border-radius: 15px; font-size: 0.9rem; text-align: left; line-height: 1.5; color: var(--text-dark);">
+                        <!-- Los datos bancarios se renderizan aquí -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- === SECCIÓN 5: Galería de Recuerdos (Fotos) === -->
+        <section class="content-card snap-section reveal reveal-up" aria-label="Compartir fotos">
+            <div class="photo-container-box animate-on-scroll">
+                <div class="photo-main-content">
+                    <div class="photo-animation">
+                        <lottie-player src="https://assets9.lottiefiles.com/packages/lf20_0zv8teye.json"
+                            background="transparent" speed="1" loop autoplay class="lottie-camera">
+                        </lottie-player>
+                    </div>
+                    <div class="photo-text-content">
+                        <h2 class="section-subtitle elegant-script" id="gallery-title">¡Captura los Mejores Momentos!
+                        </h2>
+                        <p class="message mb-0" id="gallery-description">
+                            Queremos revivir este día tan especial a través de tus ojos. <br>
+                            Ayúdanos a crear un álbum lleno de recuerdos inolvidables subiendo tus fotos.
+                        </p>
+                    </div>
+                </div>
+                <div class="photo-card photo-card--dual">
+                    <a href="https://photos.app.goo.gl/LqatfysFetmxUcgK8" class="action-card action-card--small"
+                        target="_blank" rel="noopener noreferrer" aria-label="Subir fotos del evento"
+                        id="btn-upload-photos">
+                        <i class="fas fa-camera-retro" aria-hidden="true"></i>
+                        <span>Subir Fotos</span>
+                    </a>
+                    <a href="https://photos.app.goo.gl/LqatfysFetmxUcgK8" class="action-card action-card--small outline"
+                        target="_blank" rel="noopener noreferrer" aria-label="Ver álbum de fotos" id="btn-view-album">
+                        <i class="fas fa-images" aria-hidden="true"></i>
+                        <span>Ver Álbum</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- === SECCIÓN 3: Formulario de Confirmación (RSVP) === -->
+        <section class="rsvp-section snap-section reveal reveal-in" id="wedding-rsvp-section"
+            aria-label="Confirmación de asistencia">
+            <div class="rsvp-container animate-on-scroll">
+                <h2 class="section-subtitle elegant-script" id="rsvp-title">Confirmar Asistencia</h2>
+                <p class="animate-on-scroll mb-25 text-light-color" id="rsvp-description">
+                    Por favor, confirma tu asistencia <br>
+                    ¡Esperamos que estés!
+                </p>
+                <!-- Formulario -->
+                <form id="wedding-rsvp" aria-label="Formulario RSVP">
+                    <label for="attendance" class="sr-only">¿Asistirás?</label>
+                    <select id="attendance" class="form-input" required>
+                        <option value="" disabled selected>¿Asistirás?</option>
+                        <option value="yes">Asistiré con gusto</option>
+                        <option value="no">No podré asistir</option>
+                    </select>
+
+
+                    <div id="rsvp-details" class="hidden-field">
+                        <div id="wrapper-adults">
+                            <label for="adults" class="sr-only">Adultos</label>
+                            <input type="number" id="adults" placeholder="Adultos" class="form-input" value="1" min="1">
+                        </div>
+
+                        <div id="wrapper-kids">
+                            <label for="kids" class="sr-only">Niños</label>
+                            <input type="number" id="kids" placeholder="Niños" class="form-input" value="0" min="0">
+                        </div>
+
+                        <div id="wrapper-allergies">
+                            <label for="allergies" class="sr-only">Alergias o dieta especial</label>
+                            <textarea id="allergies" placeholder="Alergias o dieta especial" class="form-input"
+                                rows="2"></textarea>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="action-btn action-btn--full action-btn--rect">Confirmar</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- === SECCIÓN FINAL: Despedida === -->
+        <section class="snap-section final-screen reveal reveal-up" id="final-screen"
+            aria-label="Pantalla de despedida">
+            <div class="final-content">
+                <!-- Estado: Asistirá -->
+                <div id="final-msg-yes">
+                    <h2 class="elegant-script animate-on-scroll" id="final-title-yes">Te esperamos</h2>
+                    <p class="message text-center animate-on-scroll" id="final-desc-yes"
+                        style="color: var(--text-dark); font-size: 1.1rem; max-width: 450px; margin: 0 auto 30px; line-height: 1.6;">
+                    </p>
+                </div>
+                <!-- Estado: No asistirá (Mensaje Educado) -->
+                <div id="final-msg-no" class="hidden-field">
+                    <h2 class="elegant-script animate-on-scroll" id="final-title-no">¡Te extrañaremos!</h2>
+                    <p class="message text-center animate-on-scroll" id="final-desc-no"
+                        style="font-style: italic; color: var(--text-dark); font-size: 1.1rem; max-width: 450px; margin: 0 auto 30px; line-height: 1.6;">
+                        "Valoramos mucho tu cariño y, aunque nos encantaría celebrar juntos, entendemos que a veces los
+                        tiempos no coinciden. <br>Gracias por acompañarnos siempre!"
+                    </p>
+                </div>
+                <p class="hero-names elegant-script animate-on-scroll" id="host-names-final">Dora & Gregorio</p>
+
+                <!-- Decoración Floral Extra para el cierre -->
+                <div class="floral-deco top-left opacity-30" aria-hidden="true">
+                    <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+                        <path d="M0,0 Q20,10 40,40 T70,70" fill="none" stroke="#6b8e23" stroke-width="1.2" />
+                        <ellipse cx="12" cy="6" rx="2.5" ry="5.5" fill="#80a040" transform="rotate(-35 12 6)" />
+                        <ellipse cx="62" cy="60" rx="3" ry="6" fill="#80a040" transform="rotate(20 62 60)" />
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- Elemento de Audio Oculto -->
+        <audio id="wedding-song" loop preload="auto" aria-hidden="true">
+            <source src="./assets/audio_boda-CEbFkj5-.m4a" type="audio/mp4">
+            Tu navegador no soporta elementos de audio.
+        </audio>
+    </div>
+
+    <!-- ==========================================================================
+         6. SCRIPTS LÓGICOS
+         ========================================================================== -->
+</body>
+
+</html>
