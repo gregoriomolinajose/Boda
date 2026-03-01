@@ -205,6 +205,12 @@
         </button>
         <h1>Mis Eventos</h1>
         <p class="section-title">Plataforma de Invitaciones Digitales</p>
+        <div class="portal-tabs" style="margin-top: 25px; display: flex; justify-content: center; gap: 15px;">
+            <button id="tab-active" class="portal-btn btn-primary" style="min-width: 120px;"
+                onclick="switchTab('active')">Activos</button>
+            <button id="tab-archived" class="portal-btn btn-outline" style="min-width: 120px;"
+                onclick="switchTab('archived')">Archivados</button>
+        </div>
     </header>
 
     <main class="portal-container">
@@ -259,6 +265,8 @@
         import { Auth } from './js/core/Auth.js';
 
         let currentUser = null;
+        let allEvents = [];
+        let currentTab = 'active';
 
         // Proteger página y cargar datos solo si hay sesión
         Auth.onSessionChange((user) => {
@@ -275,29 +283,59 @@
         window.handleLogout = () => Auth.logout();
 
         async function initPortal(uid) {
-            const grid = document.getElementById('event-grid');
-            const events = await Store.getEvents(uid);
+            allEvents = await Store.getEvents(uid);
+            renderEvents();
+        }
 
-            if (events.length === 0) {
-                grid.innerHTML = `
+        function renderEvents() {
+            const grid = document.getElementById('event-grid');
+            const filteredEvents = allEvents.filter(e => currentTab === 'active' ? !e.archived : e.archived);
+
+            if (filteredEvents.length === 0) {
+                grid.innerHTML = currentTab === 'active'
+                    ? `
                     <div class="empty-state">
                         <i class="far fa-calendar-plus"></i>
-                        <p>Aún no tienes eventos. ¡Crea el primero!</p>
+                        <p>Aún no tienes eventos activos. ¡Crea el primero!</p>
+                    </div>
+                `
+                    : `
+                    <div class="empty-state">
+                        <i class="fas fa-archive"></i>
+                        <p>No tienes eventos archivados.</p>
                     </div>
                 `;
                 return;
             }
 
             grid.innerHTML = '';
-            events.sort((a, b) => (b.createdAt?.toDate?.() || 0) - (a.createdAt?.toDate?.() || 0));
+            filteredEvents.sort((a, b) => (b.createdAt?.toDate?.() || 0) - (a.createdAt?.toDate?.() || 0));
 
-            events.forEach(event => {
+            filteredEvents.forEach(event => {
                 const card = document.createElement('div');
                 card.className = 'event-card';
 
                 let iconClass = 'fa-rings-wedding';
                 if (event.type === 'birthday') iconClass = 'fa-cake-candles';
                 if (event.type === 'meeting') iconClass = 'fa-handshake';
+
+                let actionsHtml = '';
+                if (currentTab === 'active') {
+                    actionsHtml = `
+                        <div class="event-actions" style="margin-bottom: 15px;">
+                            <a href="generator.html?event=${event.id}" class="portal-btn btn-primary">Panel</a>
+                            <a href="index.html?event=${event.id}" target="_blank" class="portal-btn btn-outline">Ver</a>
+                        </div>
+                        <button onclick="handleArchive('${event.id}', true)" class="portal-btn btn-outline" style="width: 100%; border-color: #999; color: #666;"><i class="fas fa-archive"></i> Archivar Evento</button>
+                    `;
+                } else {
+                    actionsHtml = `
+                        <div class="event-actions">
+                            <button onclick="handleArchive('${event.id}', false)" class="portal-btn btn-primary"><i class="fas fa-undo"></i> Restaurar</button>
+                            <button onclick="handleDelete('${event.id}')" class="portal-btn btn-outline" style="border-color: #ff4757; color: #ff4757;"><i class="fas fa-trash"></i> Eliminar</button>
+                        </div>
+                    `;
+                }
 
                 card.innerHTML = `
                     <div class="event-card-header">
@@ -309,15 +347,42 @@
                             <div><i class="fas fa-link"></i> /?event=${event.id}</div>
                             <div><i class="far fa-calendar-alt"></i> ${event.wedding?.date ? new Date(event.wedding.date).toLocaleDateString() : 'Por definir'}</div>
                         </div>
-                        <div class="event-actions">
-                            <a href="generator.html?event=${event.id}" class="portal-btn btn-primary">Panel</a>
-                            <a href="index.html?event=${event.id}" target="_blank" class="portal-btn btn-outline">Ver</a>
-                        </div>
+                        ${actionsHtml}
                     </div>
                 `;
                 grid.appendChild(card);
             });
         }
+
+        window.switchTab = (tab) => {
+            currentTab = tab;
+            document.getElementById('tab-active').className = tab === 'active' ? 'portal-btn btn-primary' : 'portal-btn btn-outline';
+            document.getElementById('tab-archived').className = tab === 'archived' ? 'portal-btn btn-primary' : 'portal-btn btn-outline';
+            renderEvents();
+        };
+
+        window.handleArchive = async (eventId, archive) => {
+            if (archive && !confirm('¿Estás seguro de archivar este evento? Seguirá existiendo y podrás restaurarlo luego.')) return;
+            try {
+                await Store.archiveEvent(eventId, archive);
+                const eventIndex = allEvents.findIndex(e => e.id === eventId);
+                if (eventIndex > -1) allEvents[eventIndex].archived = archive;
+                renderEvents();
+            } catch (err) {
+                alert('Error al actualizar el evento.');
+            }
+        };
+
+        window.handleDelete = async (eventId) => {
+            if (!confirm('Peligro: Esta acción ELIMINARÁ PERMANENTEMENTE el evento y no se puede deshacer. ¿Deseas continuar?')) return;
+            try {
+                await Store.deleteEventPermanent(eventId);
+                allEvents = allEvents.filter(e => e.id !== eventId);
+                renderEvents();
+            } catch (err) {
+                alert('Error al eliminar el evento.');
+            }
+        };
 
         window.openCreateModal = () => document.getElementById('create-modal').style.display = 'flex';
         window.closeCreateModal = () => document.getElementById('create-modal').style.display = 'none';

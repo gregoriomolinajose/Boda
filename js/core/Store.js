@@ -260,12 +260,41 @@ export class Store {
                 },
                 ui: { showCountdown: true },
                 userId: userId,
-                createdAt: serverTimestamp()
+                createdAt: serverTimestamp(),
+                archived: false
             };
             await setDoc(docRef, initialConfig);
             return id;
         } catch (e) {
             console.error("Error al crear evento:", e);
+            throw e;
+        }
+    }
+
+    /**
+     * Archiva o desarchiva un evento.
+     */
+    static async archiveEvent(eventId, isArchived) {
+        try {
+            const docRef = doc(db, "events", eventId);
+            await updateDoc(docRef, { archived: isArchived });
+            return true;
+        } catch (e) {
+            console.error("Error al archivar evento:", e);
+            throw e;
+        }
+    }
+
+    /**
+     * Elimina permanentemente un evento completo.
+     */
+    static async deleteEventPermanent(eventId) {
+        try {
+            const docRef = doc(db, "events", eventId);
+            await deleteDoc(docRef);
+            return true;
+        } catch (e) {
+            console.error("Error al eliminar evento permanentemente:", e);
             throw e;
         }
     }
