@@ -201,16 +201,11 @@
         };
 
         // Revisar si venimos de un redireccionamiento de Google Auth
-        document.addEventListener('DOMContentLoaded', async () => {
-            const loading = document.getElementById('loading');
-            loading.style.display = 'flex';
-            try {
-                await Auth.checkRedirectResult();
-            } catch (err) {
-                alert("Error al procesar el inicio de sesión. Por favor intenta de nuevo.");
-            } finally {
-                loading.style.display = 'none';
-            }
+        const loading = document.getElementById('loading');
+
+        Auth.checkRedirectResult().catch(err => {
+            console.error("Redirect Error:", err);
+            loading.style.display = 'none';
         });
 
         // Redirigir si ya tiene sesión activa
