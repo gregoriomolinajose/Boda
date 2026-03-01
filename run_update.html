@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Update Event Ower</title>
+</head>
+
+<body>
+    <h1>Actualizando Propietario de Evento...</h1>
+    <p id="status">Iniciando...</p>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, getDocs, query, where, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAsbrZn2FEKiIweJTBS0q09HyEfgQdTiE8",
+            authDomain: "invitations-7c9cb.firebaseapp.com",
+            projectId: "invitations-7c9cb",
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const statusEl = document.getElementById("status");
+
+        async function updateEvents() {
+            try {
+                statusEl.innerText = "Buscando usuario gregoriomolinajose@gmail.com...";
+                const q = query(collection(db, "users"), where("email", "==", "gregoriomolinajose@gmail.com"));
+                const querySnapshot = await getDocs(q);
+
+                if (querySnapshot.empty) {
+                    statusEl.innerText = "Error: Usuario no encontrado en la colección 'users'.";
+                    return;
+                }
+
+                const uid = querySnapshot.docs[0].id;
+                statusEl.innerText = "UID encontrado: " + uid + ". Buscando eventos...";
+
+                const eventsSnapshot = await getDocs(collection(db, "events"));
+                const promises = [];
+
+                eventsSnapshot.forEach((eventDoc) => {
+                    promises.push(updateDoc(eventDoc.ref, { userId: uid }));
+                });
+
+                await Promise.all(promises);
+                statusEl.innerText = "¡Éxito! Todos los eventos han sido asignados al UID: " + uid;
+            } catch (error) {
+                statusEl.innerText = "Error crítico: " + error.message;
+                console.error(error);
+            }
+        }
+
+        updateEvents();
+    </script>
+</body>
+
+</html>
