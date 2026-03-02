@@ -1,6 +1,5 @@
 import {
-    signInWithRedirect,
-    getRedirectResult,
+    signInWithPopup,
     onAuthStateChanged,
     signOut
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -12,31 +11,19 @@ import { doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs
  */
 export const Auth = {
     /**
-     * Inicia sesión con Google usando redirección para evitar bloqueos de Popups (COOP).
+     * Inicia sesión con Google usando Popup tradicional. (Solucionado COOP)
      */
     async loginWithGoogle() {
         try {
-            await signInWithRedirect(auth, googleProvider);
-        } catch (error) {
-            console.error("Error al redireccionar a Google:", error);
-            throw error;
-        }
-    },
+            const result = await signInWithPopup(auth, googleProvider);
+            const user = result.user;
 
-    /**
-     * Procesa el resultado de la redirección al volver a la página (se debe llamar on load).
-     */
-    async checkRedirectResult() {
-        try {
-            const result = await getRedirectResult(auth);
-            if (result && result.user) {
-                // Sincronizar perfil en Firestore (Registro/Actualización)
-                await this.syncUserProfile(result.user);
-                return result.user;
-            }
-            return null;
+            // Sincronizar perfil en Firestore (Registro/Actualización)
+            await this.syncUserProfile(user);
+
+            return user;
         } catch (error) {
-            console.error("Error al procesar el redireccionamiento de Google:", error);
+            console.error("Error en login con Google:", error);
             throw error;
         }
     },

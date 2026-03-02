@@ -200,19 +200,6 @@
             }
         };
 
-        // Revisar si venimos de un redireccionamiento de Google Auth
-        const loading = document.getElementById('loading');
-
-        Auth.checkRedirectResult().then(user => {
-            if (!user) {
-                loading.style.display = 'none';
-            }
-        }).catch(err => {
-            console.error("Redirect Error:", err);
-            loading.style.display = 'none';
-            alert("El inicio de sesión falló. Si estás en Safari o Incógnito, intenta con otro navegador.");
-        });
-
         // Redirigir si ya tiene sesión activa
         Auth.waitForAuthInit().then(() => {
             Auth.onSessionChange((user) => {
@@ -228,10 +215,14 @@
 
             try {
                 await Auth.loginWithGoogle();
-                // El navegador se redirigirá a Google y volverá a esta misma página.
+                // El onAuthStateChange atrapará el login exitoso y nos redirigirá
             } catch (err) {
                 loading.style.display = 'none';
-                alert("Error al intentar iniciar sesión con Google.");
+                if (err.code === 'auth/popup-closed-by-user') {
+                    console.log("El usuario cerró el popup de inicio de sesión.");
+                } else {
+                    alert("Error en el Popup de Google. Si usas Safari considera deshabilitar el bloqueo de ventanas emergentes.");
+                }
             }
         };
     </script>
