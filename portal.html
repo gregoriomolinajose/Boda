@@ -373,6 +373,9 @@
             try {
                 await Store.archiveEvent(eventId, archive);
                 const eventIndex = allEvents.findIndex(e => e.id === eventId);
+                if (eventIndex !== -1) {
+                    allEvents[eventIndex].archived = archive;
+                }
                 renderEvents();
                 NotificationService.showToast(archive ? 'Evento archivado' : 'Evento restaurado', 'info');
             } catch (err) {
