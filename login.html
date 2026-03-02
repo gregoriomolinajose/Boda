@@ -203,9 +203,14 @@
         // Revisar si venimos de un redireccionamiento de Google Auth
         const loading = document.getElementById('loading');
 
-        Auth.checkRedirectResult().catch(err => {
+        Auth.checkRedirectResult().then(user => {
+            if (!user) {
+                loading.style.display = 'none';
+            }
+        }).catch(err => {
             console.error("Redirect Error:", err);
             loading.style.display = 'none';
+            alert("El inicio de sesión falló. Si estás en Safari o Incógnito, intenta con otro navegador.");
         });
 
         // Redirigir si ya tiene sesión activa
