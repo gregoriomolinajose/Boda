@@ -165,67 +165,10 @@
         <p style="margin-top: 15px; color: var(--primary-blue); font-weight: 600;">Verificando...</p>
     </div>
 
-    <script type="module">
-        import { Auth } from './js/core/Auth.js';
-
-        let currentMode = 'login';
-
-        window.switchMode = (mode) => {
-            currentMode = mode;
-            const tabLogin = document.getElementById('tab-login');
-            const tabRegister = document.getElementById('tab-register');
-            const title = document.getElementById('login-title');
-            const desc = document.getElementById('login-desc');
-            const btnText = document.getElementById('google-btn-text');
-            const regInfo = document.getElementById('register-info');
-
-            if (mode === 'login') {
-                tabLogin.style.background = 'white';
-                tabLogin.style.color = 'inherit';
-                tabRegister.style.background = 'transparent';
-                tabRegister.style.color = '#777';
-                title.innerText = '¡Te damos la bienvenida!';
-                desc.innerText = 'Entra con tu cuenta de Google para gestionar tus eventos.';
-                btnText.innerText = 'Entrar con Google';
-                regInfo.style.display = 'none';
-            } else {
-                tabRegister.style.background = 'white';
-                tabRegister.style.color = 'inherit';
-                tabLogin.style.background = 'transparent';
-                tabLogin.style.color = '#777';
-                title.innerText = 'Crea tu cuenta';
-                desc.innerText = 'Regístrate en segundos y comienza a organizar tus eventos.';
-                btnText.innerText = 'Registrarme con Google';
-                regInfo.style.display = 'block';
-            }
-        };
-
-        // Redirigir si ya tiene sesión activa
-        Auth.waitForAuthInit().then(() => {
-            Auth.onSessionChange((user) => {
-                if (user) {
-                    window.location.href = 'portal.html';
-                }
-            });
-        });
-
-        window.handleGoogleLogin = async () => {
-            const loading = document.getElementById('loading');
-            loading.style.display = 'flex';
-
-            try {
-                await Auth.loginWithGoogle();
-                // El onAuthStateChange atrapará el login exitoso y nos redirigirá
-            } catch (err) {
-                loading.style.display = 'none';
-                if (err.code === 'auth/popup-closed-by-user') {
-                    console.log("El usuario cerró el popup de inicio de sesión.");
-                } else {
-                    alert("Error en el Popup de Google. Si usas Safari considera deshabilitar el bloqueo de ventanas emergentes.");
-                }
-            }
-        };
-    </script>
+    <!-- App Logic -->
+    <script type="module" src="js/core/Firebase.js"></script>
+    <script type="module" src="js/core/Auth.js"></script>
+    <script type="module" src="js/controllers/LoginController.js"></script>
 </body>
 
 </html>
