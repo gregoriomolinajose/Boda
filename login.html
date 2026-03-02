@@ -214,10 +214,12 @@
         });
 
         // Redirigir si ya tiene sesión activa
-        Auth.onSessionChange((user) => {
-            if (user) {
-                window.location.href = 'portal.html';
-            }
+        Auth.waitForAuthInit().then(() => {
+            Auth.onSessionChange((user) => {
+                if (user) {
+                    window.location.href = 'portal.html';
+                }
+            });
         });
 
         window.handleGoogleLogin = async () => {

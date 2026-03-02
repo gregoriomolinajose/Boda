@@ -269,14 +269,16 @@
         let allEvents = [];
         let currentTab = 'active';
 
-        Auth.onSessionChange((user) => {
-            if (!user) {
-                NotificationService.showToast('Acceso denegado: redireccionando a login.', 'error');
-                setTimeout(() => window.location.href = 'login.html', 1500);
-            } else {
-                currentUser = user;
-                initPortal(user.uid);
-            }
+        Auth.waitForAuthInit().then(() => {
+            Auth.onSessionChange((user) => {
+                if (!user) {
+                    NotificationService.showToast('Acceso denegado: redireccionando a login.', 'error');
+                    setTimeout(() => window.location.href = 'login.html', 1500);
+                } else {
+                    currentUser = user;
+                    initPortal(user.uid);
+                }
+            });
         });
 
         // Exponer logout al scope global

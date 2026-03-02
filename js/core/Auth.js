@@ -82,9 +82,17 @@ export const Auth = {
     },
 
     /**
+     * Espera a que el estado interno de la sesión se inicialice desde el caché local.
+     */
+    async waitForAuthInit() {
+        return auth.authStateReady();
+    },
+
+    /**
      * Protege una página redirigiendo al login si no hay sesión.
      */
-    requireAuth() {
+    async requireAuth() {
+        await this.waitForAuthInit();
         this.onSessionChange((user) => {
             if (!user) {
                 console.warn("Acceso denegado: redireccionando a login.");
