@@ -45,9 +45,7 @@ export class LoginController {
             // El onAuthStateChange atrapará el login exitoso y nos redirigirá a portal
         } catch (err) {
             this.hideLoading();
-            if (err.code === 'auth/popup-closed-by-user') {
-                console.log("El usuario cerró el popup de inicio de sesión.");
-            } else {
+            if (err.code !== 'auth/popup-closed-by-user') {
                 alert("Error en el Popup de Google. Si usas Safari considera deshabilitar el bloqueo de ventanas emergentes.");
             }
         }

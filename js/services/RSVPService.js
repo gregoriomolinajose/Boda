@@ -35,7 +35,6 @@ export class RSVPService {
                 if (!isPreview) {
                     await this.store.saveGuest(formData);
                 } else {
-                    console.log("Simulación de RSVP exitosa en vista previa. (No guardado en DB)");
                     await new Promise(resolve => setTimeout(resolve, 800));
                 }
 

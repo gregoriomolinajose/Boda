@@ -118,8 +118,6 @@ export class Store {
                 eventId: this.eventId,
                 eventName: this.state.wedding?.names || 'Evento sin nombre'
             }, { merge: true });
-
-            console.log(`✅ Sincronización exitosa: events/${this.eventId}`);
         } catch (e) {
             console.error("❌ Error al guardar en Firestore:", e);
         }

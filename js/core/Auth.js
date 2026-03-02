@@ -45,7 +45,6 @@ export const Auth = {
 
         // setDoc con merge: true para crear o actualizar
         await setDoc(userRef, userData, { merge: true });
-        console.log("Perfil de usuario sincronizado:", user.email);
     },
 
     /**
