@@ -1,7 +1,4 @@
-/**
- * Funciones de utilidad comunes.
- */
-const Utils = {
+export const Utils = {
     /**
      * Copia texto al portapapeles con fallback.
      */
@@ -70,6 +67,8 @@ const Utils = {
         return fullDate;
     }
 };
+
+window.Utils = Utils;
 
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = Utils;

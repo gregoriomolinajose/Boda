@@ -33,53 +33,45 @@ export class GuestTableView {
             const dateDisplay = window.Utils.formatSheetDate(row['Fecha/Hora']);
 
             tr.innerHTML = `
-                <td style="color:#aaa;">${rowIndex}</td>
-                <td style="font-size: 0.75rem; color: #888;">${dateDisplay}</td>
-                <td style="font-weight: 600;"></td>
+                <td style="color:var(--md-sys-color-outline); font-weight: 500;">${rowIndex}</td>
+                <td style="white-space: nowrap;">
+                    <div style="font-weight: 600; color: var(--md-sys-color-on-surface);">${row.Invitado || 'Sin nombre'}</div>
+                    <div style="font-size: 0.75rem; color: var(--md-sys-color-outline); margin-top: 4px;">${dateDisplay}</div>
+                </td>
                 <td><span class="status-badge status-${statusClass}">${row.Asistencia || 'Pendiente'}</span></td>
-                <td style="text-align:center">${row.Adultos || 0}</td>
-                <td style="text-align:center">${row.Niños || 0}</td>
+                <td style="text-align:center; font-weight: 600;">${row.Adultos || 0}</td>
+                <td style="text-align:center; font-weight: 600;">${row.Niños || 0}</td>
                 <td style="text-align:center">
-                    <span style="color: ${isActive ? '#4cd137' : '#e84118'}; font-weight: bold; font-size: 0.7rem;">
+                    <span style="font-size: 0.7rem; font-weight: 800; color: ${isActive ? '#4cd137' : '#e84118'}; padding: 4px 8px; border-radius: 4px; border: 1px solid currentColor;">
                         ${isActive ? 'ACTIVO' : 'INACTIVO'}
                     </span>
                 </td>
                 <td style="text-align:center">
-                    <div class="row-action copy-link-action" title="Copiar Link" style="display: flex; justify-content: center; cursor: pointer;">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                    </div>
+                    <button class="icon-btn-mini copy-link-action" title="Copiar Link" style="margin: 0 auto;">
+                        <i class="fas fa-link"></i>
+                    </button>
                 </td>
                 <td style="text-align:center">
                     <div style="display: flex; gap: 8px; justify-content: center;">
-                        <div class="row-action edit-btn" title="Editar">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
-                            </svg>
-                        </div>
-                        <div class="row-action toggle-btn" title="Desactivar/Activar">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-                                <line x1="9" y1="9" x2="15" y2="15"></line>
-                                <line x1="15" y1="9" x2="9" y2="15"></line>
-                            </svg>
-                        </div>
-                        <div class="row-action delete-btn" title="Eliminar Permanentemente" style="color: #ff4757;">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <polyline points="3 6 5 6 21 6"></polyline>
-                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-                                <line x1="10" y1="11" x2="10" y2="17"></line>
-                                <line x1="14" y1="11" x2="14" y2="17"></line>
-                            </svg>
-                        </div>
+                        <button class="icon-btn-mini edit-btn" title="Editar">
+                            <i class="fas fa-pen"></i>
+                        </button>
+                        <button class="icon-btn-mini toggle-btn" title="${isActive ? 'Desactivar' : 'Activar'}" style="color: ${isActive ? 'var(--md-sys-color-error)' : '#4cd137'}">
+                            <i class="fas ${isActive ? 'fa-toggle-on' : 'fa-toggle-off'}"></i>
+                        </button>
+                        <button class="icon-btn-mini delete-btn" title="Eliminar" style="color: var(--md-sys-color-error);">
+                            <i class="fas fa-trash"></i>
+                        </button>
                     </div>
                 </td>
             `;
 
-            tr.querySelector('td:nth-child(3)').textContent = row.Invitado || 'Sin nombre';
-
-            tr.querySelector('.copy-link-action').addEventListener('click', () => {
-                window.Utils.copyToClipboard(invitationLink, (ok, msg) => window.Utils.showToast('toast-container', msg, ok ? 'success' : 'error'));
+            // EVENT LISTENERS
+            tr.querySelector('.copy-link-action').addEventListener('click', (e) => {
+                e.preventDefault();
+                window.Utils.copyToClipboard(invitationLink, (ok, msg) => {
+                    window.Utils.showToast('toast-container', msg, ok ? 'success' : 'error');
+                });
             });
 
             tr.querySelector('.edit-btn').addEventListener('click', () => {
@@ -95,7 +87,6 @@ export class GuestTableView {
             });
 
             const toggleBtn = tr.querySelector('.toggle-btn');
-            toggleBtn.style.color = isActive ? '#e84118' : '#4cd137';
             toggleBtn.addEventListener('click', () => {
                 this.controller.toggleActivation(row.ID, isActive);
             });
