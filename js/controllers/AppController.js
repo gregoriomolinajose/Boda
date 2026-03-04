@@ -27,10 +27,6 @@ export class AppController {
             }
         };
 
-        if (guestData.wedding.demoGuestName) {
-            this.store.setState(guestData, true);
-        }
-
         this.initRenderer();
 
         this.animationView = new AnimationView(this.store);
@@ -43,6 +39,13 @@ export class AppController {
 
         // Inicializar conectividad y cache local unificado
         await this.store.initialize();
+
+        // Aplicar datos del invitado desde URL después de la inicialización 
+        // para asegurar que prevalezcan sobre el caché local (localStorage) o Cloud data
+        if (guestData.wedding.demoGuestName) {
+            this.store.setState(guestData, true);
+        }
+
         this.renderer.render(this.store.getState());
         this.animationView.renderParticles(this.store.getState());
     }

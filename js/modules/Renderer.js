@@ -61,6 +61,17 @@ export class Renderer {
         // --- Populate RSVP fields from URL data if available ---
         const inputAdults = document.getElementById('adults');
         const inputKids = document.getElementById('kids');
+
+        // Si el UUID del invitado cambia, permitimos re-inicializar los campos
+        if (inputAdults && wedding.guestUuid !== inputAdults.dataset.lastUuid) {
+            inputAdults.dataset.initialized = "";
+            inputAdults.dataset.lastUuid = wedding.guestUuid || "";
+        }
+        if (inputKids && wedding.guestUuid !== inputKids.dataset.lastUuid) {
+            inputKids.dataset.initialized = "";
+            inputKids.dataset.lastUuid = wedding.guestUuid || "";
+        }
+
         if (inputAdults && wedding.adultsCount && !inputAdults.dataset.initialized) {
             inputAdults.value = wedding.adultsCount;
             inputAdults.dataset.initialized = "true";
