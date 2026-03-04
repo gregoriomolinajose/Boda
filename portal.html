@@ -7,212 +7,204 @@
     <title>Portal de Eventos | Mi Boda</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;600&display=swap"
-        rel="stylesheet">
+        rel="stylesheet">
     <style>
-        .portal-body {
-            background-color: #f4f6f8;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto !important;
-        }
-
         .portal-header {
-            background: white;
-            padding: 40px 20px;
+            padding: 64px 24px 40px;
             text-align: center;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            background: linear-gradient(180deg, var(--md-sys-color-surface-container-low) 0%, var(--md-sys-color-background) 100%);
         }
 
         .portal-header h1 {
-            font-family: 'Great Vibes', cursive;
+            color: var(--md-sys-color-primary);
+            margin-bottom: 12px;
             font-size: 3.5rem;
-            color: var(--primary-blue);
-            margin-bottom: 10px;
+            font-family: var(--md-sys-typescale-display-font);
         }
 
-        .portal-container {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
-            width: 100%;
+        .portal-tabs {
+            margin-top: 32px;
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            background: var(--md-sys-color-surface-container);
+            padding: 8px;
+            border-radius: var(--md-sys-shape-corner-full);
+            max-width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .event-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 30px;
+            gap: 24px;
+            padding: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
 
-        .event-card {
-            background: white;
-            border-radius: 20px;
+        /* Minimalist M3 Card */
+        .event-grid .m3-card {
+            border-radius: 28px;
+            padding: 24px;
+            border: 1px solid var(--md-sys-color-outline-variant);
+            background: var(--md-sys-color-surface);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .event-grid .m3-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--md-sys-elevation-level2);
+            border-color: var(--md-sys-color-primary);
+        }
+
+        .event-title-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 12px;
+        }
+
+        .event-title-row i {
+            font-size: 1.2rem;
+            color: var(--md-sys-color-primary);
+            background: var(--md-sys-color-primary-container);
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            flex-shrink: 0;
+        }
+
+        .event-title-row h3 {
+            font-family: var(--md-sys-typescale-display-font);
+            font-size: 1.6rem;
+            margin: 0;
+            color: var(--md-sys-color-on-surface);
+            white-space: nowrap;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            display: flex;
-            flex-direction: column;
+            text-overflow: ellipsis;
         }
 
-        .event-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-        }
-
-        .event-card-header {
-            height: 120px;
-            background: var(--primary-olive-light);
+        .event-meta-minimal {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            color: var(--primary-olive);
-        }
-
-        .event-card-body {
-            padding: 25px;
-            flex: 1;
-        }
-
-        .event-card-body h3 {
-            font-size: 1.4rem;
-            margin-bottom: 15px;
-            color: var(--text-dark);
-        }
-
-        .event-meta {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 8px;
+            margin-bottom: 24px;
+            color: var(--md-sys-color-outline);
+            font-family: var(--md-sys-typescale-body-font);
             font-size: 0.9rem;
-            color: var(--text-light);
         }
 
-        .event-meta div {
+        .event-actions-minimal {
             display: flex;
-            align-items: center;
-            gap: 10px;
+            gap: 8px;
+            margin-top: auto;
         }
 
-        .event-actions {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
+        .action-btn-mini {
+            flex: 1;
+            height: 44px !important;
+            padding: 0 16px !important;
+            font-size: 0.85rem !important;
+            border-radius: 12px !important;
         }
 
-        .portal-btn {
-            padding: 12px;
-            border-radius: 10px;
-            text-align: center;
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s;
-            cursor: pointer;
-            border: 1px solid transparent;
-        }
-
-        .btn-primary {
-            background: var(--primary-blue);
-            color: white;
-        }
-
-        .btn-outline {
-            border: 1px solid var(--primary-blue);
-            color: var(--primary-blue);
-        }
-
-        .btn-floating {
-            position: fixed;
-            bottom: 40px;
-            right: 40px;
-            width: 65px;
-            height: 65px;
-            background: var(--primary-olive);
-            color: white;
-            border-radius: 50%;
+        .icon-btn-mini {
+            width: 44px;
+            height: 44px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+            border: 1px solid var(--md-sys-color-outline-variant);
+            color: var(--md-sys-color-outline);
+            background: transparent;
             cursor: pointer;
-            transition: transform 0.3s;
-            z-index: 100;
+            transition: all 0.2s;
+            flex-shrink: 0;
+            text-decoration: none;
         }
 
-        .btn-floating:hover {
-            transform: scale(1.1) rotate(90deg);
+        .icon-btn-mini:hover {
+            background: var(--md-sys-color-surface-container-high);
+            color: var(--md-sys-color-primary);
+            border-color: var(--md-sys-color-primary);
+        }
+
+        /* FAB Minimal */
+        .m3-fab {
+            width: 64px;
+            height: 64px;
+            bottom: 24px;
+            right: 24px;
+            border-radius: 20px;
+            background: var(--md-sys-color-primary);
+            color: var(--md-sys-color-on-primary);
+        }
+
+        .m3-fab i {
+            font-size: 32px;
         }
 
         .empty-state {
             text-align: center;
             grid-column: 1 / -1;
-            padding: 100px 0;
-            color: var(--text-light);
+            padding: 100px 24px;
+            color: var(--md-sys-color-outline);
+            font-family: var(--md-sys-typescale-display-font);
+            font-size: 1.5rem;
         }
 
         .empty-state i {
-            display: block;
-            font-size: 4rem;
-            margin-bottom: 20px;
+            font-size: 5rem;
+            margin-bottom: 24px;
             opacity: 0.3;
+            color: var(--md-sys-color-primary);
         }
 
-        /* Modal for creating new event */
+        /* Modal Overrides */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(25, 27, 34, 0.4);
+            backdrop-filter: blur(4px);
             display: none;
             align-items: center;
             justify-content: center;
             z-index: 1000;
-            backdrop-filter: blur(5px);
-        }
-
-        .modal-card {
-            background: white;
-            padding: 40px;
-            border-radius: 24px;
-            width: 100%;
-            max-width: 450px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-        }
-
-        .modal-card h2 {
-            margin-bottom: 25px;
-            font-family: 'Great Vibes', cursive;
-            font-size: 2.5rem;
-            text-align: center;
-            color: var(--primary-blue);
         }
     </style>
-  <script type="module" crossorigin src="./assets/portal-Dd8HZkBW.js"></script>
+  <script type="module" crossorigin src="./assets/portal-CvoIxJZC.js"></script>
   <link rel="modulepreload" crossorigin href="./assets/Firebase-C_lFSCaV.js">
+  <link rel="modulepreload" crossorigin href="./assets/Auth-BW2TVjAm.js">
   <link rel="modulepreload" crossorigin href="./assets/Store-AXFsgslV.js">
-  <link rel="modulepreload" crossorigin href="./assets/Auth-BPRd6mCx.js">
   <link rel="stylesheet" crossorigin href="./assets/Firebase-CwWNX_i3.css">
+  <link rel="stylesheet" crossorigin href="./assets/Auth-Cd3mC0_T.css">
 </head>
 
-<body class="portal-body">
+<body class="m3-expressive">
     <header class="portal-header" style="position: relative;">
-        <button onclick="handleLogout()" class="portal-btn btn-outline"
-            style="position: absolute; top: 20px; right: 20px; width: auto; padding: 10px 15px;">
-            <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+        <button onclick="handleLogout()" class="m3-btn m3-btn-outlined"
+            style="position: absolute; top: 24px; right: 24px; height: 40px; padding: 0 16px;">
+            <i class="fas fa-sign-out-alt"></i> Salir
         </button>
-        <h1>Mis Eventos</h1>
-        <p class="section-title">Plataforma de Invitaciones Digitales</p>
-        <div class="portal-tabs" style="margin-top: 25px; display: flex; justify-content: center; gap: 15px;">
-            <button id="tab-active" class="portal-btn btn-primary" style="min-width: 120px;"
-                onclick="switchTab('active')">Activos</button>
-            <button id="tab-archived" class="portal-btn btn-outline" style="min-width: 120px;"
+        <h1 class="m3-display-large">Mis Eventos</h1>
+        <p class="m3-body-large" style="color: var(--md-sys-color-outline); letter-spacing: 2px;">PLATAFORMA DE
+            INVITACIONES DIGITALES</p>
+
+        <div class="portal-tabs">
+            <button id="tab-active" class="m3-btn m3-btn-filled" onclick="switchTab('active')">Activos</button>
+            <button id="tab-archived" class="m3-btn m3-btn-outlined" style="border: none;"
                 onclick="switchTab('archived')">Archivados</button>
         </div>
     </header>
@@ -227,37 +219,38 @@
         </div>
     </main>
 
-    <div class="btn-floating" onclick="openCreateModal()" title="Crear Nuevo Evento">
+    <div class="m3-fab" onclick="openCreateModal()" title="Crear Nuevo Evento">
         <i class="fas fa-plus"></i>
     </div>
 
     <!-- Modal para Nuevo Evento -->
     <div class="modal-overlay" id="create-modal">
-        <div class="modal-card">
-            <h2>Nuevo Evento</h2>
+        <div class="m3-card m3-card-elevated" style="width: 100%; max-width: 450px;">
+            <h2 class="m3-headline-large"
+                style="text-align: center; color: var(--md-sys-color-primary); margin-bottom: 24px;">Nuevo Evento</h2>
             <form id="create-event-form">
-                <div class="form-group">
-                    <label>Nombre del Evento</label>
+                <div class="m3-input-group" style="margin-bottom: 16px;">
+                    <label class="m3-body-large" style="font-weight: 600;">Nombre del Evento</label>
                     <input type="text" id="new-event-name" placeholder="Ej: Boda de Lucía y Marcos" required
-                        class="form-input">
+                        class="m3-input">
                 </div>
-                <div class="form-group">
-                    <label>ID del Evento (URL)</label>
-                    <input type="text" id="new-event-id" placeholder="ej: boda-lucia-2026" required class="form-input"
+                <div class="m3-input-group" style="margin-bottom: 16px;">
+                    <label class="m3-body-large" style="font-weight: 600;">ID del Evento (URL)</label>
+                    <input type="text" id="new-event-id" placeholder="ej: boda-lucia-2026" required class="m3-input"
                         pattern="[a-z0-9\-]+" title="Solo letras minúsculas, números y guiones">
                 </div>
-                <div class="form-group">
-                    <label>Tipo de Evento</label>
-                    <select id="new-event-type" class="form-input">
+                <div class="m3-input-group" style="margin-bottom: 24px;">
+                    <label class="m3-body-large" style="font-weight: 600;">Tipo de Evento</label>
+                    <select id="new-event-type" class="m3-input">
                         <option value="wedding">Boda / Compromiso</option>
                         <option value="birthday">Cumpleaños / XV Años</option>
                         <option value="meeting">Reunión / Corporativo</option>
                     </select>
                 </div>
-                <div style="display: flex; gap: 10px; margin-top: 20px;">
-                    <button type="button" class="portal-btn btn-outline" style="flex: 1;"
+                <div style="display: flex; gap: 12px; margin-top: 24px;">
+                    <button type="button" class="m3-btn m3-btn-outlined" style="flex: 1;"
                         onclick="closeCreateModal()">Cancelar</button>
-                    <button type="submit" class="portal-btn btn-primary" style="flex: 1;">Crear Evento</button>
+                    <button type="submit" class="m3-btn m3-btn-filled" style="flex: 1;">Crear Evento</button>
                 </div>
             </form>
         </div>

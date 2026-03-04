@@ -7,89 +7,124 @@
     <title>Iniciar Sesión | Bellfy</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Montserrat:wght@300;400;600&display=swap"
-        rel="stylesheet">
+        rel="stylesheet">
     <style>
-        .login-body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            height: 100vh;
+        body,
+        html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: #0a1128;
+        }
+
+        .login-wrapper {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0;
-            font-family: 'Montserrat', sans-serif;
+            min-height: 100vh;
+            padding: 24px;
+            /* Deep Navy Expressive Background */
+            background: linear-gradient(135deg, var(--md-sys-color-primary) 0%, #0a1128 100%);
+            position: relative;
+            overflow: hidden;
         }
 
-        .login-card {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(10px);
-            padding: 50px 40px;
-            border-radius: 30px;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        /* Ambient Orbs para un toque orgánico y elegante de M3 Expressive */
+        .ambient-orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: 0.4;
+            z-index: 0;
+        }
+
+        .orb-1 {
+            width: 50vw;
+            height: 50vw;
+            top: -10%;
+            left: -10%;
+            background: var(--md-sys-color-tertiary);
+        }
+
+        .orb-2 {
+            width: 60vw;
+            height: 60vw;
+            bottom: -20%;
+            right: -10%;
+            background: var(--md-sys-color-secondary);
+        }
+
+        .login-card-m3 {
             width: 100%;
-            max-width: 400px;
+            max-width: 440px;
             text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            animation: fadeIn 0.8s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            padding: 56px 40px;
+            /* M3 Expressive Extra Large Corner Radius */
+            border-radius: 48px;
+            background: var(--md-sys-color-surface);
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.4);
+            z-index: 1;
+            position: relative;
+            box-sizing: border-box;
         }
 
         .login-logo {
-            font-family: 'Great Vibes', cursive;
-            font-size: 4rem;
-            color: var(--primary-blue);
-            margin-bottom: 10px;
+            font-family: var(--md-sys-typescale-display-font);
+            font-size: 4.5rem;
+            font-style: italic;
+            color: var(--md-sys-color-primary);
+            line-height: 1.1;
+            margin-bottom: 24px;
         }
 
-        .login-subtitle {
-            font-size: 1rem;
-            color: var(--text-light);
-            margin-bottom: 40px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
+        .login-headline {
+            font-family: var(--md-sys-typescale-display-font);
+            font-size: 2.2rem;
+            color: var(--md-sys-color-on-surface);
+            margin-bottom: 16px;
+            line-height: 1.2;
+            font-weight: 500;
         }
 
-        .google-btn {
+        .login-body {
+            font-family: var(--md-sys-typescale-body-font);
+            font-size: var(--md-sys-typescale-body-large-size);
+            color: var(--md-sys-color-outline);
+            margin-bottom: 48px;
+            line-height: 1.6;
+            padding: 0 8px;
+        }
+
+        .google-btn-expressive {
+            width: 100%;
+            height: 64px;
+            border-radius: 32px;
+            /* Pill shape */
+            background-color: var(--md-sys-color-surface-container-low);
+            color: var(--md-sys-color-on-surface);
+            border: 1px solid var(--md-sys-color-outline-variant);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 15px;
-            background: white;
-            color: #444;
-            border: 1px solid #ddd;
-            padding: 15px 25px;
-            border-radius: 15px;
+            gap: 16px;
+            font-family: var(--md-sys-typescale-body-font);
+            font-size: 16px;
             font-weight: 600;
-            width: 100%;
             cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            margin-top: 20px;
+            transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+            box-shadow: var(--md-sys-elevation-level1);
         }
 
-        .google-btn:hover {
-            transform: scale(1.02);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            border-color: var(--primary-blue);
+        .google-btn-expressive:hover {
+            background-color: white;
+            transform: translateY(-2px);
+            box-shadow: var(--md-sys-elevation-level3);
+            border-color: var(--md-sys-color-primary);
         }
 
-        .google-btn img {
-            width: 20px;
-        }
-
-        .login-footer {
-            margin-top: 40px;
-            font-size: 0.8rem;
-            color: #999;
+        .google-icon {
+            width: 28px;
+            height: 28px;
         }
 
         .loading-overlay {
@@ -99,19 +134,20 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.8);
-            z-index: 100;
+            background: rgba(10, 17, 40, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
             align-items: center;
             justify-content: center;
             flex-direction: column;
         }
 
         .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid var(--primary-blue);
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            border-top: 4px solid var(--md-sys-color-secondary);
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 56px;
+            height: 56px;
             animation: spin 1s linear infinite;
         }
 
@@ -125,47 +161,47 @@
             }
         }
     </style>
-  <script type="module" crossorigin src="./assets/login-CjHbEhZM.js"></script>
+  <script type="module" crossorigin src="./assets/login-pVKTr4A5.js"></script>
   <link rel="modulepreload" crossorigin href="./assets/Firebase-C_lFSCaV.js">
-  <link rel="modulepreload" crossorigin href="./assets/Auth-BPRd6mCx.js">
+  <link rel="modulepreload" crossorigin href="./assets/Auth-BW2TVjAm.js">
   <link rel="stylesheet" crossorigin href="./assets/Firebase-CwWNX_i3.css">
+  <link rel="stylesheet" crossorigin href="./assets/Auth-Cd3mC0_T.css">
 </head>
 
-<body class="login-body">
+<body class="m3-expressive">
 
-    <div class="login-card">
-        <div class="login-logo">Bellfy</div>
+    <div class="login-wrapper">
+        <div class="ambient-orb orb-1"></div>
+        <div class="ambient-orb orb-2"></div>
 
-        <div style="display: flex; gap: 5px; background: #eee; padding: 5px; border-radius: 12px; margin-bottom: 30px;">
-            <button id="tab-login" class="tab-btn active" onclick="switchMode('login')"
-                style="flex:1; padding: 10px; border:none; background:white; border-radius:8px; cursor:pointer; font-weight:600; font-family:'Montserrat';">Entrar</button>
-            <button id="tab-register" class="tab-btn" onclick="switchMode('register')"
-                style="flex:1; padding: 10px; border:none; background:transparent; border-radius:8px; cursor:pointer; font-weight:600; font-family:'Montserrat'; color:#777;">Registrar</button>
-        </div>
+        <div class="login-card-m3">
+            <div class="login-logo">Bellfy</div>
 
-        <h2 id="login-title" style="font-size: 1.2rem; margin-bottom: 15px; color: var(--text-dark);">¡Te damos la
-            bienvenida!</h2>
-        <p id="login-desc" style="color: #666; margin-bottom: 30px; font-size: 0.9rem;">
-            Entra con tu cuenta de Google para gestionar tus eventos.
-        </p>
+            <h1 class="login-headline">
+                Crea recuerdos inolvidables
+            </h1>
 
-        <button class="google-btn" onclick="handleGoogleLogin()">
-            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google Logo">
-            <span id="google-btn-text">Entrar con Google</span>
-        </button>
+            <p class="login-body">
+                Comienza a organizar tu evento hoy. Accede de forma segura y centralizada.
+            </p>
 
-        <p id="register-info" style="font-size: 0.75rem; color: #aaa; margin-top: 25px; display: none;">
-            <i class="fas fa-info-circle"></i> Tu perfil se creará automáticamente en un par de segundos.
-        </p>
+            <button class="google-btn-expressive" onclick="handleGoogleLogin()">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google Logo"
+                    class="google-icon">
+                Entrar con Google
+            </button>
 
-        <div class="login-footer">
-            &copy; 2026 Bellfy Invitaciones Digitales
+            <p
+                style="font-family: var(--md-sys-typescale-body-font); font-size: 13px; color: var(--md-sys-color-outline); margin-top: 32px; letter-spacing: 0.5px;">
+                &copy; 2026 Bellfy Invitaciones
+            </p>
         </div>
     </div>
 
     <div class="loading-overlay" id="loading">
         <div class="spinner"></div>
-        <p style="margin-top: 15px; color: var(--primary-blue); font-weight: 600;">Verificando...</p>
+        <p class="m3-body-large" style="margin-top: 24px; color: var(--md-sys-color-primary); font-weight: 600;">
+            Verificando credenciales...</p>
     </div>
 
     <!-- App Logic -->
