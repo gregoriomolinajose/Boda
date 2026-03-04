@@ -72,12 +72,16 @@ export class Renderer {
             inputKids.dataset.lastUuid = wedding.guestUuid || "";
         }
 
-        if (inputAdults && wedding.adultsCount && !inputAdults.dataset.initialized) {
-            inputAdults.value = wedding.adultsCount;
+        if (inputAdults && wedding.adultsCount !== undefined && !inputAdults.dataset.initialized) {
+            const maxVal = parseInt(wedding.adultsCount) || 0;
+            inputAdults.value = maxVal;
+            inputAdults.max = maxVal; // Límite autorizado estricto
             inputAdults.dataset.initialized = "true";
         }
         if (inputKids && wedding.kidsCount !== undefined && !inputKids.dataset.initialized) {
-            inputKids.value = wedding.kidsCount;
+            const maxVal = parseInt(wedding.kidsCount) || 0;
+            inputKids.value = maxVal;
+            inputKids.max = maxVal; // Límite autorizado estricto
             inputKids.dataset.initialized = "true";
         }
 
