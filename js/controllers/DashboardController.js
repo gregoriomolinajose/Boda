@@ -1,5 +1,6 @@
 import { GuestTableView } from '../views/GuestTableView.js';
 import { ImportService } from '../services/ImportService.js';
+import { ExportService } from '../services/ExportService.js';
 
 export class DashboardController {
     constructor(store) {
@@ -13,6 +14,7 @@ export class DashboardController {
 
         this.view = new GuestTableView(this);
         this.importService = new ImportService(store, () => this.loadDashboard());
+        this.exportService = new ExportService(store);
     }
 
     init() {
@@ -156,6 +158,12 @@ export class DashboardController {
         } catch (err) {
             console.error('Error:', err);
             window.Utils.showToast('toast-container', 'Error al eliminar', 'error');
+        }
+    }
+
+    handleBulkExport() {
+        if (this.exportService) {
+            this.exportService.handleBulkExport(this.allData);
         }
     }
 }

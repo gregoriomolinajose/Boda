@@ -36,3 +36,9 @@ window.filterDashboard = function () {
         controllerInstance.filterDashboard();
     }
 }
+
+window.handleBulkExport = function () {
+    if (controllerInstance) {
+        controllerInstance.handleBulkExport();
+    }
+};
