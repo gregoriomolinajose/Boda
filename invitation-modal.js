@@ -96,7 +96,7 @@ function generateInvitationLink() {
     }
 
     window.store.saveGuest(data).then(() => {
-        window.NotificationService.showToast(isEditing ? '¡Invitación actualizada!' : '¡Invitación registrada con éxito!');
+        window.Utils.showToast('toast-container', isEditing ? '¡Invitación actualizada!' : '¡Invitación registrada con éxito!');
         if (typeof loadDashboard === 'function') loadDashboard();
 
         setTimeout(() => {
@@ -105,7 +105,7 @@ function generateInvitationLink() {
         }, 1000);
     }).catch(err => {
         console.error('Error al guardar:', err);
-        window.NotificationService.showToast('Error al conectar con la base de datos', 'error');
+        window.Utils.showToast('toast-container', 'Error al conectar con la base de datos', 'error');
         btn.innerText = originalText;
         btn.disabled = false;
     });
@@ -115,7 +115,7 @@ function copyGeneratedLink(e) {
     if (e) e.preventDefault();
     const linkDisplay = document.getElementById('link-display');
     const link = linkDisplay ? linkDisplay.innerText : '';
-    Utils.copyToClipboard(link, (ok, msg) => window.NotificationService.showToast(msg, ok ? 'success' : 'error'));
+    Utils.copyToClipboard(link, (ok, msg) => window.Utils.showToast('toast-container', msg, ok ? 'success' : 'error'));
 }
 
 // Exponer al objeto window para compresión Vite / módulos

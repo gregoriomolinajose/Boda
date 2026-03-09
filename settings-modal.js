@@ -31,7 +31,7 @@ function saveSettings() {
     // Guardar en localStorage para persistencia local
     localStorage.setItem('app_settings', JSON.stringify(APP_CONFIG));
 
-    window.NotificationService.showToast('Configuración guardada correctamente. Algunos cambios pueden requerir recargar la página.');
+    window.Utils.showToast('toast-container', 'Configuración guardada correctamente. Algunos cambios pueden requerir recargar la página.');
     closeSettingsModal();
 }
 

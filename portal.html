@@ -265,7 +265,7 @@
         Auth.waitForAuthInit().then(() => {
             Auth.onSessionChange((user) => {
                 if (!user) {
-                    NotificationService.showToast('Acceso denegado: redireccionando a login.', 'error');
+                    window.Utils.showToast('Acceso denegado: redireccionando a login.', 'error');
                     setTimeout(() => window.location.href = 'login.html', 1500);
                 } else {
                     currentUser = user;
@@ -366,9 +366,9 @@
                     allEvents[eventIndex].archived = archive;
                 }
                 renderEvents();
-                NotificationService.showToast(archive ? 'Evento archivado' : 'Evento restaurado', 'info');
+                window.Utils.showToast(archive ? 'Evento archivado' : 'Evento restaurado', 'info');
             } catch (err) {
-                NotificationService.showToast('Error al actualizar el evento.', 'error');
+                window.Utils.showToast('Error al actualizar el evento.', 'error');
             }
         };
 
@@ -378,9 +378,9 @@
             try {
                 allEvents = allEvents.filter(e => e.id !== eventId);
                 renderEvents();
-                NotificationService.showToast('Evento eliminado', 'success');
+                window.Utils.showToast('Evento eliminado', 'success');
             } catch (err) {
-                NotificationService.showToast('Error al eliminar el evento.', 'error');
+                window.Utils.showToast('Error al eliminar el evento.', 'error');
             }
         };
 
@@ -396,10 +396,10 @@
             try {
                 if (!currentUser) throw new Error("No hay sesión activa.");
                 await Store.createEvent(id, name, type, currentUser.uid);
-                NotificationService.showToast('Evento creado exitosamente');
+                window.Utils.showToast('Evento creado exitosamente');
                 setTimeout(() => location.reload(), 1500);
             } catch (err) {
-                NotificationService.showToast('Error: Es posible que ese ID ya esté en uso o la sesión caducó.', 'error');
+                window.Utils.showToast('Error: Es posible que ese ID ya esté en uso o la sesión caducó.', 'error');
             }
         });
 
