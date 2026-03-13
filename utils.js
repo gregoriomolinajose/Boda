@@ -104,10 +104,13 @@ export const Utils = {
     generateCalendarLink: function (wedding) {
         if (!wedding || !wedding.date) return '#';
         const isDigital = (wedding.invType || 'f').toLowerCase() === 'd';
-        if (isDigital) {
-            return "https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=M2x2dHB2Y2Nyajl0NmhsYzJ0dTk1M2FscmsgZ3JlZ29yaW9tb2xpbmFqb3NlQG0&tmsrc=gregoriomolinajose%40gmail.com";
-        }
-        return '#'; // Fallback simple para utils.js legacy
+        const locationStr = isDigital ? (wedding.location?.virtual || "") : (wedding.location?.physical || "");
+        const title = encodeURIComponent(wedding.calendar?.title || wedding.subject || "Nuestra Boda");
+        const location = encodeURIComponent(locationStr);
+        const details = encodeURIComponent(wedding.calendar?.description || wedding.message || "¡Te esperamos!");
+
+        // Simplified dynamic link for utils.js legacy
+        return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&location=${location}`;
     }
 };
 

@@ -125,15 +125,13 @@ export const Helpers = {
     generateCalendarLink: (wedding) => {
         if (!wedding || !wedding.date) return '#';
 
-        // Requerimiento: Link específico para invitados Digitales
+        // Requerimiento: Link dinámico para invitados Digitales (usando ubicación virtual)
         const isDigital = (wedding.invType || 'f').toLowerCase() === 'd';
-        if (isDigital) {
-            return "https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=M2x2dHB2Y2Nyajl0NmhsYzJ0dTk1M2FscmsgZ3JlZ29yaW9tb2xpbmFqb3NlQG0&tmsrc=gregoriomolinajose%40gmail.com";
-        }
+        const locationStr = isDigital ? (wedding.location?.virtual || "") : (wedding.location?.physical || "");
+        const location = encodeURIComponent(locationStr);
 
         const cal = wedding.calendar || {};
         const title = encodeURIComponent(cal.title || wedding.subject || "Nuestra Boda");
-        const location = encodeURIComponent(wedding.location?.physical || "");
         const details = encodeURIComponent(cal.description || wedding.message || "¡Te esperamos!");
 
         try {

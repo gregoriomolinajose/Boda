@@ -56,12 +56,7 @@ export class Renderer {
         // Agendar Button (Google Calendar Link)
         const addToCalendarBtn = document.getElementById('add-to-calendar');
         if (addToCalendarBtn) {
-            // Requerimiento: Usar link específico para Digital
-            if (isDigital) {
-                addToCalendarBtn.href = "https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=M2x2dHB2Y2Nyajl0NmhsYzJ0dTk1M2FscmsgZ3JlZ29yaW9tb2xpbmFqb3NlQG0&tmsrc=gregoriomolinajose%40gmail.com";
-            } else {
-                addToCalendarBtn.href = Helpers.generateCalendarLink(wedding);
-            }
+            addToCalendarBtn.href = Helpers.generateCalendarLink(wedding);
         }
 
         // --- RSVP Section ---
