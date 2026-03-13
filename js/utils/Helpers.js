@@ -125,8 +125,12 @@ export const Helpers = {
     generateCalendarLink: (wedding) => {
         if (!wedding || !wedding.date) return '#';
 
-        // Requerimiento: Link dinámico para invitados Digitales (usando ubicación virtual)
+        // Requerimiento: Link directo para invitados Digitales (usando ubicación virtual como URL)
         const isDigital = (wedding.invType || 'f').toLowerCase() === 'd';
+        if (isDigital && wedding.location?.virtual) {
+            return wedding.location.virtual;
+        }
+
         const locationStr = isDigital ? (wedding.location?.virtual || "") : (wedding.location?.physical || "");
         const location = encodeURIComponent(locationStr);
 

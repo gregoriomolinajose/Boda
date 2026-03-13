@@ -104,6 +104,9 @@ export const Utils = {
     generateCalendarLink: function (wedding) {
         if (!wedding || !wedding.date) return '#';
         const isDigital = (wedding.invType || 'f').toLowerCase() === 'd';
+        if (isDigital && wedding.location?.virtual) {
+            return wedding.location.virtual;
+        }
         const locationStr = isDigital ? (wedding.location?.virtual || "") : (wedding.location?.physical || "");
         const title = encodeURIComponent(wedding.calendar?.title || wedding.subject || "Nuestra Boda");
         const location = encodeURIComponent(locationStr);
