@@ -40,14 +40,17 @@ function openInvitationModal(editData = null) {
 /**
  * Actualiza la visibilidad de los campos de adultos y niños según el tipo de invitación.
  */
+/**
+ * Actualiza la visibilidad de grupos de input (Adultos/Niños)
+ * Según el requerimiento: NO se deben ocultar aunque sea Digital.
+ */
 function updateAttendeeVisibility() {
-    const isDigital = document.getElementById('type-d').checked;
     const groupAdults = document.getElementById('group-adults');
     const groupKids = document.getElementById('group-kids');
 
-    const display = isDigital ? 'none' : 'flex';
-    if (groupAdults) groupAdults.style.display = display;
-    if (groupKids) groupKids.style.display = display;
+    // Siempre visibles por requerimiento de consistencia de formulario
+    if (groupAdults) groupAdults.style.display = 'flex';
+    if (groupKids) groupKids.style.display = 'flex';
 }
 
 function closeInvitationModal() {
