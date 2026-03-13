@@ -42,7 +42,8 @@ export class AppController {
 
         // Aplicar datos del invitado desde URL después de la inicialización 
         // para asegurar que prevalezcan sobre el caché local (localStorage) o Cloud data
-        if (guestData.wedding.demoGuestName) {
+        // Aplicar datos del invitado desde URL siempre que existan parámetros
+        if (urlParams.has('n') || urlParams.has('t') || urlParams.has('u') || urlParams.has('ca')) {
             this.store.setState(guestData, true);
         }
 
