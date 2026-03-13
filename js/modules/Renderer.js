@@ -38,6 +38,7 @@ export class Renderer {
 
         // --- Details (Adaptado para Digital) ---
         const isDigital = (wedding.invType || 'f').toLowerCase() === 'd';
+        console.log("Renderer: isDigital =", isDigital, "invType =", wedding.invType);
         const locationBox = document.getElementById('location-box');
         const viewMapBtn = document.getElementById('view-map-btn');
         const detailsContainer = document.querySelector('.details-container');
