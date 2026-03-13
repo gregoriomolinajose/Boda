@@ -15,7 +15,7 @@ export class GuestTableView {
         const pageData = filteredData.slice(start, end);
 
         if (pageData.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; padding:40px; color:#999;">No se encontraron invitados</td></tr>';
+            tbody.innerHTML = '<tr><td colspan="10" style="text-align:center; padding:40px; color:#999;">No se encontraron invitados</td></tr>';
             this.renderPagination(0, currentPage, rowsPerPage);
             return;
         }
@@ -41,6 +41,14 @@ export class GuestTableView {
                 <td><span class="status-badge status-${statusClass}">${row.Asistencia || 'Pendiente'}</span></td>
                 <td style="text-align:center; font-weight: 600;">${row.Adultos || 0}</td>
                 <td style="text-align:center; font-weight: 600;">${row.Niños || 0}</td>
+                <td style="text-align:center;">
+                    <span style="font-size: 0.75rem; padding: 4px 10px; border-radius: 8px; font-weight: 600; 
+                        ${(row.type || row.Tipo || 'f').toLowerCase() === 'd'
+                    ? 'background: var(--md-sys-color-primary-container); color: var(--md-sys-color-on-primary-container);'
+                    : 'background: #eff2ed; color: #6b705c;'}">
+                        ${(row.type || row.Tipo || 'f').toLowerCase() === 'd' ? 'Digital' : 'Presencial'}
+                    </span>
+                </td>
                 <td style="text-align:center">
                     <span style="font-size: 0.7rem; font-weight: 800; color: ${isActive ? '#4cd137' : '#e84118'}; padding: 4px 8px; border-radius: 4px; border: 1px solid currentColor;">
                         ${isActive ? 'ACTIVO' : 'INACTIVO'}
@@ -111,7 +119,9 @@ export class GuestTableView {
 
         allData.forEach(row => {
             const isActive = (row['Estado de la liga'] || 'TRUE').toString().toUpperCase() === 'TRUE';
-            if (!isActive) return;
+            const isDigital = (row.type || row.Tipo || 'f').toLowerCase() === 'd';
+
+            if (!isActive || isDigital) return;
 
             const adults = parseInt(row.Adultos || 0);
             const kids = parseInt(row.Niños || 0);
@@ -172,7 +182,7 @@ export class GuestTableView {
             th.classList.remove('sorted-asc', 'sorted-desc');
         });
         const headers = {
-            'index': 0, 'Fecha/Hora': 1, 'Invitado': 2, 'Asistencia': 3, 'Adultos': 4, 'Niños': 5
+            'index': 0, 'Fecha/Hora': 1, 'Invitado': 2, 'Asistencia': 3, 'Adultos': 4, 'Niños': 5, 'Tipo': 6
         };
         const index = headers[sortKey];
         const ths = document.querySelectorAll('th.sortable');

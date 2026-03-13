@@ -34,6 +34,20 @@ function openInvitationModal(editData = null) {
     if (resultDiv) resultDiv.style.display = 'none';
 
     if (modal) modal.style.display = 'flex';
+    updateAttendeeVisibility();
+}
+
+/**
+ * Actualiza la visibilidad de los campos de adultos y niños según el tipo de invitación.
+ */
+function updateAttendeeVisibility() {
+    const isDigital = document.getElementById('type-d').checked;
+    const groupAdults = document.getElementById('group-adults');
+    const groupKids = document.getElementById('group-kids');
+
+    const display = isDigital ? 'none' : 'flex';
+    if (groupAdults) groupAdults.style.display = display;
+    if (groupKids) groupKids.style.display = display;
 }
 
 function closeInvitationModal() {
@@ -123,3 +137,12 @@ window.openInvitationModal = openInvitationModal;
 window.closeInvitationModal = closeInvitationModal;
 window.generateInvitationLink = generateInvitationLink;
 window.copyGeneratedLink = copyGeneratedLink;
+window.updateAttendeeVisibility = updateAttendeeVisibility;
+
+// Configurar listeners para cambios de tipo
+document.addEventListener('DOMContentLoaded', () => {
+    const radios = document.querySelectorAll('input[name="inv-type"]');
+    radios.forEach(radio => {
+        radio.addEventListener('change', updateAttendeeVisibility);
+    });
+});

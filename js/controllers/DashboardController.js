@@ -121,6 +121,11 @@ export class DashboardController {
                 valB = parseInt(valB) || 0;
             }
 
+            if (this.sortKey === 'Tipo') {
+                valA = (a.type || a.Tipo || 'f').toLowerCase() === 'd' ? 'Digital' : 'Presencial';
+                valB = (b.type || b.Tipo || 'f').toLowerCase() === 'd' ? 'Digital' : 'Presencial';
+            }
+
             if (valA < valB) return this.sortOrder === 'asc' ? -1 : 1;
             if (valA > valB) return this.sortOrder === 'asc' ? 1 : -1;
             return 0;

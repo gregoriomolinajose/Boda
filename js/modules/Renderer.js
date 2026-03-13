@@ -36,7 +36,19 @@ export class Renderer {
             }
         }
 
-        // --- Details ---
+        // --- Details (Adaptado para Digital) ---
+        const isDigital = (wedding.invType || 'f').toLowerCase() === 'd';
+        const locationBox = document.getElementById('location-box');
+        const viewMapBtn = document.getElementById('view-map-btn');
+        const detailsContainer = document.querySelector('.details-container');
+
+        if (locationBox) locationBox.style.display = isDigital ? 'none' : 'block';
+        if (viewMapBtn) viewMapBtn.style.display = isDigital ? 'none' : 'flex';
+
+        if (detailsContainer) {
+            detailsContainer.style.justifyContent = isDigital ? 'center' : 'space-around';
+        }
+
         if (this.domElements.locationPhysical) this.domElements.locationPhysical.innerText = wedding.location?.physical || "";
         if (this.domElements.dateDisplay) this.domElements.dateDisplay.innerHTML = Helpers.formatDisplayDate(wedding.date);
 

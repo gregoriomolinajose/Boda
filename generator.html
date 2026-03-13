@@ -33,21 +33,13 @@
                 <p style="font-size: 0.75rem; color: var(--md-sys-color-outline); margin-top: 4px;">* El sistema
                     asignará un identificador único automáticamente.</p>
             </div>
-            <div class="m3-input-group" style="margin-bottom: 16px;">
-                <label class="m3-body-large" style="font-weight: 600;">N° de Adultos (Cupos)</label>
-                <input type="number" id="adults" value="2" min="1" class="m3-input">
-            </div>
-            <div class="m3-input-group" style="margin-bottom: 16px;">
-                <label class="m3-body-large" style="font-weight: 600;">N° de Niños (Cupos)</label>
-                <input type="number" id="kids" value="0" min="0" class="m3-input">
-            </div>
-            <div class="m3-input-group" style="margin-bottom: 24px;">
+            <div id="group-invType" class="m3-input-group" style="margin-bottom: 16px;">
                 <label class="m3-body-large" style="font-weight: 600;">Tipo de Invitación</label>
                 <div class="modal-selector" style="display: flex; gap: 12px; margin-top: 8px;">
                     <div class="modal-option" style="flex: 1;">
                         <input type="radio" name="inv-type" id="type-f" value="f" checked>
                         <label for="type-f"
-                            style="padding: 12px; border-radius: 8px; border: 1px solid var(--md-sys-color-outline-variant); display: block; text-align: center; cursor: pointer;">Física</label>
+                            style="padding: 12px; border-radius: 8px; border: 1px solid var(--md-sys-color-outline-variant); display: block; text-align: center; cursor: pointer;">Presencial</label>
                     </div>
                     <div class="modal-option" style="flex: 1;">
                         <input type="radio" name="inv-type" id="type-d" value="d">
@@ -55,6 +47,14 @@
                             style="padding: 12px; border-radius: 8px; border: 1px solid var(--md-sys-color-outline-variant); display: block; text-align: center; cursor: pointer;">Digital</label>
                     </div>
                 </div>
+            </div>
+            <div id="group-adults" class="m3-input-group" style="margin-bottom: 16px;">
+                <label class="m3-body-large" style="font-weight: 600;">N° de Adultos (Cupos)</label>
+                <input type="number" id="adults" value="2" min="1" class="m3-input">
+            </div>
+            <div id="group-kids" class="m3-input-group" style="margin-bottom: 16px;">
+                <label class="m3-body-large" style="font-weight: 600;">N° de Niños (Cupos)</label>
+                <input type="number" id="kids" value="0" min="0" class="m3-input">
             </div>
             <button class="m3-btn m3-btn-filled" id="generate-btn" onclick="generateInvitationLink()"
                 style="width: 100%;">Generar e Inscribir</button>
@@ -616,7 +616,7 @@
                         style="color: #28a745; border-color: #28a745;">
                         <i class="fas fa-file-csv"></i> Importar CSV
                     </button>
-                    <button class="m3-btn m3-btn-outlined" onclick="window.handleBulkExport()" 
+                    <button class="m3-btn m3-btn-outlined" onclick="window.handleBulkExport()"
                         style="color: #007bff; border-color: #007bff;">
                         <i class="fas fa-file-export"></i> Exportar CSV
                     </button>
@@ -645,6 +645,8 @@
                                 style="width: 80px; text-align: center;">Adul.</th>
                             <th class="sortable" onclick="sortByColumn('Niños')"
                                 style="width: 80px; text-align: center;">Niños</th>
+                            <th class="sortable" onclick="sortByColumn('Tipo')"
+                                style="width: 100px; text-align: center;">Tipo</th>
                             <th style="width: 100px; text-align: center;">Activo</th>
                             <th style="width: 60px; text-align: center;">Link</th>
                             <th style="width: 120px; text-align: center;">Acciones</th>
