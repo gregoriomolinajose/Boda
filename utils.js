@@ -97,6 +97,17 @@ export const Utils = {
         }
 
         return fullDate;
+    },
+    /**
+     * Genera un enlace de Google Calendar para el evento.
+     */
+    generateCalendarLink: function (wedding) {
+        if (!wedding || !wedding.date) return '#';
+        const isDigital = (wedding.invType || 'f').toLowerCase() === 'd';
+        if (isDigital) {
+            return "https://calendar.google.com/calendar/event?action=TEMPLATE&tmeid=M2x2dHB2Y2Nyajl0NmhsYzJ0dTk1M2FscmsgZ3JlZ29yaW9tb2xpbmFqb3NlQG0&tmsrc=gregoriomolinajose%40gmail.com";
+        }
+        return '#'; // Fallback simple para utils.js legacy
     }
 };
 
